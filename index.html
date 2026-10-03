@@ -13,11 +13,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='5';
+var APPV='6';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
-  d.textContent='Σφάλμα (έκδοση '+APPV+'): '+m+' · γραμμή '+line;}catch(e){}};
+  d.textContent='Σφάλμα / Error (v'+APPV+'): '+m+' · line '+line;}catch(e){}};
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,7 +55,7 @@ button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
 @keyframes bob{50%{transform:translateY(-4px) rotate(-2deg)}}
 h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;font-size:clamp(26px,7vw,44px);line-height:1;margin:0;letter-spacing:-.5px}
 .hero p{margin:6px 0 0;color:var(--muted);max-width:30ch}
-.langs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none}
+.langs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px;scrollbar-width:none}
 .langs::-webkit-scrollbar{display:none}
 .chip{flex:none;padding:8px 16px;border-radius:999px;border:2px solid var(--line);background:var(--card);font-weight:700;min-height:44px}
 .chip[aria-pressed=true]{background:var(--ink);color:var(--sky)}
@@ -266,7 +266,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 
   <!-- HOME -->
   <section id="home">
-    <div class="bar"><div class="stars" id="starCount" aria-live="polite">⭐ 0</div></div>
+    <div class="bar"><div class="langs" id="langs" role="group" aria-label="Γλώσσα / Language"><button class="chip" data-lang="el">Ελληνικά</button><button class="chip" data-lang="en">English</button></div><div class="stars" id="starCount" aria-live="polite">⭐ 0</div></div>
     <div class="hero">
       <div class="hoopoe-wrap" id="mascotHome"></div>
       <div>
@@ -401,7 +401,9 @@ const AGAIN={en:'Try again',el:'Ξανά',ar:'حاول مرة أخرى',fr:'Essa
 /* ---------- state ---------- */
 let S={lang:'el',stars:0};
 try{Object.assign(S,JSON.parse(localStorage.getItem('hoopoe')||'{}'))}catch(e){}
-S.lang='el';S.done=S.done||{};
+if(S.lang!=='en')S.lang='el';S.done=S.done||{};
+const EN=()=>S.lang==='en';
+const tr=(el,en)=>EN()?en:el;
 const save=()=>{try{localStorage.setItem('hoopoe',JSON.stringify(S))}catch(e){}};
 const L=()=>LANGS.find(l=>l.id===S.lang);
 const $=id=>document.getElementById(id);
@@ -430,8 +432,8 @@ if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loa
 const voiceFor=t=>voices.find(v=>v.lang&&v.lang.toLowerCase().replace('_','-').startsWith(t));
 function voiceNote(){
   const n=$('voiceNote');
-  if(!('speechSynthesis' in window)){n.textContent='Αυτός ο browser δεν μπορεί να διαβάσει τις λέξεις φωναχτά. Οι λέξεις φαίνονται κανονικά στην οθόνη.';return}
-  n.textContent=voices.length&&!voiceFor('el')?'Δεν υπάρχει ελληνική φωνή σε αυτή τη συσκευή. Πρόσθεσέ τη από τις ρυθμίσεις μετατροπής κειμένου σε ομιλία.':'';
+  if(!('speechSynthesis' in window)){n.textContent=tr('Αυτός ο browser δεν μπορεί να διαβάσει τις λέξεις φωναχτά. Οι λέξεις φαίνονται κανονικά στην οθόνη.','This browser cannot read the words aloud. The words still show on the screen.');return}
+  n.textContent=voices.length&&!voiceFor(S.lang)?tr('Δεν υπάρχει ελληνική φωνή σε αυτή τη συσκευή. Πρόσθεσέ τη από τις ρυθμίσεις μετατροπής κειμένου σε ομιλία.','There is no English voice on this device. Add one in the text-to-speech settings.'):'';
 }
 function speak(text,lang){
   if(!('speechSynthesis' in window))return;
@@ -475,6 +477,24 @@ updateStars();
 
 /* ---------- game shell ---------- */
 const READ=['read','spell','first','listen','count','memory','learn'];
+const TEN={read:['Read','Read the word, find the picture'],spell:['Spell the word','Build the word letter by letter'],first:['The first letter','Which letter does it start with?'],
+  count:['Count and add','Count and put together'],listen:['Listen','Hear the word, find the picture'],memory:['Pairs','Match pictures and words'],learn:['Word book','Look, tap, listen'],
+  map:['My book','All the chapters, in book order'],where:['Where is it?','Above, below, left, right'],shapes:['Shapes','Circle, square, triangle'],compare:['Compare','More, fewer, > < ='],
+  sizes:['Big – small','Tall, short, long'],dice:['Dice','How many dots?'],trace:['Write the numbers','Write with your finger'],circle:['Count and circle','Find the right number'],
+  nline:['Number line','Which number is missing?'],split:['Number house','5 is 2 and 3'],add:['Addition','How many altogether?'],problems:['Word problems','Read and solve'],
+  big:['Numbers to 50','Tens and ones'],ordinal:['Who is first?','First, second, third'],coins:['Euros','Count the money'],lines:['Join the dots','Draw lines 1, 2, 3'],
+  pattern:['Patterns','Keep it going'],minus:['Subtraction','How many are left?'],sign:['+ or −?','Find the right sign'],calendar:['Days of the week','Monday, Tuesday, Wednesday…']};
+const STATIC=[['h1',"The Hoopoe's Island"],['.hero p','Games for reading, writing and numbers for 6-year-olds.'],['.sect','Maths – Grade 1'],['#again','Again'],['#toIsland','To the island'],['[data-game="first"] .ico','Aa']];
+function applyLang(){
+  const en=EN();document.documentElement.lang=S.lang;document.title=en?"The Hoopoe's Island":'Το νησί του Τσαλαπετεινού';
+  document.querySelectorAll('#langs .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.lang===S.lang));
+  const sw=(el,txt)=>{if(!el)return;if(el.dataset.el===undefined)el.dataset.el=el.textContent;el.textContent=en?txt:el.dataset.el};
+  STATIC.forEach(([q,t])=>sw(document.querySelector(q),t));
+  document.querySelectorAll('.tile').forEach(t=>{const x=TEN[t.dataset.game];if(x){sw(t.querySelector('b'),x[0]);sw(t.querySelector('span'),x[1])}});
+  $('back').setAttribute('aria-label',tr('Πίσω στο νησί','Back to the island'));
+  $('ver').textContent=tr('έκδοση ','version ')+APPV;voiceNote();
+}
+$('langs').onclick=e=>{const b=e.target.closest('[data-lang]');if(!b||b.dataset.lang===S.lang)return;S.lang=b.dataset.lang;save();applyLang();speak(tr('Ελληνικά','English'))};
 const TITLES={where:'Πού είναι;',shapes:'Σχήματα',sizes:'Μεγάλο – μικρό',compare:'Σύγκριση',split:'Το σπίτι των αριθμών',add:'Πρόσθεση',problems:'Προβλήματα',big:'Αριθμοί μέχρι το 50',ordinal:'Ποιος είναι πρώτος;',coins:'Τα ευρώ',lines:'Ενώνω τις τελείες',minus:'Αφαίρεση',sign:'+ ή −;',calendar:'Οι μέρες της εβδομάδας',dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
 let G=null,busy=false;
 document.querySelectorAll('.games').forEach(g=>g.onclick=e=>{const t=e.target.closest('[data-game]');if(t)start(t.dataset.game)});
@@ -483,10 +503,10 @@ $('again').onclick=()=>start(G.name,G.o);
 function home(){$('finish').hidden=true;$('game').hidden=true;$('home').hidden=false;try{speechSynthesis.cancel()}catch(e){}}
 function start(name,o={}){
   if(name==='map')return openMap();
-  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;$('gtitle').textContent=o.ch?`${o.ch}. ${o.t}`:TITLES[name];
+  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;$('gtitle').textContent=o.ch?`${o.ch}. ${o.t}`:EN()?TEN[name][0]:TITLES[name];
   const l=o.l,digits=l===5?shuffle([1,2,3,4,5,1,2,3]):l===10?shuffle([6,7,8,9,6,7,8,9]):shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,8);
   G={name,o,round:0,total:8,earned:0,gr:!READ.includes(name),lvl:l,mix:o.mix?shuffle(o.mix):null,digits};busy=false;
-  $('toIsland').textContent=o.ch?'Στο βιβλίο':'Στο νησί';
+  $('toIsland').textContent=o.ch?tr('Στο βιβλίο','To the book'):tr('Στο νησί','To the island');
   (G.mix?mixRound:ROUNDS[name])();
   drawDots();scrollTo(0,0);
 }
@@ -497,10 +517,10 @@ function win(next){
   setTimeout(()=>{busy=false;G.round>=G.total?finish():(G.mix?mixRound:next)()},1500);
 }
 function finish(){
-  const lg=G.gr?'el':S.lang;
+  const lg=S.lang;
   if(G.o&&G.o.ch){S.done[G.o.ch]=1;save()}
   $('finTitle').textContent=PRAISE[lg];$('finTitle').dir=lg==='ar'?'rtl':'ltr';
-  $('finText').textContent=`Κέρδισες ${G.earned} ${G.earned===1?'αστέρι':'αστέρια'}. ⭐`;
+  $('finText').textContent=tr(`Κέρδισες ${G.earned} ${G.earned===1?'αστέρι':'αστέρια'}. ⭐`,`You earned ${G.earned} ${G.earned===1?'star':'stars'}. ⭐`);
   $('finish').hidden=false;speak(PRAISE[lg],lg);
 }
 const stage=()=>$('stage');
@@ -508,7 +528,7 @@ const stage=()=>$('stage');
 /* ---------- 1. listen & tap ---------- */
 function listenRound(){
   const pool=shuffle(WORDS),target=pool[0],opts=shuffle(pool.slice(0,6));
-  stage().innerHTML=`<button class="hear" id="hear" aria-label="Άκου ξανά τη λέξη">🔊</button>
+  stage().innerHTML=`<button class="hear" id="hear" aria-label="${tr('Άκου ξανά τη λέξη','Hear the word again')}">🔊</button>
    <p class="word" id="reveal" ${dirAttr()}></p>
    <div class="opts c3">${opts.map(w=>`<button class="pic" data-e="${w.e}">${w.e}</button>`).join('')}</div>`;
   $('hear').onclick=()=>speak(target[S.lang]);
@@ -557,7 +577,7 @@ function spellRound(){
   const ok=WORDS.filter(w=>!/\s/.test(w[S.lang])&&letters(w[S.lang]).length<=7);
   const target=ok[Math.random()*ok.length|0],word=letters(target[S.lang]);
   let pos=0;
-  stage().innerHTML=`<button class="hear" id="hear" aria-label="Άκου τη λέξη">${target.e}</button>
+  stage().innerHTML=`<button class="hear" id="hear" aria-label="${tr('Άκου τη λέξη','Hear the word')}">${target.e}</button>
    <div class="slots" id="slots" ${dirAttr()}>${word.map(()=>'<span></span>').join('')}</div>
    <p class="word" id="built" ${dirAttr()}></p>
    <div class="letters">${shuffle(word.map((c,i)=>({c,i}))).map(o=>`<button data-c="${o.c}">${o.c}</button>`).join('')}</div>`;
@@ -578,7 +598,7 @@ function firstRound(){
   const target=WORDS[Math.random()*WORDS.length|0],ans=first(target[S.lang]);
   const pool=[...new Set(WORDS.map(w=>first(w[S.lang])))].filter(c=>c!==ans);
   const opts=shuffle([ans,...shuffle(pool).slice(0,3)]);
-  stage().innerHTML=`<button class="big-e" id="hear" aria-label="Άκου τη λέξη">${target.e}</button>
+  stage().innerHTML=`<button class="big-e" id="hear" aria-label="${tr('Άκου τη λέξη','Hear the word')}">${target.e}</button>
    <p class="word" id="reveal" ${dirAttr()}></p>
    <div class="opts c2" style="max-width:320px">${opts.map(c=>`<button class="pic num" data-c="${c}">${c}</button>`).join('')}</div>`;
   $('hear').onclick=()=>speak(target[S.lang]);
@@ -594,7 +614,7 @@ function firstRound(){
 function memoryGame(){
   const picks=shuffle(WORDS).slice(0,8);
   const cards=shuffle([].concat(...picks.map((w,i)=>[{i,face:`<span class="face e">${w.e}</span>`},{i,face:`<span class="face" ${dirAttr()}>${w[S.lang]}</span>`}])));
-  stage().innerHTML=`<p class="prompt">Βρες τα ζευγάρια</p><div class="mem">${cards.map((c,k)=>`<button class="card" data-k="${k}" aria-label="Κάρτα ${k+1}"><span class="back">🪶</span>${c.face}</button>`).join('')}</div>`;
+  stage().innerHTML=`<p class="prompt">${tr('Βρες τα ζευγάρια','Find the pairs')}</p><div class="mem">${cards.map((c,k)=>`<button class="card" data-k="${k}" aria-label="${tr('Κάρτα','Card')} ${k+1}"><span class="back">🪶</span>${c.face}</button>`).join('')}</div>`;
   let open=[];
   stage().querySelector('.mem').onclick=e=>{
     const b=e.target.closest('.card');if(!b||busy||b.classList.contains('open')||b.classList.contains('done'))return;
@@ -611,19 +631,19 @@ function memoryGame(){
 
 /* ================= Maths book (Greek) ================= */
 const GR=['μηδέν','ένα','δύο','τρία','τέσσερα','πέντε','έξι','επτά','οκτώ','εννέα','δέκα','έντεκα','δώδεκα'];
-const gr=t=>speak(t,'el');
+const gr=t=>speak(t,S.lang);
 const bad=b=>{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope()};
 const near=(n,lo,hi,k=3)=>{const c=new Set([n]);let guard=0;while(c.size<k&&guard++<50){const v=n+[-2,-1,1,2][Math.random()*4|0];if(v>=lo&&v<=hi)c.add(v)}return shuffle([...c])};
 const PIPS={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
 const die=n=>`<div class="die" aria-label="${n}">${[...Array(9)].map((_,i)=>`<i class="${PIPS[n].includes(i)?'on':''}"></i>`).join('')}</div>`;
 function pickNum(cls,choices,ans,onOk,next){
   stage().querySelector(cls).onclick=e=>{const b=e.target.closest('.pic');if(!b||busy)return;
-    if(+b.dataset.n===ans){busy=true;b.classList.add('ok');gr(GR[ans]);onOk&&onOk();win(next)}else{bad(b);gr('Ξανά')}};
+    if(+b.dataset.n===ans){busy=true;b.classList.add('ok');gr(NW(ans));onOk&&onOk();win(next)}else{bad(b);gr(AGAIN[S.lang])}};
 }
 
 function diceRound(){
   const two=G.lvl!==1&&G.round>=4,a=1+(Math.random()*(G.lvl===1?5:6)|0),b=two?1+(Math.random()*6|0):0,n=a+b;
-  const q=two?'Πόσες τελείες έχουν τα ζάρια;':'Πόσες τελείες έχει το ζάρι;';
+  const q=two?tr('Πόσες τελείες έχουν τα ζάρια;','How many dots are on the dice?'):tr('Πόσες τελείες έχει το ζάρι;','How many dots are on the die?');
   stage().innerHTML=`<p class="prompt">${q}</p><div class="dice">${die(a)}${two?die(b):''}</div>
    <div class="opts c3">${near(n,1,12).map(c=>`<button class="pic num" data-n="${c}">${c}</button>`).join('')}</div>`;
   pickNum('.opts',null,n,null,diceRound);setTimeout(()=>gr(q),300);
@@ -631,20 +651,20 @@ function diceRound(){
 
 function lineRound(){
   const miss=Math.random()*11|0;
-  stage().innerHTML=`<p class="prompt">Ποιος αριθμός λείπει;</p>
+  stage().innerHTML=`<p class="prompt">${tr('Ποιος αριθμός λείπει;','Which number is missing?')}</p>
    <div class="nline">${[...Array(11)].map((_,i)=>`<span class="${i===miss?'gap':''}" ${i===miss?'id="gapbox"':''}>${i===miss?'?':i}</span>`).join('')}</div>
    <div class="opts c3">${near(miss,0,10).map(c=>`<button class="pic num" data-n="${c}">${c}</button>`).join('')}</div>`;
   pickNum('.opts',null,miss,()=>{const g=$('gapbox');g.textContent=miss;g.className='fill'},lineRound);
-  setTimeout(()=>gr('Ποιος αριθμός λείπει;'),300);
+  setTimeout(()=>gr(tr('Ποιος αριθμός λείπει;','Which number is missing?')),300);
 }
 
 function circleRound(){
   const n=1+(Math.random()*Math.min(G.lvl||10,4+G.round)|0),item=['✏️','🖍️','🐌','🦜','🍀','🐝','🍎','⚽'][Math.random()*8|0];
   let s=n-(Math.random()*3|0);if(s<1)s=1;if(s>8)s=8;
-  stage().innerHTML=`<p class="prompt">Μετρώ και βάζω σε κύκλο τον σωστό αριθμό</p>
+  stage().innerHTML=`<p class="prompt">${tr('Μετρώ και βάζω σε κύκλο τον σωστό αριθμό','Count and circle the right number')}</p>
    <div class="objs">${Array(n).fill(item).join('')}</div>
    <div class="inorder">${[s,s+1,s+2].map(c=>`<button class="pic" data-n="${c}">${c}</button>`).join('')}</div>`;
-  pickNum('.inorder',null,n,null,circleRound);setTimeout(()=>gr('Μετρώ και βάζω σε κύκλο τον σωστό αριθμό'),300);
+  pickNum('.inorder',null,n,null,circleRound);setTimeout(()=>gr(tr('Μετρώ και βάζω σε κύκλο τον σωστό αριθμό','Count and circle the right number')),300);
 }
 
 function patternRound(){
@@ -655,22 +675,22 @@ function patternRound(){
   else if(r<6){const k=3+(r-4)*2;seq=[...Array(k+2)].map((_,i)=>1+i%k);ans=1+(k+2)%k}
   else{const a=6+(Math.random()*5|0);seq=[a,a-1,a-2,a-3];ans=a-4}
   if(typeof ans==='number')opts=near(ans,0,10);
-  stage().innerHTML=`<p class="prompt">Συνεχίζω με τον ίδιο τρόπο</p>
+  stage().innerHTML=`<p class="prompt">${tr('Συνεχίζω με τον ίδιο τρόπο','Continue the pattern')}</p>
    <div class="seq">${seq.map(x=>`<span>${x}</span>`).join('')}<span class="gap" id="gapbox">?</span></div>
    <div class="opts c3">${shuffle(opts).map(c=>`<button class="pic ${typeof c==='number'?'num':''}" data-v="${c}">${c}</button>`).join('')}</div>`;
   stage().querySelector('.opts').onclick=e=>{const b=e.target.closest('.pic');if(!b||busy)return;
     if(b.dataset.v===String(ans)){busy=true;b.classList.add('ok');const g=$('gapbox');g.textContent=ans;g.className='';
-      if(typeof ans==='number')gr(GR[ans]);win(patternRound)}else bad(b)};
-  setTimeout(()=>gr('Συνεχίζω με τον ίδιο τρόπο'),300);
+      if(typeof ans==='number')gr(NW(ans));win(patternRound)}else bad(b)};
+  setTimeout(()=>gr(tr('Συνεχίζω με τον ίδιο τρόπο','Continue the pattern')),300);
 }
 
 function traceRound(){
   const d=G.digits[G.round],item=['🐦','🍎','🌼','🐟','⭐'][Math.random()*5|0];
-  stage().innerHTML=`<p class="prompt">Γράφω τον αριθμό ${d}</p>
-   <div class="seq small">${d?Array(d).fill(item).join(''):'μηδέν'}</div>
-   <div class="tracebox"><canvas id="guide"></canvas><canvas id="ink" aria-label="Γράψε τον αριθμό ${d} με το δάχτυλο"></canvas></div>
-   <p class="counter" id="tmsg">Πέρασε με το δάχτυλο πάνω από τον αριθμό.</p>
-   <div class="row"><button class="pill" id="clr">Σβήνω</button><button class="pill main" id="chk">Έτοιμο</button></div>`;
+  stage().innerHTML=`<p class="prompt">${tr('Γράφω τον αριθμό','Write the number')} ${d}</p>
+   <div class="seq small">${d?Array(d).fill(item).join(''):NW(0)}</div>
+   <div class="tracebox"><canvas id="guide"></canvas><canvas id="ink" aria-label="${tr('Γράψε με το δάχτυλο τον αριθμό','Write with your finger the number')} ${d}"></canvas></div>
+   <p class="counter" id="tmsg">${tr('Πέρασε με το δάχτυλο πάνω από τον αριθμό.','Trace over the number with your finger.')}</p>
+   <div class="row"><button class="pill" id="clr">${tr('Σβήνω','Clear')}</button><button class="pill main" id="chk">${tr('Έτοιμο','Done')}</button></div>`;
   const box=stage().querySelector('.tracebox'),g=$('guide'),k=$('ink'),dpr=Math.min(2,window.devicePixelRatio||1);
   const W=Math.round(box.clientWidth*dpr);[g,k].forEach(c=>{c.width=c.height=W});
   const gc=g.getContext('2d'),kc=k.getContext('2d');
@@ -690,23 +710,23 @@ function traceRound(){
   const pt=e=>{const rc=k.getBoundingClientRect();return[(e.clientX-rc.left)*W/rc.width,(e.clientY-rc.top)*W/rc.height]};
   ptr(k,e=>{down=true;const[x,y]=pt(e);kc.beginPath();kc.moveTo(x,y);kc.lineTo(x+.1,y);kc.stroke()},
     e=>{if(!down)return;const[x,y]=pt(e);kc.lineTo(x,y);kc.stroke()},()=>{down=false});
-  $('clr').onclick=()=>{kc.clearRect(0,0,W,W);$('tmsg').textContent='Πέρασε με το δάχτυλο πάνω από τον αριθμό.'};
+  $('clr').onclick=()=>{kc.clearRect(0,0,W,W);$('tmsg').textContent=tr('Πέρασε με το δάχτυλο πάνω από τον αριθμό.','Trace over the number with your finger.')};
   $('chk').onclick=()=>{
     if(busy||!mask)return;const ink=kc.getImageData(0,0,W,W).data;let gt=0,cov=0,it=0,out=0;
     for(let i=3;i<ink.length;i+=12){const gm=mask[i]>40,im=ink[i]>40;if(gm){gt++;if(im)cov++}if(im){it++;if(tmask[i]<40)out++}}
     const c=gt?cov/gt:0,o=it?out/it:1;
-    if(c>=.6&&o<=.25){busy=true;$('tmsg').textContent='Τέλεια!';gr(GR[d]);win(traceRound)}
-    else{nope();const m=c<.6?'Πέρασε πάνω από όλο τον αριθμό.':'Μείνε μέσα στον αριθμό.';$('tmsg').textContent=m;gr(m)}
+    if(c>=.6&&o<=.25){busy=true;$('tmsg').textContent=tr('Τέλεια!','Perfect!');gr(NW(d));win(traceRound)}
+    else{nope();const m=c<.6?tr('Πέρασε πάνω από όλο τον αριθμό.','Trace over the whole number.'):tr('Μείνε μέσα στον αριθμό.','Stay inside the number.');$('tmsg').textContent=m;gr(m)}
   };
-  setTimeout(()=>gr('Γράφω τον αριθμό '+GR[d]),300);
+  setTimeout(()=>gr(tr('Γράφω τον αριθμό ','Write the number ')+NW(d)),300);
 }
 
 /* ---------- 5. word book ---------- */
 function learnGame(){
   let i=0;
   const draw=()=>{const w=WORDS[i];
-    stage().innerHTML=`<button class="learn-card" id="lc" aria-label="Άκου τη λέξη"><span class="big">${w.e}</span><span class="word" ${dirAttr()}>${w[S.lang]}</span></button>
-     <div class="row"><button class="pill" id="prev" aria-label="Προηγούμενη λέξη">◀</button><span class="counter">${digit(i+1)} / ${digit(WORDS.length)}</span><button class="pill main" id="next" aria-label="Επόμενη λέξη">▶</button></div>`;
+    stage().innerHTML=`<button class="learn-card" id="lc" aria-label="${tr('Άκου τη λέξη','Hear the word')}"><span class="big">${w.e}</span><span class="word" ${dirAttr()}>${w[S.lang]}</span></button>
+     <div class="row"><button class="pill" id="prev" aria-label="${tr('Προηγούμενη λέξη','Previous word')}">◀</button><span class="counter">${digit(i+1)} / ${digit(WORDS.length)}</span><button class="pill main" id="next" aria-label="${tr('Επόμενη λέξη','Next word')}">▶</button></div>`;
     $('lc').onclick=()=>speak(w[S.lang]);
     $('prev').onclick=()=>{i=(i-1+WORDS.length)%WORDS.length;draw();speak(WORDS[i][S.lang])};
     $('next').onclick=()=>{i=(i+1)%WORDS.length;draw();speak(WORDS[i][S.lang])};
@@ -716,44 +736,48 @@ function learnGame(){
 /* ================= Book chapters: new games ================= */
 const rand=k=>Math.random()*k|0;
 const pick=a=>a[rand(a.length)];
-const NW=n=>{if(n<13)return GR[n];const t=n/10|0,u=n%10;return t===1?'δεκα'+GR[u]:['','δέκα','είκοσι','τριάντα','σαράντα','πενήντα'][t]+(u?' '+GR[u]:'')};
+const NUMEN=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+const NW=n=>{if(EN())return n<20?NUMEN[n]:['','','twenty','thirty','forty','fifty'][n/10|0]+(n%10?'-'+NUMEN[n%10]:'');if(n<13)return GR[n];const t=n/10|0,u=n%10;return t===1?'δεκα'+GR[u]:['','δέκα','είκοσι','τριάντα','σαράντα','πενήντα'][t]+(u?' '+GR[u]:'')};
 const btns=(vals,cls='pic num',lab=v=>v)=>vals.map(v=>`<button class="${cls}" data-v="${v}">${lab(v)}</button>`).join('');
 function choose(sel,ans,next,say,onOk){
   stage().querySelector(sel).onclick=e=>{const b=e.target.closest('[data-v]');if(!b||busy)return;
-    if(b.dataset.v===String(ans)){busy=true;b.classList.add('ok');onOk&&onOk(b);if(say)gr(say);win(next)}else{bad(b);gr('Ξανά')}};
+    if(b.dataset.v===String(ans)){busy=true;b.classList.add('ok');onOk&&onOk(b);if(say)gr(say);win(next)}else{bad(b);gr(AGAIN[S.lang])}};
 }
 const fillGap=v=>()=>{const g=$('gapbox');g.textContent=v;g.className='fill'};
 const ask=q=>setTimeout(()=>gr(q),300);
 
 /* ch.1 orientation */
-const CENTER=[['🏠','το σπίτι'],['🌳','το δέντρο'],['📦','το κουτί'],['🚗','το αυτοκίνητο']];
-const DIRS=[['πάνω από',1],['κάτω από',7],['αριστερά από',3],['δεξιά από',5]];
+const CENTER=[['🏠','το σπίτι','the house'],['🌳','το δέντρο','the tree'],['📦','το κουτί','the box'],['🚗','το αυτοκίνητο','the car']];
+const DIRS=[['πάνω από',1,'above'],['κάτω από',7,'below'],['αριστερά από',3,'to the left of'],['δεξιά από',5,'to the right of']];
 function whereRound(){
-  const[ce,cn]=pick(CENTER),[dn,di]=pick(DIRS),pos=G.round>=4?[0,1,2,3,5,6,7,8]:[1,3,5,7];
+  const[ce,cel,cen]=pick(CENTER),[del,di,den]=pick(DIRS),pos=G.round>=4?[0,1,2,3,5,6,7,8]:[1,3,5,7];
   const pool=shuffle(WORDS.filter(w=>w.e!==ce)),at={};pos.forEach((p,i)=>at[p]=pool[i]);
-  const q=`Τι είναι ${dn} ${cn};`;
+  const q=tr(`Τι είναι ${del} ${cel};`,`What is ${den} ${cen}?`);
   stage().innerHTML=`<p class="prompt">${q}</p>
    <div class="grid3">${[...Array(9)].map((_,i)=>i===4?`<div class="mid">${ce}</div>`:at[i]?`<button class="pic" data-v="${i}">${at[i].e}</button>`:'<div></div>').join('')}</div>`;
-  choose('.grid3',di,whereRound,at[di].el);ask(q);
+  choose('.grid3',di,whereRound,at[di][S.lang]);ask(q);
 }
 
 /* ch.2 shapes */
-const SHAPES=[{k:'c',one:'τον κύκλο',nom:'κύκλος',many:'Πόσους κύκλους βλέπεις;'},{k:'s',one:'το τετράγωνο',nom:'τετράγωνο',many:'Πόσα τετράγωνα βλέπεις;'},
-  {k:'t',one:'το τρίγωνο',nom:'τρίγωνο',many:'Πόσα τρίγωνα βλέπεις;'},{k:'r',one:'το ορθογώνιο',nom:'ορθογώνιο',many:'Πόσα ορθογώνια βλέπεις;'}];
+const SHAPES=[{k:'c',one:['τον κύκλο','the circle'],nom:['κύκλος','circle'],many:['Πόσους κύκλους βλέπεις;','How many circles do you see?']},
+  {k:'s',one:['το τετράγωνο','the square'],nom:['τετράγωνο','square'],many:['Πόσα τετράγωνα βλέπεις;','How many squares do you see?']},
+  {k:'t',one:['το τρίγωνο','the triangle'],nom:['τρίγωνο','triangle'],many:['Πόσα τρίγωνα βλέπεις;','How many triangles do you see?']},
+  {k:'r',one:['το ορθογώνιο','the rectangle'],nom:['ορθογώνιο','rectangle'],many:['Πόσα ορθογώνια βλέπεις;','How many rectangles do you see?']}];
+const L2=a=>a[EN()?1:0];
 const COLS=['#FFB677','#9CCB86','#C9B6E8','#FFE08A','#F7A6A0','#7EC8E3'];
 const SHP={c:'<circle cx="50" cy="50" r="40"/>',s:'<rect x="14" y="14" width="72" height="72"/>',r:'<rect x="4" y="27" width="92" height="46"/>',t:'<polygon points="50,8 93,86 7,86"/>'};
 const shp=(k,px)=>`<svg class="shp" viewBox="0 0 100 100" style="width:${px}"><g fill="${pick(COLS)}" stroke="#2E2A4F" stroke-width="5" stroke-linejoin="round" transform="rotate(${k==='c'?0:pick([0,0,15,-20,90])} 50 50)">${SHP[k]}</g></svg>`;
 function shapesRound(){
   const t=pick(SHAPES);
   if(G.round<4){
-    const q=`Βρες ${t.one}`;
+    const q=tr('Βρες ','Find ')+L2(t.one);
     stage().innerHTML=`<p class="prompt">${q}</p><div class="opts c2">${shuffle(SHAPES).map(s=>`<button class="pic" data-v="${s.k}">${shp(s.k,'70%')}</button>`).join('')}</div>`;
-    choose('.opts',t.k,shapesRound,t.nom);ask(q);
+    choose('.opts',t.k,shapesRound,L2(t.nom));ask(q);
   }else{
     const n=1+rand(5),others=SHAPES.filter(s=>s!==t),all=shuffle([...Array(n).fill(t.k),...[...Array(3+rand(4))].map(()=>pick(others).k)]);
-    stage().innerHTML=`<p class="prompt">${t.many}</p><div class="board">${all.map(k=>shp(k,40+rand(30)+'px')).join('')}</div>
+    stage().innerHTML=`<p class="prompt">${L2(t.many)}</p><div class="board">${all.map(k=>shp(k,40+rand(30)+'px')).join('')}</div>
      <div class="opts c3">${btns(near(n,1,6))}</div>`;
-    choose('.opts',n,shapesRound,NW(n));ask(t.many);
+    choose('.opts',n,shapesRound,NW(n));ask(L2(t.many));
   }
 }
 
@@ -761,14 +785,14 @@ function shapesRound(){
 function sizesRound(){
   const kind=G.round%3,big=Math.random()<.5,rank=shuffle([0,1,2]),ans=rank.indexOf(big?2:0);
   let q,html;
-  if(kind===0){const e=pick(['🐘','🍎','🐻','⭐','🌳','🐟','🚗','🐶']);q=big?'Βρες το πιο μεγάλο':'Βρες το πιο μικρό';
+  if(kind===0){const e=pick(['🐘','🍎','🐻','⭐','🌳','🐟','🚗','🐶']);q=big?tr('Βρες το πιο μεγάλο','Find the biggest'):tr('Βρες το πιο μικρό','Find the smallest');
     html=`<div class="trio">${rank.map((r,i)=>`<button class="opt" data-v="${i}" style="font-size:${[34,60,96][r]}px">${e}</button>`).join('')}</div>`}
-  else if(kind===1){const h=shuffle([2,3,4,5,6,7,8]).slice(0,3).sort((a,b)=>a-b),c=pick(COLS);q=big?'Ποιος πύργος είναι ο πιο ψηλός;':'Ποιος πύργος είναι ο πιο κοντός;';
+  else if(kind===1){const h=shuffle([2,3,4,5,6,7,8]).slice(0,3).sort((a,b)=>a-b),c=pick(COLS);q=big?tr('Ποιος πύργος είναι ο πιο ψηλός;','Which tower is the tallest?'):tr('Ποιος πύργος είναι ο πιο κοντός;','Which tower is the shortest?');
     html=`<div class="trio">${rank.map((r,i)=>`<button class="opt tower" data-v="${i}">${'<i style="background:'+c+'"></i>'.repeat(h[r])}</button>`).join('')}</div>`}
-  else{q=big?'Ποιο μολύβι είναι το πιο μακρύ;':'Ποιο μολύβι είναι το πιο κοντό;';
+  else{q=big?tr('Ποιο μολύβι είναι το πιο μακρύ;','Which pencil is the longest?'):tr('Ποιο μολύβι είναι το πιο κοντό;','Which pencil is the shortest?');
     html=`<div class="stack">${rank.map((r,i)=>`<button class="opt" data-v="${i}"><span class="pencil" style="width:${[30,55,82][r]}%"></span></button>`).join('')}</div>`}
   stage().innerHTML=`<p class="prompt">${q}</p>${html}`;
-  choose(kind===2?'.stack':'.trio',ans,sizesRound,'Μπράβο!');ask(q);
+  choose(kind===2?'.stack':'.trio',ans,sizesRound,PRAISE[S.lang]);ask(q);
 }
 
 /* ch.3, 12 compare */
@@ -776,41 +800,41 @@ function compareRound(){
   const l=G.lvl,e=pick(['🍎','⭐','🐟','🌼','🐝','⚽']);
   if(l==='q'||(!l&&G.round<3)){
     const max=l==='q'?5:8,a=1+rand(max);let b;do b=1+rand(max);while(b===a);
-    const more=G.round%2===0,ans=more===(a>b)?0:1,q=more?'Πού έχει περισσότερα;':'Πού έχει λιγότερα;';
+    const more=G.round%2===0,ans=more===(a>b)?0:1,q=more?tr('Πού έχει περισσότερα;','Which side has more?'):tr('Πού έχει λιγότερα;','Which side has fewer?');
     stage().innerHTML=`<p class="prompt">${q}</p><div class="vs">${[a,b].map((n,i)=>`<button class="opt grpbtn" data-v="${i}">${Array(n).fill(e).join('')}</button>`).join('')}</div>`;
     choose('.vs',ans,compareRound,null);ask(q);
   }else{
     const a=rand(11),b=Math.random()<.25?a:rand(11),sym=a>b?'>':a<b?'<':'=',pics=G.round<5&&a<=6&&b<=6;
-    const say=`Το ${NW(a)} είναι ${a>b?'μεγαλύτερο από το':a<b?'μικρότερο από το':'ίσο με το'} ${NW(b)}`;
-    stage().innerHTML=`<p class="prompt">Ποιο σύμβολο ταιριάζει;</p>
+    const say=tr(`Το ${NW(a)} είναι ${a>b?'μεγαλύτερο από το':a<b?'μικρότερο από το':'ίσο με το'} ${NW(b)}`,`${NW(a)} is ${a>b?'greater than':a<b?'less than':'equal to'} ${NW(b)}`),sq=tr('Ποιο σύμβολο ταιριάζει;','Which sign fits?');
+    stage().innerHTML=`<p class="prompt">${sq}</p>
      <div class="seq"><span>${a}</span><span class="gap" id="gapbox">?</span><span>${b}</span></div>
      ${pics?`<div class="sum">${grp(a,e)}<b>&nbsp;</b>${grp(b,e)}</div>`:''}
      <div class="opts c3">${btns(['<','=','>'])}</div>
-     <p class="counter">&gt; μεγαλύτερο · &lt; μικρότερο · = ίσο</p>`;
-    choose('.opts',sym,compareRound,say,fillGap(sym));ask('Ποιο σύμβολο ταιριάζει;');
+     <p class="counter">${tr('&gt; μεγαλύτερο · &lt; μικρότερο · = ίσο','&gt; greater · &lt; less · = equal')}</p>`;
+    choose('.opts',sym,compareRound,say,fillGap(sym));ask(sq);
   }
 }
 
 /* ch.7, 13, 21 number house */
 function splitRound(){
   const l=G.lvl||(G.round<4?5:10),lo=G.lvl===10?6:2,n=lo+rand(l-lo+1),a=1+rand(n-1),b=n-a,e=pick(['🍎','⭐','🐟','🌼','🍪','🎈']);
-  const q=`Το ${n} είναι ${a} και πόσα;`;
+  const q=tr(`Το ${n} είναι ${a} και πόσα;`,`${n} is ${a} and how many?`);
   stage().innerHTML=`<p class="prompt">${q}</p>
    <div class="nhouse"><div class="roof">${n}</div><div class="rooms"><div>${a}<small>${Array(a).fill(e).join('')}</small></div><div class="gap" id="gapbox">?</div></div></div>
    <div class="opts c3">${btns(near(b,1,9))}</div>`;
-  choose('.opts',b,splitRound,`${NW(n)}: ${NW(a)} και ${NW(b)}`,()=>{const g=$('gapbox');g.className='';g.innerHTML=`${b}<small>${Array(b).fill(e).join('')}</small>`});
-  ask(`Το ${NW(n)} είναι ${NW(a)} και πόσα;`);
+  choose('.opts',b,splitRound,`${NW(n)}: ${NW(a)} ${tr('και','and')} ${NW(b)}`,()=>{const g=$('gapbox');g.className='';g.innerHTML=`${b}<small>${Array(b).fill(e).join('')}</small>`});
+  ask(tr(`Το ${NW(n)} είναι ${NW(a)} και πόσα;`,`${NW(n)} is ${NW(a)} and how many?`));
 }
 
 /* ch.14, 18, 19 addition & doubles */
 function addRound(){
   const l=G.lvl,max=l===5?5:10,dbl=l==='d'||(l!==5&&G.round>=6),e=pick(['🍎','⭐','🐟','🌼','🍪','🐞']);
   let a,b;if(dbl){a=1+rand(5);b=a}else{a=1+rand(max-1);b=1+rand(max-a)}
-  const n=a+b,q=dbl?'Τα διπλά: πόσα κάνουν;':'Πόσα κάνουν μαζί;';
+  const n=a+b,q=dbl?tr('Τα διπλά: πόσα κάνουν;','Doubles: how many?'):tr('Πόσα κάνουν μαζί;','How many altogether?');
   stage().innerHTML=`<p class="prompt">${q}</p><div class="sum">${grp(a,e)}<b>+</b>${grp(b,e)}</div>
    <div class="seq"><span>${a}</span><span>+</span><span>${b}</span><span>=</span><span class="gap" id="gapbox">?</span></div>
    <div class="opts c3">${btns(near(n,1,10))}</div>`;
-  choose('.opts',n,addRound,`${NW(a)} και ${NW(b)} κάνουν ${NW(n)}`,fillGap(n));ask(q);
+  choose('.opts',n,addRound,tr(`${NW(a)} και ${NW(b)} κάνουν ${NW(n)}`,`${NW(a)} and ${NW(b)} make ${NW(n)}`),fillGap(n));ask(q);
 }
 
 /* ch.28, 30 subtraction */
@@ -819,11 +843,11 @@ function minusRound(){
   const l=G.lvl||(G.round<4?'s':'b'),e=pick(['🎈','🐦','🍪','🐟','🐤','🍎']);
   let n,b;if(l==='s'){n=3+rand(8);b=1+rand(Math.min(3,n-1))}else{n=5+rand(6);b=n-1-rand(3)}
   const r=n-b;
-  stage().innerHTML=`<p class="prompt">Πόσα μένουν;</p>${goneRow(n,b,e)}
+  stage().innerHTML=`<p class="prompt">${tr('Πόσα μένουν;','How many are left?')}</p>${goneRow(n,b,e)}
    <div class="seq"><span>${n}</span><span>−</span><span>${b}</span><span>=</span><span class="gap" id="gapbox">?</span></div>
    <div class="opts c3">${btns(near(r,0,10))}</div>`;
-  choose('.opts',r,minusRound,`${NW(n)} μείον ${NW(b)} ίσον ${NW(r)}`,fillGap(r));
-  ask(`Έχω ${NW(n)}. Φεύγουν ${NW(b)}. Πόσα μένουν;`);
+  choose('.opts',r,minusRound,`${NW(n)} ${tr('μείον','minus')} ${NW(b)} ${tr('ίσον','equals')} ${NW(r)}`,fillGap(r));
+  ask(tr(`Έχω ${NW(n)}. Φεύγουν ${NW(b)}. Πόσα μένουν;`,`I have ${NW(n)}. ${NW(b)} go away. How many are left?`));
 }
 
 /* ch.29 + or − */
@@ -831,22 +855,25 @@ function signRound(){
   const plus=Math.random()<.5;let a,b,r;
   if(plus){a=1+rand(9);b=1+rand(10-a);r=a+b}else{a=2+rand(9);b=1+rand(a-1);r=a-b}
   const s=plus?'+':'−';
-  stage().innerHTML=`<p class="prompt">Βάζω + ή −;</p>
+  stage().innerHTML=`<p class="prompt">${tr('Βάζω + ή −;','+ or −?')}</p>
    <div class="seq"><span>${a}</span><span class="gap" id="gapbox">?</span><span>${b}</span><span>=</span><span>${r}</span></div>
    <div class="opts c2" style="max-width:320px">${btns(['+','−'])}</div>`;
-  choose('.opts',s,signRound,`${NW(a)} ${plus?'συν':'μείον'} ${NW(b)} ίσον ${NW(r)}`,fillGap(s));ask('Βάζω συν ή μείον;');
+  choose('.opts',s,signRound,`${NW(a)} ${plus?tr('συν','plus'):tr('μείον','minus')} ${NW(b)} ${tr('ίσον','equals')} ${NW(r)}`,fillGap(s));ask(tr('Βάζω συν ή μείον;','Plus or minus?'));
 }
 
 /* ch.15, 22 word problems */
-const KIDS=[['Η Άννα','της'],['Ο Νίκος','του'],['Η Μαρία','της'],['Ο Γιάννης','του'],['Η Ελένη','της'],['Ο Κώστας','του']];
-const THINGS=[['μήλα','🍎'],['μπαλόνια','🎈'],['λουλούδια','🌼'],['βιβλία','📚'],['ψάρια','🐟'],['αυτοκινητάκια','🚗'],['κουλουράκια','🍪']];
+const KIDS=[['Η Άννα','της','Anna','She','her'],['Ο Νίκος','του','Nick','He','him'],['Η Μαρία','της','Maria','She','her'],['Ο Γιάννης','του','John','He','him'],['Η Ελένη','της','Helen','She','her'],['Ο Κώστας','του','Kostas','He','him']];
+const THINGS=[['μήλα','🍎','apples'],['μπαλόνια','🎈','balloons'],['λουλούδια','🌼','flowers'],['βιβλία','📚','books'],['ψάρια','🐟','fish'],['αυτοκινητάκια','🚗','toy cars'],['κουλουράκια','🍪','cookies']];
 function problemRound(){
-  const l=G.lvl,max=l===5?5:10,sub=(l==='x'||(!l&&G.round>=4))&&Math.random()<.5,[nm,p]=pick(KIDS),[pl,e]=pick(THINGS);
+  const l=G.lvl,max=l===5?5:10,sub=(l==='x'||(!l&&G.round>=4))&&Math.random()<.5,[nm,p,enm,he,him]=pick(KIDS),[pl,e,epl]=pick(THINGS);
   let a,b,r,txt;
-  if(sub){a=3+rand(max-2);b=1+rand(a-1);r=a-b;txt=`${nm} έχει ${a} ${pl}. ${pick(['Χαρίζει '+b+' στη γιαγιά.','Δίνει '+b+' στον παππού.'])}`}
-  else{a=2+rand(max-3);b=2+rand(max-a-1);r=a+b;txt=`${nm} έχει ${a} ${pl}. ${pick(['Βρίσκει άλλα '+b+'.','Η μαμά '+p+' δίνει άλλα '+b+'.'])}`}
-  txt+=` Πόσα ${pl} έχει τώρα;`;
-  stage().innerHTML=`<div class="story"><button class="hear sm" id="hear" aria-label="Άκου το πρόβλημα">🔊</button><p>${txt}</p></div>
+  const v=rand(2);
+  if(sub){a=3+rand(max-2);b=1+rand(a-1);r=a-b;
+    txt=tr(`${nm} έχει ${a} ${pl}. ${['Χαρίζει '+b+' στη γιαγιά.','Δίνει '+b+' στον παππού.'][v]}`,`${enm} has ${a} ${epl}. ${he} gives ${b} to ${['grandma','grandpa'][v]}.`)}
+  else{a=2+rand(max-3);b=2+rand(max-a-1);r=a+b;
+    txt=tr(`${nm} έχει ${a} ${pl}. ${['Βρίσκει άλλα '+b+'.','Η μαμά '+p+' δίνει άλλα '+b+'.'][v]}`,`${enm} has ${a} ${epl}. ${[he+' finds '+b+' more.','Mum gives '+him+' '+b+' more.'][v]}`)}
+  txt+=tr(` Πόσα ${pl} έχει τώρα;`,` How many ${epl} does ${he.toLowerCase()} have now?`);
+  stage().innerHTML=`<div class="story"><button class="hear sm" id="hear" aria-label="${tr('Άκου το πρόβλημα','Hear the problem')}">🔊</button><p>${txt}</p></div>
    ${sub?goneRow(a,b,e):`<div class="sum">${grp(a,e)}<b>+</b>${grp(b,e)}</div>`}
    <div class="opts c3">${btns(near(r,0,max))}</div>`;
   $('hear').onclick=()=>gr(txt);
@@ -856,10 +883,10 @@ function problemRound(){
 /* ch.17, 25 numbers to 20 / 50 */
 function bigRound(){
   const max=G.lvl||(G.round<4?20:50);let ans,q,html;
-  if(G.round%2===0){ans=10+rand(max-9);const t=ans/10|0,u=ans%10;q='Πόσα κυβάκια είναι;';
+  if(G.round%2===0){ans=10+rand(max-9);const t=ans/10|0,u=ans%10;q=tr('Πόσα κυβάκια είναι;','How many cubes?');
     html=`<div class="blocks">${('<span class="rod">'+'<i></i>'.repeat(10)+'</span>').repeat(t)}${u?`<span class="ones">${'<i></i>'.repeat(u)}</span>`:''}</div>`}
   else{const after=Math.random()<.5,m=after?10+rand(max-10):11+rand(max-10);ans=after?m+1:m-1;
-    q=after?`Ποιος αριθμός έρχεται μετά το ${m};`:`Ποιος αριθμός είναι πριν από το ${m};`;
+    q=after?tr(`Ποιος αριθμός έρχεται μετά το ${m};`,`Which number comes after ${m}?`):tr(`Ποιος αριθμός είναι πριν από το ${m};`,`Which number comes before ${m}?`);
     html=`<div class="seq">${after?`<span>${m}</span><span class="gap" id="gapbox">?</span>`:`<span class="gap" id="gapbox">?</span><span>${m}</span>`}</div>`}
   const c=new Set([ans]);shuffle([ans+1,ans-1,ans+10,ans-10,ans+2]).forEach(v=>{if(c.size<3&&v>=0&&v<=max)c.add(v)});
   stage().innerHTML=`<p class="prompt">${q}</p>${html}<div class="opts c3">${btns(shuffle([...c]))}</div>`;
@@ -869,13 +896,14 @@ function bigRound(){
 
 /* ch.19 ordinal numbers */
 const ORD=['πρώτο','δεύτερο','τρίτο','τέταρτο','πέμπτο','έκτο','έβδομο','όγδοο','ένατο','δέκατο'];
+const ORDEN=['first','second','third','fourth','fifth','sixth','seventh','eighth','ninth','tenth'],ORDN=n=>EN()?n+(['st','nd','rd'][n-1]||'th'):n+'ο';
 const ANIMALS=['🐱','🐶','🐟','🐦','🐴','🦆','🐸','🐻','🦁','🐄','🐘','🐝'];
 function ordinalRound(){
-  const k=G.round<4?5:7,row=shuffle(ANIMALS).slice(0,k),t=rand(k),q=`Ποιο ζώο είναι ${ORD[t]};`;
+  const k=G.round<4?5:7,row=shuffle(ANIMALS).slice(0,k),t=rand(k),q=tr(`Ποιο ζώο είναι ${ORD[t]};`,`Which animal is ${ORDEN[t]}?`);
   stage().innerHTML=`<p class="prompt">${q}</p>
    <div class="queue"><span class="flag">🚩</span>${row.map((e,i)=>`<button class="opt" data-v="${i}">${e}<small></small></button>`).join('')}</div>
-   <p class="counter">Η σειρά ξεκινά από τη σημαία 🚩</p>`;
-  choose('.queue',t,ordinalRound,`${ORD[t]}: ${WORDS.find(w=>w.e===row[t]).el}`,()=>stage().querySelectorAll('.queue small').forEach((s,i)=>s.textContent=(i+1)+'ο'));
+   <p class="counter">${tr('Η σειρά ξεκινά από τη σημαία','The line starts at the flag')} 🚩</p>`;
+  choose('.queue',t,ordinalRound,`${tr(ORD[t],ORDEN[t])}: ${WORDS.find(w=>w.e===row[t])[S.lang]}`,()=>stage().querySelectorAll('.queue small').forEach((s,i)=>s.textContent=ORDN(i+1)));
   ask(q);
 }
 
@@ -885,25 +913,25 @@ function coinsRound(){
   const target=G.round>=4?5+rand(6):2+rand(5),parts=[];let sum=0;
   if(target>=5&&Math.random()<.6){parts.push(5);sum=5}
   while(sum<target){const c=target-sum>=2&&Math.random()<.5?2:1;parts.push(c);sum+=c}
-  stage().innerHTML=`<p class="prompt">Πόσα ευρώ είναι;</p><div class="objs money">${parts.map(c=>MONEY[c]).join('')}</div>
+  stage().innerHTML=`<p class="prompt">${tr('Πόσα ευρώ είναι;','How many euros?')}</p><div class="objs money">${parts.map(c=>MONEY[c]).join('')}</div>
    <div class="opts c3">${btns(near(target,1,10),'pic num',v=>v+'€')}</div>`;
-  choose('.opts',target,coinsRound,NW(target)+' ευρώ');ask('Πόσα ευρώ είναι;');
+  choose('.opts',target,coinsRound,NW(target)+tr(' ευρώ',target===1?' euro':' euros'));ask(tr('Πόσα ευρώ είναι;','How many euros?'));
 }
 
 /* ch.26 drawing lines: dot to dot */
 const FIG=[
- {n:'τρίγωνο',c:'#9CCB86',p:[[50,12],[88,84],[12,84]]},
- {n:'τετράγωνο',c:'#7EC8E3',p:[[16,16],[84,16],[84,84],[16,84]]},
- {n:'σπίτι',c:'#FFB677',p:[[20,90],[20,45],[50,12],[80,45],[80,90]]},
- {n:'αστέρι',c:'#FFE08A',p:[[50,8],[75,86],[9,38],[91,38],[25,86]]},
- {n:'βάρκα',c:'#C9B6E8',p:[[50,8],[80,58],[94,62],[76,88],[24,88],[6,62],[50,62]]},
- {n:'ψάρι',c:'#F7A6A0',p:[[6,24],[36,44],[58,72],[82,62],[96,50],[82,38],[58,28],[36,58],[6,76]]}];
+ {n:['τρίγωνο','triangle'],c:'#9CCB86',p:[[50,12],[88,84],[12,84]]},
+ {n:['τετράγωνο','square'],c:'#7EC8E3',p:[[16,16],[84,16],[84,84],[16,84]]},
+ {n:['σπίτι','house'],c:'#FFB677',p:[[20,90],[20,45],[50,12],[80,45],[80,90]]},
+ {n:['αστέρι','star'],c:'#FFE08A',p:[[50,8],[75,86],[9,38],[91,38],[25,86]]},
+ {n:['βάρκα','boat'],c:'#C9B6E8',p:[[50,8],[80,58],[94,62],[76,88],[24,88],[6,62],[50,62]]},
+ {n:['ψάρι','fish'],c:'#F7A6A0',p:[[6,24],[36,44],[58,72],[82,62],[96,50],[82,38],[58,28],[36,58],[6,76]]}];
 function linesRound(){
   if(!G.figs){G.figs=shuffle(FIG);if(!G.mix){G.total=FIG.length;drawDots()}}
   const f=G.mix?pick(FIG):G.figs[G.round%FIG.length],P=f.p;let next=0;
   const lab=([x,y])=>{const dx=x-50,dy=y-50,d=Math.hypot(dx,dy)||1;return[x+dx/d*9,y+dy/d*9]};
-  stage().innerHTML=`<p class="prompt">Ενώνω τις τελείες: 1, 2, 3…</p>
-   <svg class="d2d" viewBox="-8 -8 116 116" aria-label="Ένωσε τις τελείες με τη σειρά"><polygon id="dfill" points="${P.join(' ')}" fill="${f.c}" opacity="0"/><polyline class="ln" id="dline" points=""/>
+  stage().innerHTML=`<p class="prompt">${tr('Ενώνω τις τελείες','Join the dots')}: 1, 2, 3…</p>
+   <svg class="d2d" viewBox="-8 -8 116 116" aria-label="${tr('Ένωσε τις τελείες με τη σειρά','Join the dots in order')}"><polygon id="dfill" points="${P.join(' ')}" fill="${f.c}" opacity="0"/><polyline class="ln" id="dline" points=""/>
    ${P.map((q,i)=>`<circle class="pt${i?'':' nx'}" cx="${q[0]}" cy="${q[1]}" r="3.4"/><text x="${lab(q)[0]}" y="${lab(q)[1]}">${i+1}</text>`).join('')}</svg>
    <p class="word" id="reveal"></p>`;
   const svg=stage().querySelector('.d2d'),line=$('dline'),pts=[...svg.querySelectorAll('.pt')];
@@ -914,22 +942,23 @@ function linesRound(){
       pts[next].classList.remove('nx');pts[next].classList.add('on');
       line.setAttribute('points',P.slice(0,next+1).join(' '));tone([392+next*40],.08);next++;
       if(next<P.length)return;
-      busy=true;line.setAttribute('points',[...P,P[0]].join(' '));$('dfill').setAttribute('opacity','.6');$('reveal').textContent=f.n;gr(f.n);win(linesRound);
+      busy=true;line.setAttribute('points',[...P,P[0]].join(' '));$('dfill').setAttribute('opacity','.6');$('reveal').textContent=L2(f.n);gr(L2(f.n));win(linesRound);
     }else if(P.some((_,i)=>dist(i)<=10)){nope();pts[next].classList.add('nx')}
   });
-  ask('Ενώνω τις τελείες με τη σειρά');
+  ask(tr('Ενώνω τις τελείες με τη σειρά','Join the dots in order'));
 }
 
 /* ch.31 calendar */
-const DAYS=[['Δευτέρα','τη Δευτέρα'],['Τρίτη','την Τρίτη'],['Τετάρτη','την Τετάρτη'],['Πέμπτη','την Πέμπτη'],['Παρασκευή','την Παρασκευή'],['Σάββατο','το Σάββατο'],['Κυριακή','την Κυριακή']];
+const DAYS=[['Δευτέρα','τη Δευτέρα','Monday'],['Τρίτη','την Τρίτη','Tuesday'],['Τετάρτη','την Τετάρτη','Wednesday'],['Πέμπτη','την Πέμπτη','Thursday'],['Παρασκευή','την Παρασκευή','Friday'],['Σάββατο','το Σάββατο','Saturday'],['Κυριακή','την Κυριακή','Sunday']];
+const DN=i=>DAYS[i][EN()?2:0];
 function calendarRound(){
   const kind=G.round>=6?2:G.round%2,d=rand(7);let ans,q,html;
-  if(kind===0){ans=(d+1)%7;q=`Ποια μέρα έρχεται μετά ${DAYS[d][1]};`;html=`<span>${DAYS[d][0]}</span><b>➜</b><span class="gap" id="gapbox">?</span>`}
-  else if(kind===1){ans=(d+6)%7;q=`Ποια μέρα είναι πριν από ${DAYS[d][1]};`;html=`<span class="gap" id="gapbox">?</span><b>➜</b><span>${DAYS[d][0]}</span>`}
-  else{ans=d;q='Ποια μέρα λείπει;';html=DAYS.map((x,i)=>i===d?'<span class="gap" id="gapbox">?</span>':`<span>${x[0]}</span>`).join('')}
+  if(kind===0){ans=(d+1)%7;q=tr(`Ποια μέρα έρχεται μετά ${DAYS[d][1]};`,`Which day comes after ${DN(d)}?`);html=`<span>${DN(d)}</span><b>➜</b><span class="gap" id="gapbox">?</span>`}
+  else if(kind===1){ans=(d+6)%7;q=tr(`Ποια μέρα είναι πριν από ${DAYS[d][1]};`,`Which day comes before ${DN(d)}?`);html=`<span class="gap" id="gapbox">?</span><b>➜</b><span>${DN(d)}</span>`}
+  else{ans=d;q=tr('Ποια μέρα λείπει;','Which day is missing?');html=DAYS.map((x,i)=>i===d?'<span class="gap" id="gapbox">?</span>':`<span>${DN(i)}</span>`).join('')}
   stage().innerHTML=`<p class="prompt">${q}</p><div class="week">${html}</div>
-   <div class="opts c1">${btns(shuffle([ans,(ans+2)%7,(ans+5)%7]),'pic txt',v=>DAYS[v][0])}</div>`;
-  choose('.opts',ans,calendarRound,DAYS[ans][0],fillGap(DAYS[ans][0]));ask(q);
+   <div class="opts c1">${btns(shuffle([ans,(ans+2)%7,(ans+5)%7]),'pic txt',v=>DN(v))}</div>`;
+  choose('.opts',ans,calendarRound,DN(ans),fillGap(DN(ans)));ask(q);
 }
 
 const ROUNDS={dice:diceRound,nline:lineRound,trace:traceRound,circle:circleRound,pattern:patternRound,read:readRound,spell:spellRound,first:firstRound,listen:listenRound,count:countRound,memory:memoryGame,learn:learnGame,
@@ -973,18 +1002,28 @@ const UNITS=[
   [30,'o','Αφαίρεση με αφαιρετέο μεγάλο αριθμό','minus','b'],
   [31,'o','Το ημερολόγιο','calendar'],
   [32,'r','Επαναληπτικό μάθημα',[['big',50],['minus'],['sign'],['calendar'],['pattern'],['problems','x']]]]}];
+const CATEN={n:'Numbers',o:'Operations',g:'Geometry',m:'Measurement',p:'Problems',r:'Revision'};
+const UNITEN=[['Unit 1','Numbers up to 5 · Space and shapes'],['Unit 2','Adding and splitting numbers up to 5'],['Unit 3','Numbers up to 20 · Sums up to 10 · Coins'],['Unit 4','Subtraction · Drawing lines · Patterns']];
+const CHEN={1:'Orientation in space',2:'Geometric shapes',3:'Comparing and estimating amounts',4:'The numbers from 1 to 5',
+  5:'Counting, reading and writing numbers (I)',6:'Counting, reading and writing numbers (II)',7:'Adding and splitting numbers up to 5 (I)',8:'Revision',
+  9:'Comparing sizes',10:'The numbers from 6 to 10 (I)',11:'The numbers from 6 to 10 (II)',12:'Comparing numbers – the signs =, > and <',
+  13:'Adding and splitting numbers up to 5 (II)',14:'Writing addition with symbols',15:'Problems',16:'Revision',17:'The numbers from 10 to 20',
+  18:'Sums up to 10',19:'Ordinal numbers – doubles',20:'Coins up to 10',21:'Splitting numbers from 6 to 10',22:'Problems',23:'Revision',
+  25:'The numbers up to 50',26:'Drawing lines',27:'Patterns',28:'Subtraction: taking away a small number',29:'Telling «+» and «−» apart',
+  30:'Subtraction: taking away a large number',31:'The calendar',32:'Revision'};
+const chT=c=>EN()?CHEN[c[0]]:c[2];
 function openMap(ch){
   $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;try{speechSynthesis.cancel()}catch(e){}
-  $('gtitle').textContent='Το βιβλίο μου';G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
+  $('gtitle').textContent=tr('Το βιβλίο μου','My book');G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
   const all=[].concat(...UNITS.map(u=>u.c)),done=all.filter(c=>S.done[c[0]]).length;
-  stage().innerHTML=`<p class="counter">Μαθηματικά Α΄ Δημοτικού · ⭐ ${done} από ${all.length} κεφάλαια</p>
-   <div class="legend">${Object.keys(CAT).map(k=>[k,CAT[k]]).map(([k,[n,c]])=>`<span><i class="${k==='r'?'rev':''}" style="--k:${c}"></i>${n}</span>`).join('')}</div>
-   ${UNITS.map(u=>`<div class="unit"><h3>${u.t}</h3><p>${u.s}</p>${u.c.map(c=>`<button class="chap" id="ch${c[0]}" data-ch="${c[0]}"><span class="badge${c[1]==='r'?' rev':''}" style="--k:${CAT[c[1]][1]}"><span>${c[0]}</span></span><span class="t">${c[2]}</span><span class="chk">${S.done[c[0]]?'⭐':''}</span></button>`).join('')}</div>`).join('')}`;
+  stage().innerHTML=`<p class="counter">${tr(`Μαθηματικά Α΄ Δημοτικού · ⭐ ${done} από ${all.length} κεφάλαια`,`Maths, Grade 1 · ⭐ ${done} of ${all.length} chapters`)}</p>
+   <div class="legend">${Object.keys(CAT).map(k=>[k,CAT[k]]).map(([k,[n,c]])=>`<span><i class="${k==='r'?'rev':''}" style="--k:${c}"></i>${EN()?CATEN[k]:n}</span>`).join('')}</div>
+   ${UNITS.map((u,ui)=>`<div class="unit"><h3>${EN()?UNITEN[ui][0]:u.t}</h3><p>${EN()?UNITEN[ui][1]:u.s}</p>${u.c.map(c=>`<button class="chap" id="ch${c[0]}" data-ch="${c[0]}"><span class="badge${c[1]==='r'?' rev':''}" style="--k:${CAT[c[1]][1]}"><span>${c[0]}</span></span><span class="t">${chT(c)}</span><span class="chk">${S.done[c[0]]?'⭐':''}</span></button>`).join('')}</div>`).join('')}`;
   stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>{const c=all.find(x=>x[0]==b.dataset.ch),mix=Array.isArray(c[3])?c[3]:null;
-    start(mix?'mix':c[3],{ch:c[0],t:c[2],l:c[4],mix})});
+    start(mix?'mix':c[3],{ch:c[0],t:chT(c),l:c[4],mix})});
   const el=ch&&$('ch'+ch);if(el)el.scrollIntoView({block:'center'});else scrollTo(0,0);
 }
-$('ver').textContent='έκδοση '+APPV;
+applyLang();
 if('serviceWorker' in navigator){
   const hadCtl=!!navigator.serviceWorker.controller;let reloaded=false;
   // a new version took over: reload once so the phone shows it straight away
