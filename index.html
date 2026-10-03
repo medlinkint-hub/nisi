@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='8';
+var APPV='9';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -280,6 +280,38 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .bead.on+.bead:not(.on){margin-left:28px}
 .tbox{min-height:70px;min-width:200px;background:var(--card);border:3px solid var(--line);border-radius:20px;padding:6px 14px;font:700 52px/1 Andika,sans-serif;letter-spacing:8px;color:var(--ink2);text-align:center}
 .pill.tadd{font:800 30px Andika,sans-serif;min-width:64px}
+.hand{width:96px;height:115px}
+.big-e .hand{width:120px;height:144px}
+.fopts .hand{width:58px;height:70px}
+.hands{display:flex;align-items:center;gap:10px}
+.hands b{font:800 24px Grandstander,Andika,sans-serif}
+.nest{width:92vw;max-width:300px}
+.baskets{display:flex;gap:14px;width:100%;max-width:440px;margin-bottom:26px}
+.basket{flex:1;min-height:120px;display:flex;flex-wrap:wrap;gap:2px;align-content:center;justify-content:center;font-size:28px;padding:10px;background:#E8C79A;border:3px solid #8A6A5A;border-radius:10px 10px 40px 40px;color:#2E2A4F;position:relative}
+.basket small{position:absolute;bottom:-26px;left:0;right:0;text-align:center;font:800 20px Grandstander,Andika,sans-serif;color:var(--ink)}
+.basket.q{background:var(--t4);font:800 44px Grandstander,Andika,sans-serif;border-color:#2E2A4F}
+.stairs{background:var(--card);border:3px solid var(--line);border-radius:20px;padding:10px 14px;display:flex;flex-direction:column;gap:4px}
+.srow{display:flex;align-items:center;gap:14px}
+.cells{display:flex;gap:2px;width:120px}
+.cells i{width:20px;height:20px;border:1.5px solid #2E2A4F;display:block}
+.cells .rd{background:#E0604F}.cells .gr{background:#5BAE6B}
+.slab{font:700 20px Andika,sans-serif}
+.slab .gap{display:inline-block;min-width:30px;text-align:center;background:var(--t4);color:var(--tink);border-radius:8px;padding:0 6px}
+.slab .fill{display:inline-block;min-width:30px;text-align:center;background:var(--ok);color:#fff;border-radius:8px;padding:0 6px}
+.seq.clouds span{border-radius:22px}
+.pond{display:grid;gap:4px;width:92vw;max-width:360px;background:#7EC8E3;border:3px solid var(--line);border-radius:20px;padding:6px}
+.pond span{height:46px;background:rgba(255,255,255,.35);border-radius:12px;display:grid;place-items:center;font-size:34px}
+.arrows{display:grid;grid-template-columns:repeat(3,64px);gap:6px}
+.arrows .pill{font-size:26px;padding:6px;min-height:56px}
+.bars{display:flex;align-items:flex-end;justify-content:center;gap:10px;min-height:170px}
+.sbar{display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px;border-radius:12px}
+.sbar i{display:block;width:34px;background:#4A7FB5;border:2px solid #2E2A4F;border-radius:4px}
+.sbar b{min-height:24px;font:800 20px Grandstander,Andika,sans-serif}
+.sbar.ok i{background:var(--ok)}
+.sbar.no{animation:shake .4s}
+.drawer{display:block;height:84px;background:#C97B63;border:2px solid #2E2A4F;border-radius:6px;background-image:repeating-linear-gradient(#C97B63 0 18px,#2E2A4F 18px 20px)}
+.book{display:block;height:110px;background:#8FA3B8;border:2px solid #2E2A4F;border-radius:3px 6px 6px 3px}
+.coin.cu{background:radial-gradient(circle,#E9A27C 0 60%,#C0784F 61%);width:52px;height:52px;font-size:17px}
 /* older phones: no aspect-ratio (iOS < 15, Chrome < 88) */
 @supports not (aspect-ratio:1/1){
   .pic{min-height:100px}
@@ -333,6 +365,9 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
       <button class="tile" data-game="forms"><div class="ico">✋</div><b>Ίδιο πλήθος</b><span>Ζάρι, πουλάκια, γραμμές</span></button>
       <button class="tile" data-game="abacus"><div class="ico">🔴</div><b>Αριθμητήριο</b><span>Σχηματίζω αριθμούς</span></button>
       <button class="tile" data-game="tally"><div class="ico">✏️</div><b>Γραμμούλες</b><span>Τόσες γραμμές όσα ψάρια</span></button>
+      <button class="tile" data-game="fingers"><div class="ico">✌️</div><b>Δάχτυλα</b><span>Πόσα όλα μαζί;</span></button>
+      <button class="tile" data-game="frog"><div class="ico">🐸</div><b>Ο βάτραχος</b><span>Πάνω, κάτω, αριστερά, δεξιά</span></button>
+      <button class="tile" data-game="order"><div class="ico">📊</div><b>Σειρά</b><span>Από το πιο ψηλό στο πιο χαμηλό</span></button>
       <button class="tile" data-game="sizes"><div class="ico">🐘</div><b>Μεγάλο – μικρό</b><span>Ψηλό, κοντό, μακρύ</span></button>
       <button class="tile" data-game="dice"><div class="ico">🎲</div><b>Ζάρια</b><span>Πόσες τελείες έχει;</span></button>
       <button class="tile" data-game="trace"><div class="ico">✍️</div><b>Γράφω τους αριθμούς</b><span>Γράψε με το δάχτυλο</span></button>
@@ -544,7 +579,8 @@ const TEN={read:['Read','Read the word, find the picture'],spell:['Spell the wor
   nline:['Number line','Which number is missing?'],split:['Number house','5 is 2 and 3'],add:['Addition','How many altogether?'],problems:['Word problems','Read and solve'],
   big:['Numbers to 50','Tens and ones'],ordinal:['Who is first?','First, second, third'],coins:['Euros','Count the money'],lines:['Join the dots','Draw lines 1, 2, 3'],
   pattern:['Patterns','Keep it going'],minus:['Subtraction','How many are left?'],sign:['+ or −?','Find the right sign'],calendar:['Days of the week','Monday, Tuesday, Wednesday…'],
-  marbles:['Marbles','Inside, between, on'],drum:['The drum','How many beats?'],match:['Are there enough?','More, fewer, the same'],forms:['Same amount','Dice, birds, lines'],abacus:['Abacus','Make the numbers'],tally:['Little lines','As many lines as fish'],words:['Number words','one, two, three']};
+  marbles:['Marbles','Inside, between, on'],drum:['The drum','How many beats?'],match:['Are there enough?','More, fewer, the same'],forms:['Same amount','Dice, birds, lines'],abacus:['Abacus','Make the numbers'],tally:['Little lines','As many lines as fish'],words:['Number words','one, two, three'],
+  fingers:['Fingers','How many altogether?'],frog:['The frog','Up, down, left, right'],order:['In order','From the tallest to the shortest'],body:['My body','How many eyes?'],nest:['Nests','How many eggs?'],baskets:['Baskets','Share the apples'],stairs:['Split it','0 and 5, 1 and 4…'],down:['Counting down','10, 9, 8…'],twos:['In twos','2, 4, 6, 8, 10']};
 const STATIC=[['h1',"The Hoopoe's Island"],['.hero p','Games for reading, writing and numbers for 6-year-olds.'],['.sect','Maths – Grade 1'],['#again','Again'],['#toIsland','To the island'],['[data-game="first"] .ico','Aa']];
 function openVoices(){
   const t=S.lang,all=voicesFor(t),good=all.filter(v=>vscore(v,t)>-50),list=good.length?good:all,cur=voiceFor(t);
@@ -569,7 +605,7 @@ function applyLang(){
   $('ver').textContent=tr('έκδοση ','version ')+APPV;$('voiceBtn').textContent=tr('🗣️ Φωνή','🗣️ Voice');$('voiceBtn').hidden=!('speechSynthesis' in window);voiceNote();
 }
 $('langs').onclick=e=>{const b=e.target.closest('[data-lang]');if(!b||b.dataset.lang===S.lang)return;S.lang=b.dataset.lang;save();applyLang();speak(tr('Ελληνικά','English'))};
-const TITLES={marbles:'Βόλοι',drum:'Ταμπουρίνο',match:'Φτάνουν;',forms:'Ίδιο πλήθος',abacus:'Αριθμητήριο',tally:'Γραμμούλες',words:'Λέξεις αριθμών',where:'Πού είναι;',shapes:'Σχήματα',sizes:'Μεγάλο – μικρό',compare:'Σύγκριση',split:'Το σπίτι των αριθμών',add:'Πρόσθεση',problems:'Προβλήματα',big:'Αριθμοί μέχρι το 50',ordinal:'Ποιος είναι πρώτος;',coins:'Τα ευρώ',lines:'Ενώνω τις τελείες',minus:'Αφαίρεση',sign:'+ ή −;',calendar:'Οι μέρες της εβδομάδας',dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
+const TITLES={fingers:'Δάχτυλα',frog:'Ο βάτραχος',order:'Σειρά',body:'Το σώμα μου',nest:'Φωλιές',baskets:'Καλάθια',stairs:'Αναλύω',down:'Κατεβαίνω',twos:'Ανά δύο',marbles:'Βόλοι',drum:'Ταμπουρίνο',match:'Φτάνουν;',forms:'Ίδιο πλήθος',abacus:'Αριθμητήριο',tally:'Γραμμούλες',words:'Λέξεις αριθμών',where:'Πού είναι;',shapes:'Σχήματα',sizes:'Μεγάλο – μικρό',compare:'Σύγκριση',split:'Το σπίτι των αριθμών',add:'Πρόσθεση',problems:'Προβλήματα',big:'Αριθμοί μέχρι το 50',ordinal:'Ποιος είναι πρώτος;',coins:'Τα ευρώ',lines:'Ενώνω τις τελείες',minus:'Αφαίρεση',sign:'+ ή −;',calendar:'Οι μέρες της εβδομάδας',dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
 let G=null,busy=false;
 document.querySelectorAll('.games').forEach(g=>g.onclick=e=>{const t=e.target.closest('[data-game]');if(t)start(t.dataset.game)});
 $('back').onclick=$('toIsland').onclick=()=>G&&G.o&&G.o.ch?openMap(G.o.ch):home();
@@ -759,7 +795,7 @@ function patternRound(){
 }
 
 function traceRound(){
-  const d=G.lvl===5?1+rand(5):G.lvl===10?6+rand(4):G.digits[G.round],item=['🐦','🍎','🌼','🐟','⭐'][Math.random()*5|0];
+  const d=G.lvl===6?rand(6):G.lvl===5?1+rand(5):G.lvl===10?6+rand(4):G.digits[G.round],item=['🐦','🍎','🌼','🐟','⭐'][Math.random()*5|0];
   stage().innerHTML=`<p class="prompt">${tr('Γράφω τον αριθμό','Write the number')} ${d}</p>
    <div class="seq small">${d?Array(d).fill(item).join(''):NW(0)}</div>
    <div class="tracebox"><canvas id="guide"></canvas><canvas id="ink" aria-label="${tr('Γράψε με το δάχτυλο τον αριθμό','Write with your finger the number')} ${d}"></canvas></div>
@@ -845,16 +881,23 @@ const shp=(k,px)=>`<svg class="shp" viewBox="0 0 100 100" style="width:${px}"><g
 
 /* ch.9 sizes */
 function sizesRound(){
-  const kind=G.round%3,big=Math.random()<.5,rank=shuffle([0,1,2]),ans=rank.indexOf(big?2:0);
-  let q,html;
+  const kind=G.round%6,big=Math.random()<.5,rank=shuffle([0,1,2]);let ans=rank.indexOf(big?2:0);
+  let q,html,sel='.trio';
   if(kind===0){const e=pick(['🐘','🍎','🐻','⭐','🌳','🐟','🚗','🐶']);q=big?tr('Βρες το πιο μεγάλο','Find the biggest'):tr('Βρες το πιο μικρό','Find the smallest');
     html=`<div class="trio">${rank.map((r,i)=>`<button class="opt" data-v="${i}" style="font-size:${[34,60,96][r]}px">${e}</button>`).join('')}</div>`}
   else if(kind===1){const h=shuffle([2,3,4,5,6,7,8]).slice(0,3).sort((a,b)=>a-b),c=pick(COLS);q=big?tr('Ποιος πύργος είναι ο πιο ψηλός;','Which tower is the tallest?'):tr('Ποιος πύργος είναι ο πιο κοντός;','Which tower is the shortest?');
     html=`<div class="trio">${rank.map((r,i)=>`<button class="opt tower" data-v="${i}">${'<i style="background:'+c+'"></i>'.repeat(h[r])}</button>`).join('')}</div>`}
-  else{q=big?tr('Ποιο μολύβι είναι το πιο μακρύ;','Which pencil is the longest?'):tr('Ποιο μολύβι είναι το πιο κοντό;','Which pencil is the shortest?');
+  else if(kind===3){q=big?tr('Ποια συρταριέρα είναι η πιο πλατιά;','Which chest of drawers is the widest?'):tr('Ποια συρταριέρα είναι η πιο στενή;','Which chest of drawers is the narrowest?');
+    html=`<div class="trio">${rank.map((r,i)=>`<button class="opt" data-v="${i}"><span class="drawer" style="width:${[34,60,92][r]}px"></span></button>`).join('')}</div>`}
+  else if(kind===4){q=big?tr('Ποιο βιβλίο είναι το πιο χοντρό;','Which book is the thickest?'):tr('Ποιο βιβλίο είναι το πιο λεπτό;','Which book is the thinnest?');
+    html=`<div class="trio">${rank.map((r,i)=>`<button class="opt" data-v="${i}"><span class="book" style="width:${[10,24,42][r]}px"></span></button>`).join('')}</div>`}
+  else if(kind===5){const[a,b]=pick([['🌳','🐦'],['🐴','🐱'],['🏠','🐶'],['🚌','🚲'],['🌳','🧍']]),hi=Math.random()<.5;ans=hi?0:1;
+    q=big?tr('Ποιο είναι πιο ψηλό;','Which one is taller?'):tr('Ποιο είναι πιο χαμηλό;','Which one is shorter?');ans=big?(hi?0:1):(hi?1:0);
+    html=`<div class="trio">${(hi?[a,b]:[b,a]).map((e,i)=>`<button class="opt" data-v="${i}" style="font-size:${(hi?[96,40]:[40,96])[i]}px">${e}</button>`).join('')}</div>`}
+  else{sel='.stack';q=big?tr('Ποιο μολύβι είναι το πιο μακρύ;','Which pencil is the longest?'):tr('Ποιο μολύβι είναι το πιο κοντό;','Which pencil is the shortest?');
     html=`<div class="stack">${rank.map((r,i)=>`<button class="opt" data-v="${i}"><span class="pencil" style="width:${[30,55,82][r]}%"></span></button>`).join('')}</div>`}
   stage().innerHTML=`<p class="prompt">${q}</p>${html}`;
-  choose(kind===2?'.stack':'.trio',ans,sizesRound,PRAISE[S.lang]);ask(q);
+  choose(sel,ans,sizesRound,PRAISE[S.lang]);ask(q);
 }
 
 /* ch.3, 12 compare */
@@ -972,6 +1015,12 @@ function ordinalRound(){
 /* ch.20 coins */
 const MONEY={1:'<span class="coin c1">1€</span>',2:'<span class="coin c2">2€</span>',5:'<span class="bill">5€</span>'};
 function coinsRound(){
+  if(G.lvl===5){const cent=Math.random()<.5,parts=[];let sum=0;const target=2+rand(4);
+    while(sum<target){const c=target-sum>=2&&Math.random()<.5?2:1;parts.push(c);sum+=c}
+    const q=cent?tr('Πόσα λεπτά είναι όλα;','How many cents altogether?'):tr('Πόσα ευρώ είναι όλα;','How many euros altogether?');
+    stage().innerHTML=`<p class="prompt">${q}</p><div class="objs money">${parts.map(c=>cent?`<span class="coin cu">${c}${tr('λ','c')}</span>`:MONEY[c]).join('')}</div>
+     <div class="opts c3">${btns(near(target,1,6),'pic num',v=>v+(cent?tr('λ','c'):'€'))}</div>`;
+    choose('.opts',target,coinsRound,NW(target)+(cent?tr(' λεπτά',' cents'):tr(' ευρώ',' euros')));ask(q);return}
   const target=G.round>=4?5+rand(6):2+rand(5),parts=[];let sum=0;
   if(target>=5&&Math.random()<.6){parts.push(5);sum=5}
   while(sum<target){const c=target-sum>=2&&Math.random()<.5?2:1;parts.push(c);sum+=c}
@@ -1110,7 +1159,8 @@ function drumRound(){
 
 /* ch.3 p.17: are there enough? more / fewer / the same */
 const PAIRS=[{A:'τα σκυλάκια',B:'τα κόκαλα',g:'n',ea:'dogs',eb:'bones',ia:'🐶',ib:'🍖'},{A:'οι ποδοσφαιριστές',B:'οι μπάλες',g:'f',ea:'footballers',eb:'balls',ia:'👦',ib:'⚽'},
-  {A:'οι μέλισσες',B:'τα λουλούδια',g:'n',ea:'bees',eb:'flowers',ia:'🐝',ib:'🌼'},{A:'τα παιδιά',B:'οι καρέκλες',g:'f',ea:'children',eb:'chairs',ia:'👧',ib:'💺'}];
+  {A:'οι μέλισσες',B:'τα λουλούδια',g:'n',ea:'bees',eb:'flowers',ia:'🐝',ib:'🌼'},{A:'τα παιδιά',B:'οι καρέκλες',g:'f',ea:'children',eb:'chairs',ia:'👧',ib:'💺'},
+  {A:'τα παιδιά',B:'οι τσάντες',g:'f',ea:'children',eb:'bags',ia:'👦',ib:'🎒'}];
 function matchRound(){
   const P=pick(PAIRS),a=2+rand(4),b=Math.max(1,a+[-1,0,1][rand(3)]),ans=b>a?'m':b<a?'l':'s',f=P.g==='f';
   const lab={m:tr(f?'Περισσότερες':'Περισσότερα','More'),l:tr(f?'Λιγότερες':'Λιγότερα','Fewer'),s:tr((f?'Όσες':'Όσα')+' και '+P.A,'The same')};
@@ -1123,7 +1173,7 @@ function matchRound(){
 }
 
 /* ch.4 p.18-19: the same amount in different forms */
-const FORMS={d:n=>`<span class="fdig">${n}</span>`,k:n=>die(n),o:n=>`<span class="fobj">${'🐦'.repeat(n)}</span>`,t:n=>`<span class="tally">${'|'.repeat(n)}</span>`};
+const FORMS={h:n=>handSvg(n),d:n=>`<span class="fdig">${n}</span>`,k:n=>die(n),o:n=>`<span class="fobj">${'🐦'.repeat(n)}</span>`,t:n=>`<span class="tally">${'|'.repeat(n)}</span>`};
 function formsRound(){
   const n=1+rand(5),fs=shuffle(Object.keys(FORMS)),A=fs[0],B=fs[1],q=tr('Βρες το ίδιο πλήθος','Find the same amount');
   stage().innerHTML=`<p class="prompt">${q}</p><div class="fshow">${FORMS[A](n)}</div>
@@ -1163,9 +1213,114 @@ function tallyRound(){
   G.solve=()=>{c=n;draw();$('tok').click()};ask(q);
 }
 
+/* ================= Book pages, chapters 6-9 ================= */
+// a drawn hand showing n raised fingers (0-5), like the book's finger pictures
+function handSvg(n){
+  const st='fill="#F6C9A0" stroke="#2E2A4F" stroke-width="2"';let f='';
+  [14,23,32,41].forEach((x,i)=>{const up=i<n;f+=`<rect x="${x}" y="${up?4:26}" width="8" height="${up?36:14}" rx="4" ${st}/>`});
+  f+=n>=5?`<rect x="2" y="30" width="8" height="26" rx="4" transform="rotate(-35 6 52)" ${st}/>`:`<rect x="6" y="40" width="10" height="12" rx="5" ${st}/>`;
+  return`<svg class="hand" viewBox="0 0 60 72" aria-label="${n}">${f}<rect x="12" y="30" width="38" height="38" rx="11" ${st}/></svg>`}
+
+/* ch.6 p.22: how many are the parts of my body? */
+const BODY=[['👀','Πόσα μάτια έχω;','How many eyes do I have?',2],['👂','Πόσα αυτιά έχω;','How many ears do I have?',2],['👃','Πόσες μύτες έχω;','How many noses do I have?',1],
+  ['👄','Πόσα στόματα έχω;','How many mouths do I have?',1],['🙌','Πόσα χέρια έχω;','How many hands do I have?',2],['👣','Πόσα πόδια έχω;','How many feet do I have?',2],
+  ['✋','Πόσα δάχτυλα έχει το ένα χέρι μου;','How many fingers are on one hand?',5]];
+function bodyRound(){
+  const[e,qel,qen,n]=pick(BODY),q=tr(qel,qen);
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="big-e">${e==='✋'?handSvg(5):e}</div><div class="opts c3">${btns(near(n,0,5))}</div>`;
+  choose('.opts',n,bodyRound,NW(n));ask(q);
+}
+
+/* ch.6 p.22: eggs in the nest, including zero */
+const nestSvg=n=>`<svg class="nest" viewBox="0 0 160 100">
+  ${[...Array(n)].map((_,i)=>`<ellipse cx="${80-(n-1)*13+i*26}" cy="${44+(i%2)*4}" rx="12" ry="16" fill="#FFFDF6" stroke="#2E2A4F" stroke-width="2"/>`).join('')}
+  <path d="M6 52 C14 98 146 98 154 52 Q80 66 6 52Z" fill="#B8864B" stroke="#2E2A4F" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M20 66 Q80 78 140 66 M28 78 Q80 90 132 78 M40 60 l10 10 M70 64 l10 10 M100 64 l10 10 M125 60 l8 10" fill="none" stroke="#7A5530" stroke-width="2"/></svg>`;
+function nestRound(){
+  const n=Math.random()<.25?0:1+rand(5),q=tr('Πόσα αυγά έχει η φωλιά;','How many eggs are in the nest?');
+  stage().innerHTML=`<p class="prompt">${q}</p>${nestSvg(n)}<div class="opts c3">${btns(n<2?[0,1,2]:near(n,0,5))}</div>`;
+  choose('.opts',n,nestRound,NW(n));ask(q);
+}
+
+/* ch.7 p.24: fingers - how many altogether? */
+function fingersRound(){
+  const max=G.lvl===10?10:5,a=1+rand(max===5?4:5);const b=1+rand(Math.min(5,max-a)),n=a+b,q=tr('Πόσα δάχτυλα όλα μαζί;','How many fingers altogether?');
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="hands">${handSvg(a)}<b>${tr('και','and')}</b>${handSvg(b)}</div>
+   <div class="seq"><span>${a}</span><span>+</span><span>${b}</span><span>=</span><span class="gap" id="gapbox">?</span></div>
+   <div class="opts c3">${btns(near(n,1,max))}</div>`;
+  choose('.opts',n,fingersRound,tr(`${NW(a)} και ${NW(b)} κάνουν ${NW(n)}`,`${NW(a)} and ${NW(b)} make ${NW(n)}`),fillGap(n));ask(q);
+}
+
+/* ch.7 p.25: share the apples between two baskets */
+function basketsRound(){
+  const n=2+rand(4),a=rand(n+1),b=n-a,q=tr(`Μοιράζω ${n} μήλα σε δύο καλάθια. Πόσα μπαίνουν στο άλλο καλάθι;`,`I share ${n} apples between two baskets. How many go in the other basket?`);
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="baskets"><div class="basket">${'🍎'.repeat(a)||'&nbsp;'}<small>${a}</small></div><div class="basket q" id="gapbox">?</div></div>
+   <div class="opts c3">${btns(b<2?[0,1,2]:near(b,0,5))}</div>`;
+  choose('.opts',b,basketsRound,tr(`${NW(a)} και ${NW(b)}`,`${NW(a)} and ${NW(b)}`),()=>{const g=$('gapbox');g.className='basket';g.innerHTML=`${'🍎'.repeat(b)||'&nbsp;'}<small>${b}</small>`});
+  ask(q);
+}
+
+/* ch.7 p.25: split a number into sums (red and green grid) */
+function stairsRound(){
+  const n=3+rand(3),k=rand(n+1),q=tr(`Αναλύω το ${n}`,`Split ${n}`);
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="stairs">${[...Array(n+1)].map((_,r)=>`<div class="srow"><span class="cells">${'<i class="rd"></i>'.repeat(n-r)}${'<i class="gr"></i>'.repeat(r)}</span>
+     <span class="slab">${r} ${tr('και','and')} ${r===k?'<b class="gap" id="gapbox">?</b>':n-r}</span></div>`).join('')}</div>
+   <div class="opts c3">${btns(n-k<2?[0,1,2]:near(n-k,0,5))}</div>`;
+  choose('.opts',n-k,stairsRound,tr(`${NW(k)} και ${NW(n-k)} κάνουν ${NW(n)}`,`${NW(k)} and ${NW(n-k)} make ${NW(n)}`),fillGap(n-k));ask(q);
+}
+
+/* ch.8 p.26: count down from 10 */
+function downRound(){
+  const s=6+rand(5),len=Math.min(s,6),seq=[...Array(len)].map((_,i)=>s-i),g=1+rand(len-1),ans=seq[g],q=tr('Κατεβαίνω: ποιος αριθμός λείπει;','Counting down: which number is missing?');
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="seq">${seq.map((v,i)=>i===g?'<span class="gap" id="gapbox">?</span>':`<span>${v}</span>`).join('')}</div>
+   <div class="opts c3">${btns(near(ans,0,10))}</div>`;
+  choose('.opts',ans,downRound,NW(ans),fillGap(ans));ask(q);
+}
+
+/* ch.8 p.27, ch.9 p.31: counting in twos */
+function twosRound(){
+  const seq=[2,4,6,8,10],g=rand(5),ans=seq[g],q=tr('Μετράω ανά δύο: ποιος αριθμός λείπει;','Counting in twos: which number is missing?');
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="seq clouds">${seq.map((v,i)=>i===g?'<span class="gap" id="gapbox">?</span>':`<span>${v}</span>`).join('')}</div>
+   <div class="opts c3">${btns(shuffle([ans,ans>2?ans-1:ans+1,ans<10?ans+1:ans-3]))}</div>`;
+  choose('.opts',ans,twosRound,seq.map(NW).join(', '),fillGap(ans));ask(q);
+}
+
+/* ch.8 p.26: the frog's path - up, down, left, right */
+function frogRound(){
+  const C=5,Rw=4,f=[rand(C),rand(Rw)];let t;do t=[rand(C),rand(Rw)];while(Math.abs(t[0]-f[0])+Math.abs(t[1]-f[1])<2);
+  const q=tr('Πήγαινε τον βάτραχο στο λουλούδι','Take the frog to the flower');
+  const MV={u:[0,-1,'πάνω','up','⬆️'],d:[0,1,'κάτω','down','⬇️'],l:[-1,0,'αριστερά','left','⬅️'],r:[1,0,'δεξιά','right','➡️']};
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="pond" id="pond" style="grid-template-columns:repeat(${C},1fr)"></div>
+   <p class="counter" id="fpath"></p>
+   <div class="arrows"><span></span><button class="pill" data-m="u" aria-label="${tr('πάνω','up')}">⬆️</button><span></span>
+     <button class="pill" data-m="l" aria-label="${tr('αριστερά','left')}">⬅️</button><span></span><button class="pill" data-m="r" aria-label="${tr('δεξιά','right')}">➡️</button>
+     <span></span><button class="pill" data-m="d" aria-label="${tr('κάτω','down')}">⬇️</button><span></span></div>`;
+  const path=[],draw=()=>{$('pond').innerHTML=[...Array(C*Rw)].map((_,i)=>{const x=i%C,y=i/C|0;return`<span>${x===f[0]&&y===f[1]?'🐸':x===t[0]&&y===t[1]?'🌼':''}</span>`}).join('');
+    $('fpath').textContent=path.map(m=>MV[m][EN()?3:2]).join(', ')};
+  const go=m=>{if(busy)return;const[dx,dy,el,en]=MV[m],x=f[0]+dx,y=f[1]+dy;if(x<0||y<0||x>=C||y>=Rw){nope();return}
+    f[0]=x;f[1]=y;path.push(m);draw();gr(tr(el,en));
+    if(x===t[0]&&y===t[1]){busy=true;tone([660,880],.1);win(frogRound)}};
+  stage().querySelector('.arrows').onclick=e=>{const b=e.target.closest('[data-m]');if(b)go(b.dataset.m)};
+  draw();ask(q);
+  G.solve=()=>{while(!busy){go(f[0]<t[0]?'r':f[0]>t[0]?'l':f[1]<t[1]?'d':'u')}};
+}
+
+/* ch.9 p.31: put them in order, from the tallest to the shortest */
+function orderRound(){
+  const k=G.round<4?4:5,h=shuffle([30,48,66,84,102,120]).slice(0,k),sorted=[...h].sort((a,b)=>b-a);let next=0;
+  const q=tr('Βάλε σειρά: από το πιο ψηλό στο πιο χαμηλό','Put them in order: from the tallest to the shortest');
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="bars">${h.map((v,i)=>`<button class="sbar" data-i="${i}"><i style="height:${v}px"></i><b></b></button>`).join('')}</div>`;
+  const bs=[...stage().querySelectorAll('.sbar')];
+  stage().querySelector('.bars').onclick=e=>{const b=e.target.closest('.sbar');if(!b||busy||b.classList.contains('ok'))return;
+    if(h[+b.dataset.i]===sorted[next]){next++;b.classList.add('ok');b.querySelector('b').textContent=next;gr(NW(next));
+      if(next===k){busy=true;win(orderRound)}}else bad(b)};
+  G.solve=()=>sorted.forEach(v=>bs[h.indexOf(v)].click());ask(q);
+}
+
 const ROUNDS={dice:diceRound,nline:lineRound,trace:traceRound,circle:circleRound,pattern:patternRound,read:readRound,spell:spellRound,first:firstRound,listen:listenRound,count:countRound,memory:memoryGame,learn:learnGame,
   where:whereRound,shapes:shapesRound,sizes:sizesRound,compare:compareRound,split:splitRound,add:addRound,minus:minusRound,sign:signRound,problems:problemRound,big:bigRound,ordinal:ordinalRound,coins:coinsRound,lines:linesRound,calendar:calendarRound,
-  marbles:marblesRound,drum:drumRound,match:matchRound,forms:formsRound,abacus:abacusRound,words:wordsRound,tally:tallyRound};
+  marbles:marblesRound,drum:drumRound,match:matchRound,forms:formsRound,abacus:abacusRound,words:wordsRound,tally:tallyRound,
+  body:bodyRound,nest:nestRound,fingers:fingersRound,baskets:basketsRound,stairs:stairsRound,down:downRound,twos:twosRound,frog:frogRound,order:orderRound};
 
 /* ---------- book map (Μαθηματικά Α΄ Δημοτικού, contents) ---------- */
 const CAT={n:['Αριθμοί','#5BAE6B'],o:['Πράξεις','#4A90C8'],g:['Γεωμετρία','#E0604F'],m:['Μετρήσεις','#F0A040'],p:['Προβλήματα','#8E7CC3'],r:['Επανάληψη','#5BAE6B']};
@@ -1176,11 +1331,11 @@ const UNITS=[
   [3,'n','Σύγκριση και εκτίμηση ποσοτήτων',[['drum'],['match'],['compare','q']]],
   [4,'n','Οι αριθμοί από το 1 έως το 5',[['forms'],['dice',1],['circle',5]]],
   [5,'n','Αρίθμηση, ανάγνωση και γραφή των αριθμών (I)',[['abacus',5],['words'],['tally'],['trace',5]]],
-  [6,'n','Αρίθμηση, ανάγνωση και γραφή των αριθμών (II)','circle',5],
-  [7,'o','Πρόσθεση και ανάλυση των αριθμών μέχρι το 5 (I)','split',5],
-  [8,'r','Επαναληπτικό μάθημα',[['marbles'],['shapes'],['match'],['forms'],['abacus',5],['split',5]]]]},
+  [6,'n','Αρίθμηση, ανάγνωση και γραφή των αριθμών (II)',[['body'],['nest'],['trace',6],['circle',5],['nline']]],
+  [7,'o','Πρόσθεση και ανάλυση των αριθμών μέχρι το 5 (I)',[['fingers',5],['baskets'],['stairs'],['split',5]]],
+  [8,'r','Επαναληπτικό μάθημα',[['down'],['match'],['frog'],['twos'],['forms'],['coins',5]]]]},
  {t:'Ενότητα 2',s:'Πρόσθεση και ανάλυση αριθμών μέχρι το 5',c:[
-  [9,'m','Σύγκριση μεγεθών','sizes'],
+  [9,'m','Σύγκριση μεγεθών',[['sizes'],['order'],['sizes'],['twos']]],
   [10,'n','Οι αριθμοί από το 6 μέχρι το 10 (I)','nline'],
   [11,'n','Οι αριθμοί από το 6 μέχρι το 10 (II)','trace',10],
   [12,'n','Σύγκριση αριθμών – Τα σύμβολα =, > και <','compare','s'],
