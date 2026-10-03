@@ -46,7 +46,7 @@ button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
 .hoopoe-wrap{flex:none;width:118px;height:118px;border-radius:50%;background:#FFF3C4;display:grid;place-items:center;border:3px solid var(--line)}
 .hoopoe{width:104px;height:104px;animation:bob 3.2s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-4px) rotate(-2deg)}}
-h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:clamp(26px,7vw,44px);line-height:1;margin:0;letter-spacing:-.5px}
+h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;font-size:clamp(26px,7vw,44px);line-height:1;margin:0;letter-spacing:-.5px}
 .hero p{margin:6px 0 0;color:var(--muted);max-width:30ch}
 .langs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none}
 .langs::-webkit-scrollbar{display:none}
@@ -67,14 +67,14 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:clamp(26
 .tile:nth-child(5){--c:var(--t5);border-radius:26px 46px 34px 36px}
 .tile:nth-child(6){--c:var(--t2);border-radius:38px 28px 44px 32px}
 .tile:nth-child(7){--c:var(--t1);border-radius:30px 42px 28px 44px}
-.target{font-size:clamp(34px,9vw,52px);font-weight:700;background:var(--card);border:3px solid var(--line);border-radius:28px;padding:10px 26px;min-width:60%;text-align:center}
+.target{font-size:34px;font-size:clamp(34px,9vw,52px);font-weight:700;background:var(--card);border:3px solid var(--line);border-radius:28px;padding:10px 26px;min-width:60%;text-align:center}
 .slots{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;min-height:64px}
 .slots span{width:46px;height:58px;border-bottom:4px solid var(--line);font-size:36px;font-weight:700;display:grid;place-items:center}
 .letters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:440px}
 .letters button{width:60px;height:60px;border-radius:18px;background:var(--t4);color:var(--tink);border:3px solid #2E2A4F;font-size:32px;font-weight:700}
 .letters button.used{visibility:hidden}
 .letters button.no{animation:shake .4s}
-.big-e{font-size:clamp(100px,28vw,150px);line-height:1.1}
+.big-e{font-size:100px;font-size:clamp(100px,28vw,150px);line-height:1.1}
 .sum{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
 .sum .grp{display:flex;flex-wrap:wrap;gap:4px;max-width:150px;justify-content:center;font-size:34px;background:var(--card);border:3px solid var(--line);border-radius:24px;padding:8px}
 .sum b{font-family:Grandstander,Andika,sans-serif;font-size:44px}
@@ -89,11 +89,11 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:clamp(26
 .stage{flex:1;display:flex;flex-direction:column;align-items:center;gap:16px;padding:10px 0 24px}
 .hear{width:96px;height:96px;border-radius:50%;background:var(--t4);color:var(--tink);border:3px solid #2E2A4F;font-size:44px}
 .prompt{font-family:Grandstander,Andika,sans-serif;font-size:26px;font-weight:800;margin:0;text-align:center;min-height:36px}
-.word{font-size:clamp(34px,9vw,52px);font-weight:700;margin:0;text-align:center;min-height:1.3em}
+.word{font-size:34px;font-size:clamp(34px,9vw,52px);font-weight:700;margin:0;text-align:center;min-height:1.3em}
 .opts{display:grid;gap:14px;width:100%;max-width:460px}
 .opts.c2{grid-template-columns:repeat(2,1fr)}
 .opts.c3{grid-template-columns:repeat(3,1fr)}
-.pic{aspect-ratio:1;background:var(--card);border:3px solid var(--line);border-radius:30px;font-size:clamp(52px,15vw,84px);display:grid;place-items:center;transition:transform .15s}
+.pic{aspect-ratio:1;background:var(--card);border:3px solid var(--line);border-radius:30px;font-size:52px;font-size:clamp(52px,15vw,84px);display:grid;place-items:center;transition:transform .15s}
 .pic:active{transform:scale(.95)}
 .pic.ok{background:var(--ok);border-color:var(--ok)}
 .pic.no{animation:shake .4s}
@@ -102,7 +102,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:clamp(26
 .count-field{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:420px;min-height:120px}
 .count-field button{font-size:44px;width:64px;height:64px;border-radius:50%;transition:transform .15s,opacity .2s}
 .count-field button.tapped{opacity:.45;transform:scale(.88)}
-.shadow{font-size:clamp(110px,32vw,170px);line-height:1;filter:brightness(0);opacity:.75}
+.shadow{font-size:110px;font-size:clamp(110px,32vw,170px);line-height:1;filter:brightness(0);opacity:.75}
 :root[data-theme=dark] .shadow{filter:brightness(0) invert(1)}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]) .shadow{filter:brightness(0) invert(1)}}
 .mem{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:440px}
@@ -113,17 +113,17 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:clamp(26
 .card.open .face,.card.done .face{display:block}
 .card.open .back,.card.done .back{display:none}
 .card .back{font-size:34px}
-.card.done{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 25%,var(--card))}
+.card.done{border-color:var(--ok);background:var(--card);background:color-mix(in srgb,var(--ok) 25%,var(--card))}
 .card .face.e{font-size:38px}
 .learn-card{width:100%;max-width:380px;background:var(--card);border:3px solid var(--line);border-radius:40px 34px 44px 30px;padding:24px;display:flex;flex-direction:column;align-items:center;gap:6px}
-.learn-card .big{font-size:clamp(110px,30vw,150px);line-height:1.1}
+.learn-card .big{font-size:110px;font-size:clamp(110px,30vw,150px);line-height:1.1}
 .row{display:flex;gap:14px;align-items:center}
 .pill{padding:12px 22px;border-radius:999px;border:3px solid var(--line);background:var(--card);font-weight:700;min-height:52px}
 .pill.main{background:var(--ink);color:var(--sky)}
 .counter{color:var(--muted);font-size:15px}
 
 /* finish */
-.finish{position:fixed;inset:0;background:color-mix(in srgb,var(--sky) 85%,transparent);display:grid;place-items:center;padding:24px;z-index:5}
+.finish{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(46,42,79,.35);background:color-mix(in srgb,var(--sky) 85%,transparent);display:grid;place-items:center;padding:24px;z-index:5}
 .finish .box{background:var(--card);border:3px solid var(--line);border-radius:44px 36px 48px 32px;padding:26px 22px;text-align:center;max-width:360px;width:100%}
 .finish h2{font-family:Grandstander,Andika,sans-serif;font-size:34px;margin:8px 0 4px}
 .finish p{margin:0 0 18px;color:var(--muted)}
@@ -149,10 +149,107 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:clamp(26
 .seq span{min-width:52px;height:60px;display:grid;place-items:center;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:0 6px}
 .seq span.gap{background:var(--t4);color:var(--tink);border-width:3px}
 .seq.small{font-size:28px;font-family:inherit}
-.tracebox{width:min(300px,78vw);aspect-ratio:1;position:relative;background:var(--card);border:3px solid var(--line);border-radius:32px}
-.tracebox canvas{position:absolute;inset:0;width:100%;height:100%}
+.tracebox{width:78vw;max-width:300px;width:min(300px,78vw);aspect-ratio:1;position:relative;background:var(--card);border:3px solid var(--line);border-radius:32px}
+.tracebox canvas{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%}
 #ink{touch-action:none;cursor:crosshair}
+/* book chapters */
+.tile:nth-child(5n+8){--c:var(--t3);border-radius:34px 42px 28px 44px}
+.tile:nth-child(5n+9){--c:var(--t4);border-radius:42px 30px 44px 28px}
+.tile:nth-child(5n+10){--c:var(--t5);border-radius:28px 44px 32px 40px}
+.tile:nth-child(5n+11){--c:var(--t1);border-radius:44px 28px 40px 32px}
+.tile:nth-child(5n+12){--c:var(--t2);border-radius:30px 40px 46px 28px}
+.tile.map{grid-column:1/-1;min-height:118px;--c:var(--t4)}
+.opt{background:var(--card);color:var(--ink);border:3px solid var(--line);border-radius:24px;display:grid;place-items:center;padding:8px;transition:transform .15s}
+.opt:active{transform:scale(.95)}
+.opt.ok{background:var(--ok);border-color:var(--ok)}
+.opt.no{animation:shake .4s}
+.opts.c1{grid-template-columns:1fr;max-width:340px}
+.pic.txt{aspect-ratio:auto;font-size:26px;font-weight:700;padding:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:86vw;max-width:330px;width:min(330px,86vw)}
+.grid3>*{aspect-ratio:1}
+.grid3 .pic{font-size:34px;font-size:clamp(34px,10vw,54px);border-radius:22px}
+.grid3 .mid{background:var(--t4);border:3px solid #2E2A4F;border-radius:22px;display:grid;place-items:center;font-size:38px;font-size:clamp(38px,11vw,60px)}
+.shp{display:block}
+.board{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;max-width:420px;background:var(--card);border:3px solid var(--line);border-radius:28px;padding:14px}
+.trio{display:flex;align-items:flex-end;justify-content:center;gap:14px;width:100%;max-width:460px;min-height:210px}
+.trio .opt{min-width:84px;line-height:1.1}
+.tower{display:flex!important;flex-direction:column-reverse;gap:3px;padding:10px 14px}
+.tower i{display:block;width:46px;height:20px;border:2px solid #2E2A4F;border-radius:5px}
+.stack{display:flex;flex-direction:column;gap:12px;width:100%;max-width:440px}
+.stack .opt{place-items:center start;padding:14px 30px 14px 14px;min-height:62px}
+.pencil{display:block;height:26px;position:relative;background:linear-gradient(#FFE08A 0 50%,#F2C94C 50%);border:2px solid #2E2A4F;border-right:0;border-radius:6px 0 0 6px}
+.pencil::after{content:'';position:absolute;right:-22px;top:-2px;width:22px;height:26px;background:#2E2A4F;-webkit-clip-path:polygon(0 0,100% 50%,0 100%);clip-path:polygon(0 0,100% 50%,0 100%)}
+.vs{display:flex;gap:14px;justify-content:center;width:100%}
+.grpbtn{flex:1;max-width:190px;min-height:150px;display:flex!important;flex-wrap:wrap;gap:4px;justify-content:center;align-content:center;font-size:30px}
+.nhouse{width:80vw;max-width:300px;width:min(300px,80vw)}
+.roof{background:var(--t5);color:var(--tink);-webkit-clip-path:polygon(50% 0,100% 100%,0 100%);clip-path:polygon(50% 0,100% 100%,0 100%);height:96px;display:grid;place-items:end center;padding-bottom:6px;font:800 40px Grandstander,Andika,sans-serif}
+.rooms{display:grid;grid-template-columns:1fr 1fr;border:3px solid var(--line);background:var(--card);border-radius:0 0 18px 18px;overflow:hidden}
+.rooms>div{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;font:800 44px Grandstander,Andika,sans-serif;padding:6px}
+.rooms>div+div{border-left:3px solid var(--line)}
+.rooms .gap{background:var(--t4);color:var(--tink)}
+.rooms .fill{background:var(--ok);color:#fff}
+.rooms small{font:20px/1.2 Andika,sans-serif;display:flex;flex-wrap:wrap;justify-content:center;max-width:130px}
+.seq span.fill{background:var(--ok);color:#fff;border-color:var(--ok)}
+.objs span{position:relative}
+.objs .gone{opacity:.4}
+.objs .gone::after{content:'';position:absolute;left:-4px;right:-4px;top:50%;height:5px;background:var(--no);transform:rotate(-35deg);border-radius:3px}
+.story{position:relative;max-width:460px;width:100%;background:var(--card);border:3px solid var(--line);border-radius:26px;padding:14px 16px 14px 76px;font-size:21px;min-height:84px}
+.story p{margin:0}
+.hear.sm{position:absolute;left:10px;top:10px;width:56px;height:56px;font-size:26px}
+.blocks{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap;justify-content:center;background:var(--card);border:3px solid var(--line);border-radius:24px;padding:14px;max-width:440px}
+.rod{display:flex;flex-direction:column;gap:2px;padding:3px;background:#E8955A;border:2px solid #2E2A4F;border-radius:6px}
+.rod i,.ones i{display:block;width:20px;height:13px;background:#FFE08A;border-radius:2px}
+.ones{display:flex;flex-wrap:wrap-reverse;gap:3px;width:52px}
+.ones i{border:2px solid #2E2A4F;width:22px;height:18px}
+.queue{display:flex;gap:4px;align-items:flex-end;justify-content:center;width:100%}
+.queue .flag{font-size:26px;font-size:clamp(26px,7vw,40px)}
+.queue .opt{font-size:26px;font-size:clamp(26px,7.5vw,44px);padding:4px 2px;border-radius:16px;flex:0 1 64px;min-width:0;line-height:1.1}
+.queue small{display:block;font-size:14px;font-weight:700;min-height:18px}
+.money{gap:12px;align-items:center}
+.coin{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font:800 19px Grandstander,Andika,sans-serif;color:#2E2A4F;border:3px solid #2E2A4F}
+.coin.c1{background:radial-gradient(circle,#DADDE0 0 56%,#E8C25A 57%)}
+.coin.c2{background:radial-gradient(circle,#E8C25A 0 56%,#DADDE0 57%)}
+.bill{width:100px;height:54px;border-radius:8px;display:grid;place-items:center;font:800 24px Grandstander,Andika,sans-serif;color:#2E2A4F;background:#C9CED3;border:3px solid #2E2A4F}
+.d2d{width:86vw;max-width:330px;width:min(330px,86vw);background:var(--card);border:3px solid var(--line);border-radius:32px;touch-action:none}
+.d2d .ln{fill:none;stroke:var(--ink2);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.d2d .pt{fill:var(--ink)}
+.d2d .pt.on{fill:var(--ink2)}
+.d2d .pt.nx{fill:var(--ok);stroke:var(--ok);stroke-width:3}
+.d2d text{fill:var(--ink);font:700 8px Andika,sans-serif;text-anchor:middle;dominant-baseline:middle;pointer-events:none}
+.week{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;max-width:520px}
+.week span{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 12px;font-weight:700;font-size:20px}
+.week span.gap{background:var(--t4);color:var(--tink);border-width:3px;min-width:70px;text-align:center}
+.week span.fill{background:var(--ok);color:#fff;border-color:var(--ok)}
+.week b{font-size:26px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--muted);justify-content:center;max-width:560px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--k);margin-right:5px;vertical-align:-1px;border:1px solid #2E2A4F}
+.legend i.rev{border-radius:2px;transform:rotate(45deg)}
+.unit{width:100%;max-width:560px;background:var(--card);border:3px solid var(--line);border-radius:28px;padding:14px 12px}
+.unit h3{font-family:Grandstander,Andika,sans-serif;font-size:22px;margin:0 6px}
+.unit p{margin:2px 6px 8px;color:var(--muted);font-size:15px}
+.chap{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:8px 6px;border-radius:14px;min-height:54px}
+.chap+.chap{border-top:2px dashed rgba(128,128,150,.35);border-top:2px dashed color-mix(in srgb,var(--line) 22%,transparent)}
+.chap:active{background:rgba(128,128,150,.15);background:color-mix(in srgb,var(--ink) 8%,transparent)}
+.badge{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;background:var(--k);border:2px solid #2E2A4F}
+.badge.rev{border-radius:7px;transform:rotate(45deg) scale(.86)}
+.badge.rev span{transform:rotate(-45deg)}
+.chap .t{flex:1;font-size:16px;line-height:1.25}
+.chap .chk{flex:none;width:26px;font-size:20px;text-align:center}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* older phones: no aspect-ratio (iOS < 15, Chrome < 88) */
+@supports not (aspect-ratio:1/1){
+  .pic{min-height:100px}
+  .pic.txt{min-height:0}
+  .card{min-height:96px}
+  .tracebox{height:78vw;max-height:300px}
+  .grid3>*{height:26vw;max-height:104px}
+}
+/* older phones: no gap in flexbox (iOS < 14.5) - set by a JS check */
+.nogap .bar>*,.nogap .hero>*,.nogap .row>*,.nogap .dice>*,.nogap .inorder>*,.nogap .vs>*,.nogap .trio>*,.nogap .chap>*{margin:0 6px}
+.nogap .dots>*,.nogap .slots>*,.nogap .letters>*,.nogap .sum>*,.nogap .sum .grp>*,.nogap .count-field>*,.nogap .nline>*,.nogap .objs>*,.nogap .seq>*,
+.nogap .board>*,.nogap .queue>*,.nogap .week>*,.nogap .legend>*,.nogap .blocks>*,.nogap .ones>*,.nogap .grpbtn>*{margin:3px}
+.nogap .stage>*,.nogap .stack>*,.nogap .learn-card>*{margin:8px 0}
+.nogap .tower>*,.nogap .rod>*{margin:1px 0}
 </style>
 </head>
 <body>
@@ -180,11 +277,26 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:clamp(26
     </div>
     <h2 class="sect">Μαθηματικά Α΄ Δημοτικού</h2>
     <div class="games">
+      <button class="tile map" data-game="map"><div class="ico">📘</div><b>Το βιβλίο μου</b><span>Όλα τα κεφάλαια, με τη σειρά του βιβλίου</span></button>
+      <button class="tile" data-game="where"><div class="ico">📍</div><b>Πού είναι;</b><span>Πάνω, κάτω, δεξιά, αριστερά</span></button>
+      <button class="tile" data-game="shapes"><div class="ico">🔺</div><b>Σχήματα</b><span>Κύκλος, τετράγωνο, τρίγωνο</span></button>
+      <button class="tile" data-game="compare"><div class="ico">⚖️</div><b>Σύγκριση</b><span>Περισσότερα, λιγότερα, &gt; &lt; =</span></button>
+      <button class="tile" data-game="sizes"><div class="ico">🐘</div><b>Μεγάλο – μικρό</b><span>Ψηλό, κοντό, μακρύ</span></button>
       <button class="tile" data-game="dice"><div class="ico">🎲</div><b>Ζάρια</b><span>Πόσες τελείες έχει;</span></button>
-      <button class="tile" data-game="nline"><div class="ico">📏</div><b>Αριθμογραμμή</b><span>Ποιος αριθμός λείπει;</span></button>
       <button class="tile" data-game="trace"><div class="ico">✍️</div><b>Γράφω τους αριθμούς</b><span>Γράψε με το δάχτυλο</span></button>
       <button class="tile" data-game="circle"><div class="ico">⭕</div><b>Μετρώ και κυκλώνω</b><span>Βρες τον σωστό αριθμό</span></button>
+      <button class="tile" data-game="nline"><div class="ico">📏</div><b>Αριθμογραμμή</b><span>Ποιος αριθμός λείπει;</span></button>
+      <button class="tile" data-game="split"><div class="ico">🏠</div><b>Το σπίτι των αριθμών</b><span>Το 5 είναι 2 και 3</span></button>
+      <button class="tile" data-game="add"><div class="ico">🔢</div><b>Πρόσθεση</b><span>Πόσα κάνουν μαζί;</span></button>
+      <button class="tile" data-game="problems"><div class="ico">📝</div><b>Προβλήματα</b><span>Διάβασε και λύσε</span></button>
+      <button class="tile" data-game="big"><div class="ico">🔟</div><b>Αριθμοί μέχρι το 50</b><span>Δεκάδες και μονάδες</span></button>
+      <button class="tile" data-game="ordinal"><div class="ico">🚩</div><b>Ποιος είναι πρώτος;</b><span>Πρώτο, δεύτερο, τρίτο</span></button>
+      <button class="tile" data-game="coins"><div class="ico">💶</div><b>Τα ευρώ</b><span>Μέτρα τα χρήματα</span></button>
+      <button class="tile" data-game="lines"><div class="ico">✏️</div><b>Ενώνω τις τελείες</b><span>Χαράζω γραμμές 1, 2, 3</span></button>
       <button class="tile" data-game="pattern"><div class="ico">🔁</div><b>Συνεχίζω</b><span>Με τον ίδιο τρόπο</span></button>
+      <button class="tile" data-game="minus"><div class="ico">➖</div><b>Αφαίρεση</b><span>Πόσα μένουν;</span></button>
+      <button class="tile" data-game="sign"><div class="ico">❔</div><b>+ ή −;</b><span>Βρες το σωστό σύμβολο</span></button>
+      <button class="tile" data-game="calendar"><div class="ico">📅</div><b>Οι μέρες</b><span>Δευτέρα, Τρίτη, Τετάρτη…</span></button>
     </div>
   </section>
 
@@ -217,6 +329,8 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:clamp(26
 </div>
 
 <script>
+(function(){try{const d=document.createElement('div');d.style.cssText='display:flex;flex-direction:column;row-gap:1px;position:absolute';d.innerHTML='<div></div><div></div>';
+  document.body.appendChild(d);if(d.scrollHeight!==1)document.documentElement.classList.add('nogap');d.remove()}catch(e){}})();
 /* ---------- content ---------- */
 const LANGS=[
  {id:'en',name:'English',tts:'en'},{id:'el',name:'Ελληνικά',tts:'el'},{id:'ar',name:'العربية',tts:'ar',rtl:1},
@@ -277,7 +391,7 @@ const AGAIN={en:'Try again',el:'Ξανά',ar:'حاول مرة أخرى',fr:'Essa
 /* ---------- state ---------- */
 let S={lang:'el',stars:0};
 try{Object.assign(S,JSON.parse(localStorage.getItem('hoopoe')||'{}'))}catch(e){}
-S.lang='el';
+S.lang='el';S.done=S.done||{};
 const save=()=>{try{localStorage.setItem('hoopoe',JSON.stringify(S))}catch(e){}};
 const L=()=>LANGS.find(l=>l.id===S.lang);
 const $=id=>document.getElementById(id);
@@ -311,15 +425,35 @@ function voiceNote(){
 }
 function speak(text,lang){
   if(!('speechSynthesis' in window))return;
-  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const t=lang||L().tts,v=voiceFor(t);
-    if(v)u.voice=v;u.lang=v?v.lang:t;u.rate=.8;u.pitch=1.1;speechSynthesis.speak(u)}catch(e){}
+  try{const say=()=>{try{const u=new SpeechSynthesisUtterance(text);const t=lang||L().tts,v=voiceFor(t);
+      if(v)u.voice=v;u.lang=v?v.lang:t;u.rate=.8;u.pitch=1.1;speechSynthesis.speak(u)}catch(e){}};
+    // Android Chrome can drop an utterance queued right after cancel(), so wait a moment
+    if(speechSynthesis.speaking||speechSynthesis.pending){speechSynthesis.cancel();setTimeout(say,80)}else say()}catch(e){}
 }
 let ac;
+const audio=()=>{try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume()}catch(e){}return ac};
 function tone(freqs,dur=.14,type='sine'){
-  try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+  try{audio();
     freqs.forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime+i*dur;
       o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.02);
-      g.gain.exponentialRampToValueAtTime(.0001,t+dur*1.8);o.connect(g).connect(ac.destination);o.start(t);o.stop(t+dur*2)})}catch(e){}
+      g.gain.exponentialRampToValueAtTime(.0001,t+dur*1.8);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+dur*2)})}catch(e){}
+}
+// iPhone and Android only allow sound and speech after a tap: unlock both on the first touch
+let unlocked=false;
+function unlock(){
+  if(unlocked)return;unlocked=true;
+  try{audio();const b=ac.createBuffer(1,1,22050),src=ac.createBufferSource();src.buffer=b;src.connect(ac.destination);(src.start||src.noteOn).call(src,0)}catch(e){}
+  try{if('speechSynthesis' in window){const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}}catch(e){}
+}
+['touchend','click','keydown'].forEach(t=>document.addEventListener(t,unlock,true));
+// pointer events where available, touch + mouse on older phones (iOS < 13)
+function ptr(el,down,move,up){
+  if(window.PointerEvent){el.onpointerdown=e=>{try{el.setPointerCapture(e.pointerId)}catch(_){}down(e)};if(move)el.onpointermove=move;if(up)el.onpointerup=el.onpointercancel=up;return}
+  const t=f=>e=>{e.preventDefault();const p=e.changedTouches[0];f({clientX:p.clientX,clientY:p.clientY})};
+  el.addEventListener('touchstart',t(down),{passive:false});
+  if(move)el.addEventListener('touchmove',t(move),{passive:false});
+  if(up){el.addEventListener('touchend',t(up),{passive:false});el.addEventListener('touchcancel',t(up),{passive:false})}
+  el.onmousedown=down;if(move)el.onmousemove=move;if(up)el.onmouseup=el.onmouseleave=up;
 }
 const yay=()=>tone([523,659,784]);
 const nope=()=>tone([220,196],.16,'triangle');
@@ -329,26 +463,31 @@ function updateStars(){$('starCount').textContent=$('starCount2').textContent='�
 updateStars();
 
 /* ---------- game shell ---------- */
-const BOOK=['dice','nline','trace','circle','pattern'];
-const TITLES={dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
+const READ=['read','spell','first','listen','count','memory','learn'];
+const TITLES={where:'Πού είναι;',shapes:'Σχήματα',sizes:'Μεγάλο – μικρό',compare:'Σύγκριση',split:'Το σπίτι των αριθμών',add:'Πρόσθεση',problems:'Προβλήματα',big:'Αριθμοί μέχρι το 50',ordinal:'Ποιος είναι πρώτος;',coins:'Τα ευρώ',lines:'Ενώνω τις τελείες',minus:'Αφαίρεση',sign:'+ ή −;',calendar:'Οι μέρες της εβδομάδας',dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
 let G=null,busy=false;
 document.querySelectorAll('.games').forEach(g=>g.onclick=e=>{const t=e.target.closest('[data-game]');if(t)start(t.dataset.game)});
-$('back').onclick=$('toIsland').onclick=home;
-$('again').onclick=()=>start(G.name);
+$('back').onclick=$('toIsland').onclick=()=>G&&G.o&&G.o.ch?openMap(G.o.ch):home();
+$('again').onclick=()=>start(G.name,G.o);
 function home(){$('finish').hidden=true;$('game').hidden=true;$('home').hidden=false;try{speechSynthesis.cancel()}catch(e){}}
-function start(name){
-  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;$('gtitle').textContent=TITLES[name];
-  G={name,round:0,total:8,earned:0,gr:BOOK.includes(name),digits:shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,8)};busy=false;
-  ({dice:diceRound,nline:lineRound,trace:traceRound,circle:circleRound,pattern:patternRound,read:readRound,spell:spellRound,first:firstRound,listen:listenRound,count:countRound,memory:memoryGame,learn:learnGame})[name]();
-  drawDots();
+function start(name,o={}){
+  if(name==='map')return openMap();
+  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;$('gtitle').textContent=o.ch?`${o.ch}. ${o.t}`:TITLES[name];
+  const l=o.l,digits=l===5?shuffle([1,2,3,4,5,1,2,3]):l===10?shuffle([6,7,8,9,6,7,8,9]):shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,8);
+  G={name,o,round:0,total:8,earned:0,gr:!READ.includes(name),lvl:l,mix:o.mix?shuffle(o.mix):null,digits};busy=false;
+  $('toIsland').textContent=o.ch?'Στο βιβλίο':'Στο νησί';
+  (G.mix?mixRound:ROUNDS[name])();
+  drawDots();scrollTo(0,0);
 }
+function mixRound(){const[f,l]=G.mix[G.round%G.mix.length];G.lvl=l;ROUNDS[f]()}
 function drawDots(){$('dots').innerHTML=G.name==='learn'?'':Array.from({length:G.total},(_,i)=>`<i class="${i<G.round?'done':''}"></i>`).join('')}
 function win(next){
   G.round++;G.earned++;S.stars++;save();updateStars();drawDots();yay();
-  setTimeout(()=>{busy=false;G.round>=G.total?finish():next()},1500);
+  setTimeout(()=>{busy=false;G.round>=G.total?finish():(G.mix?mixRound:next)()},1500);
 }
 function finish(){
   const lg=G.gr?'el':S.lang;
+  if(G.o&&G.o.ch){S.done[G.o.ch]=1;save()}
   $('finTitle').textContent=PRAISE[lg];$('finTitle').dir=lg==='ar'?'rtl':'ltr';
   $('finText').textContent=`Κέρδισες ${G.earned} ${G.earned===1?'αστέρι':'αστέρια'}. ⭐`;
   $('finish').hidden=false;speak(PRAISE[lg],lg);
@@ -443,7 +582,7 @@ function firstRound(){
 /* ---------- 3. pairs ---------- */
 function memoryGame(){
   const picks=shuffle(WORDS).slice(0,8);
-  const cards=shuffle(picks.flatMap((w,i)=>[{i,face:`<span class="face e">${w.e}</span>`},{i,face:`<span class="face" ${dirAttr()}>${w[S.lang]}</span>`}]));
+  const cards=shuffle([].concat(...picks.map((w,i)=>[{i,face:`<span class="face e">${w.e}</span>`},{i,face:`<span class="face" ${dirAttr()}>${w[S.lang]}</span>`}])));
   stage().innerHTML=`<p class="prompt">Βρες τα ζευγάρια</p><div class="mem">${cards.map((c,k)=>`<button class="card" data-k="${k}" aria-label="Κάρτα ${k+1}"><span class="back">🪶</span>${c.face}</button>`).join('')}</div>`;
   let open=[];
   stage().querySelector('.mem').onclick=e=>{
@@ -452,7 +591,7 @@ function memoryGame(){
     if(open.length<2)return;
     const [a,z]=open;open=[];
     if(cards[a.dataset.k].i===cards[z.dataset.k].i){
-      a.classList.replace('open','done');z.classList.replace('open','done');
+      [a,z].forEach(c=>{c.classList.remove('open');c.classList.add('done')});
       G.round++;G.earned++;S.stars++;save();updateStars();drawDots();yay();
       if(G.round>=G.total)setTimeout(finish,1200);
     }else{busy=true;setTimeout(()=>{nope();a.classList.remove('open');z.classList.remove('open');busy=false},1000)}
@@ -472,7 +611,7 @@ function pickNum(cls,choices,ans,onOk,next){
 }
 
 function diceRound(){
-  const two=G.round>=4,a=1+(Math.random()*6|0),b=two?1+(Math.random()*6|0):0,n=a+b;
+  const two=G.lvl!==1&&G.round>=4,a=1+(Math.random()*(G.lvl===1?5:6)|0),b=two?1+(Math.random()*6|0):0,n=a+b;
   const q=two?'Πόσες τελείες έχουν τα ζάρια;':'Πόσες τελείες έχει το ζάρι;';
   stage().innerHTML=`<p class="prompt">${q}</p><div class="dice">${die(a)}${two?die(b):''}</div>
    <div class="opts c3">${near(n,1,12).map(c=>`<button class="pic num" data-n="${c}">${c}</button>`).join('')}</div>`;
@@ -489,7 +628,7 @@ function lineRound(){
 }
 
 function circleRound(){
-  const n=1+(Math.random()*Math.min(10,4+G.round)|0),item=['✏️','🖍️','🐌','🦜','🍀','🐝','🍎','⚽'][Math.random()*8|0];
+  const n=1+(Math.random()*Math.min(G.lvl||10,4+G.round)|0),item=['✏️','🖍️','🐌','🦜','🍀','🐝','🍎','⚽'][Math.random()*8|0];
   let s=n-(Math.random()*3|0);if(s<1)s=1;if(s>8)s=8;
   stage().innerHTML=`<p class="prompt">Μετρώ και βάζω σε κύκλο τον σωστό αριθμό</p>
    <div class="objs">${Array(n).fill(item).join('')}</div>
@@ -538,9 +677,8 @@ function traceRound(){
   kc.lineCap=kc.lineJoin='round';kc.lineWidth=W*.075;kc.strokeStyle=css('--ink2');
   let down=false;
   const pt=e=>{const rc=k.getBoundingClientRect();return[(e.clientX-rc.left)*W/rc.width,(e.clientY-rc.top)*W/rc.height]};
-  k.onpointerdown=e=>{down=true;k.setPointerCapture(e.pointerId);const[x,y]=pt(e);kc.beginPath();kc.moveTo(x,y);kc.lineTo(x+.1,y);kc.stroke()};
-  k.onpointermove=e=>{if(!down)return;const[x,y]=pt(e);kc.lineTo(x,y);kc.stroke()};
-  k.onpointerup=k.onpointercancel=()=>{down=false};
+  ptr(k,e=>{down=true;const[x,y]=pt(e);kc.beginPath();kc.moveTo(x,y);kc.lineTo(x+.1,y);kc.stroke()},
+    e=>{if(!down)return;const[x,y]=pt(e);kc.lineTo(x,y);kc.stroke()},()=>{down=false});
   $('clr').onclick=()=>{kc.clearRect(0,0,W,W);$('tmsg').textContent='Πέρασε με το δάχτυλο πάνω από τον αριθμό.'};
   $('chk').onclick=()=>{
     if(busy||!mask)return;const ink=kc.getImageData(0,0,W,W).data;let gt=0,cov=0,it=0,out=0;
@@ -563,6 +701,277 @@ function learnGame(){
     $('next').onclick=()=>{i=(i+1)%WORDS.length;draw();speak(WORDS[i][S.lang])};
   };
   draw();setTimeout(()=>speak(WORDS[0][S.lang]),300);
+}
+/* ================= Book chapters: new games ================= */
+const rand=k=>Math.random()*k|0;
+const pick=a=>a[rand(a.length)];
+const NW=n=>{if(n<13)return GR[n];const t=n/10|0,u=n%10;return t===1?'δεκα'+GR[u]:['','δέκα','είκοσι','τριάντα','σαράντα','πενήντα'][t]+(u?' '+GR[u]:'')};
+const btns=(vals,cls='pic num',lab=v=>v)=>vals.map(v=>`<button class="${cls}" data-v="${v}">${lab(v)}</button>`).join('');
+function choose(sel,ans,next,say,onOk){
+  stage().querySelector(sel).onclick=e=>{const b=e.target.closest('[data-v]');if(!b||busy)return;
+    if(b.dataset.v===String(ans)){busy=true;b.classList.add('ok');onOk&&onOk(b);if(say)gr(say);win(next)}else{bad(b);gr('Ξανά')}};
+}
+const fillGap=v=>()=>{const g=$('gapbox');g.textContent=v;g.className='fill'};
+const ask=q=>setTimeout(()=>gr(q),300);
+
+/* ch.1 orientation */
+const CENTER=[['🏠','το σπίτι'],['🌳','το δέντρο'],['📦','το κουτί'],['🚗','το αυτοκίνητο']];
+const DIRS=[['πάνω από',1],['κάτω από',7],['αριστερά από',3],['δεξιά από',5]];
+function whereRound(){
+  const[ce,cn]=pick(CENTER),[dn,di]=pick(DIRS),pos=G.round>=4?[0,1,2,3,5,6,7,8]:[1,3,5,7];
+  const pool=shuffle(WORDS.filter(w=>w.e!==ce)),at={};pos.forEach((p,i)=>at[p]=pool[i]);
+  const q=`Τι είναι ${dn} ${cn};`;
+  stage().innerHTML=`<p class="prompt">${q}</p>
+   <div class="grid3">${[...Array(9)].map((_,i)=>i===4?`<div class="mid">${ce}</div>`:at[i]?`<button class="pic" data-v="${i}">${at[i].e}</button>`:'<div></div>').join('')}</div>`;
+  choose('.grid3',di,whereRound,at[di].el);ask(q);
+}
+
+/* ch.2 shapes */
+const SHAPES=[{k:'c',one:'τον κύκλο',nom:'κύκλος',many:'Πόσους κύκλους βλέπεις;'},{k:'s',one:'το τετράγωνο',nom:'τετράγωνο',many:'Πόσα τετράγωνα βλέπεις;'},
+  {k:'t',one:'το τρίγωνο',nom:'τρίγωνο',many:'Πόσα τρίγωνα βλέπεις;'},{k:'r',one:'το ορθογώνιο',nom:'ορθογώνιο',many:'Πόσα ορθογώνια βλέπεις;'}];
+const COLS=['#FFB677','#9CCB86','#C9B6E8','#FFE08A','#F7A6A0','#7EC8E3'];
+const SHP={c:'<circle cx="50" cy="50" r="40"/>',s:'<rect x="14" y="14" width="72" height="72"/>',r:'<rect x="4" y="27" width="92" height="46"/>',t:'<polygon points="50,8 93,86 7,86"/>'};
+const shp=(k,px)=>`<svg class="shp" viewBox="0 0 100 100" style="width:${px}"><g fill="${pick(COLS)}" stroke="#2E2A4F" stroke-width="5" stroke-linejoin="round" transform="rotate(${k==='c'?0:pick([0,0,15,-20,90])} 50 50)">${SHP[k]}</g></svg>`;
+function shapesRound(){
+  const t=pick(SHAPES);
+  if(G.round<4){
+    const q=`Βρες ${t.one}`;
+    stage().innerHTML=`<p class="prompt">${q}</p><div class="opts c2">${shuffle(SHAPES).map(s=>`<button class="pic" data-v="${s.k}">${shp(s.k,'70%')}</button>`).join('')}</div>`;
+    choose('.opts',t.k,shapesRound,t.nom);ask(q);
+  }else{
+    const n=1+rand(5),others=SHAPES.filter(s=>s!==t),all=shuffle([...Array(n).fill(t.k),...[...Array(3+rand(4))].map(()=>pick(others).k)]);
+    stage().innerHTML=`<p class="prompt">${t.many}</p><div class="board">${all.map(k=>shp(k,40+rand(30)+'px')).join('')}</div>
+     <div class="opts c3">${btns(near(n,1,6))}</div>`;
+    choose('.opts',n,shapesRound,NW(n));ask(t.many);
+  }
+}
+
+/* ch.9 sizes */
+function sizesRound(){
+  const kind=G.round%3,big=Math.random()<.5,rank=shuffle([0,1,2]),ans=rank.indexOf(big?2:0);
+  let q,html;
+  if(kind===0){const e=pick(['🐘','🍎','🐻','⭐','🌳','🐟','🚗','🐶']);q=big?'Βρες το πιο μεγάλο':'Βρες το πιο μικρό';
+    html=`<div class="trio">${rank.map((r,i)=>`<button class="opt" data-v="${i}" style="font-size:${[34,60,96][r]}px">${e}</button>`).join('')}</div>`}
+  else if(kind===1){const h=shuffle([2,3,4,5,6,7,8]).slice(0,3).sort((a,b)=>a-b),c=pick(COLS);q=big?'Ποιος πύργος είναι ο πιο ψηλός;':'Ποιος πύργος είναι ο πιο κοντός;';
+    html=`<div class="trio">${rank.map((r,i)=>`<button class="opt tower" data-v="${i}">${'<i style="background:'+c+'"></i>'.repeat(h[r])}</button>`).join('')}</div>`}
+  else{q=big?'Ποιο μολύβι είναι το πιο μακρύ;':'Ποιο μολύβι είναι το πιο κοντό;';
+    html=`<div class="stack">${rank.map((r,i)=>`<button class="opt" data-v="${i}"><span class="pencil" style="width:${[30,55,82][r]}%"></span></button>`).join('')}</div>`}
+  stage().innerHTML=`<p class="prompt">${q}</p>${html}`;
+  choose(kind===2?'.stack':'.trio',ans,sizesRound,'Μπράβο!');ask(q);
+}
+
+/* ch.3, 12 compare */
+function compareRound(){
+  const l=G.lvl,e=pick(['🍎','⭐','🐟','🌼','🐝','⚽']);
+  if(l==='q'||(!l&&G.round<3)){
+    const max=l==='q'?5:8,a=1+rand(max);let b;do b=1+rand(max);while(b===a);
+    const more=G.round%2===0,ans=more===(a>b)?0:1,q=more?'Πού έχει περισσότερα;':'Πού έχει λιγότερα;';
+    stage().innerHTML=`<p class="prompt">${q}</p><div class="vs">${[a,b].map((n,i)=>`<button class="opt grpbtn" data-v="${i}">${Array(n).fill(e).join('')}</button>`).join('')}</div>`;
+    choose('.vs',ans,compareRound,null);ask(q);
+  }else{
+    const a=rand(11),b=Math.random()<.25?a:rand(11),sym=a>b?'>':a<b?'<':'=',pics=G.round<5&&a<=6&&b<=6;
+    const say=`Το ${NW(a)} είναι ${a>b?'μεγαλύτερο από το':a<b?'μικρότερο από το':'ίσο με το'} ${NW(b)}`;
+    stage().innerHTML=`<p class="prompt">Ποιο σύμβολο ταιριάζει;</p>
+     <div class="seq"><span>${a}</span><span class="gap" id="gapbox">?</span><span>${b}</span></div>
+     ${pics?`<div class="sum">${grp(a,e)}<b>&nbsp;</b>${grp(b,e)}</div>`:''}
+     <div class="opts c3">${btns(['<','=','>'])}</div>
+     <p class="counter">&gt; μεγαλύτερο · &lt; μικρότερο · = ίσο</p>`;
+    choose('.opts',sym,compareRound,say,fillGap(sym));ask('Ποιο σύμβολο ταιριάζει;');
+  }
+}
+
+/* ch.7, 13, 21 number house */
+function splitRound(){
+  const l=G.lvl||(G.round<4?5:10),lo=G.lvl===10?6:2,n=lo+rand(l-lo+1),a=1+rand(n-1),b=n-a,e=pick(['🍎','⭐','🐟','🌼','🍪','🎈']);
+  const q=`Το ${n} είναι ${a} και πόσα;`;
+  stage().innerHTML=`<p class="prompt">${q}</p>
+   <div class="nhouse"><div class="roof">${n}</div><div class="rooms"><div>${a}<small>${Array(a).fill(e).join('')}</small></div><div class="gap" id="gapbox">?</div></div></div>
+   <div class="opts c3">${btns(near(b,1,9))}</div>`;
+  choose('.opts',b,splitRound,`${NW(n)}: ${NW(a)} και ${NW(b)}`,()=>{const g=$('gapbox');g.className='';g.innerHTML=`${b}<small>${Array(b).fill(e).join('')}</small>`});
+  ask(`Το ${NW(n)} είναι ${NW(a)} και πόσα;`);
+}
+
+/* ch.14, 18, 19 addition & doubles */
+function addRound(){
+  const l=G.lvl,max=l===5?5:10,dbl=l==='d'||(l!==5&&G.round>=6),e=pick(['🍎','⭐','🐟','🌼','🍪','🐞']);
+  let a,b;if(dbl){a=1+rand(5);b=a}else{a=1+rand(max-1);b=1+rand(max-a)}
+  const n=a+b,q=dbl?'Τα διπλά: πόσα κάνουν;':'Πόσα κάνουν μαζί;';
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="sum">${grp(a,e)}<b>+</b>${grp(b,e)}</div>
+   <div class="seq"><span>${a}</span><span>+</span><span>${b}</span><span>=</span><span class="gap" id="gapbox">?</span></div>
+   <div class="opts c3">${btns(near(n,1,10))}</div>`;
+  choose('.opts',n,addRound,`${NW(a)} και ${NW(b)} κάνουν ${NW(n)}`,fillGap(n));ask(q);
+}
+
+/* ch.28, 30 subtraction */
+const goneRow=(n,b,e)=>`<div class="objs">${[...Array(n)].map((_,i)=>`<span class="${i>=n-b?'gone':''}">${e}</span>`).join('')}</div>`;
+function minusRound(){
+  const l=G.lvl||(G.round<4?'s':'b'),e=pick(['🎈','🐦','🍪','🐟','🐤','🍎']);
+  let n,b;if(l==='s'){n=3+rand(8);b=1+rand(Math.min(3,n-1))}else{n=5+rand(6);b=n-1-rand(3)}
+  const r=n-b;
+  stage().innerHTML=`<p class="prompt">Πόσα μένουν;</p>${goneRow(n,b,e)}
+   <div class="seq"><span>${n}</span><span>−</span><span>${b}</span><span>=</span><span class="gap" id="gapbox">?</span></div>
+   <div class="opts c3">${btns(near(r,0,10))}</div>`;
+  choose('.opts',r,minusRound,`${NW(n)} μείον ${NW(b)} ίσον ${NW(r)}`,fillGap(r));
+  ask(`Έχω ${NW(n)}. Φεύγουν ${NW(b)}. Πόσα μένουν;`);
+}
+
+/* ch.29 + or − */
+function signRound(){
+  const plus=Math.random()<.5;let a,b,r;
+  if(plus){a=1+rand(9);b=1+rand(10-a);r=a+b}else{a=2+rand(9);b=1+rand(a-1);r=a-b}
+  const s=plus?'+':'−';
+  stage().innerHTML=`<p class="prompt">Βάζω + ή −;</p>
+   <div class="seq"><span>${a}</span><span class="gap" id="gapbox">?</span><span>${b}</span><span>=</span><span>${r}</span></div>
+   <div class="opts c2" style="max-width:320px">${btns(['+','−'])}</div>`;
+  choose('.opts',s,signRound,`${NW(a)} ${plus?'συν':'μείον'} ${NW(b)} ίσον ${NW(r)}`,fillGap(s));ask('Βάζω συν ή μείον;');
+}
+
+/* ch.15, 22 word problems */
+const KIDS=[['Η Άννα','της'],['Ο Νίκος','του'],['Η Μαρία','της'],['Ο Γιάννης','του'],['Η Ελένη','της'],['Ο Κώστας','του']];
+const THINGS=[['μήλα','🍎'],['μπαλόνια','🎈'],['λουλούδια','🌼'],['βιβλία','📚'],['ψάρια','🐟'],['αυτοκινητάκια','🚗'],['κουλουράκια','🍪']];
+function problemRound(){
+  const l=G.lvl,max=l===5?5:10,sub=(l==='x'||(!l&&G.round>=4))&&Math.random()<.5,[nm,p]=pick(KIDS),[pl,e]=pick(THINGS);
+  let a,b,r,txt;
+  if(sub){a=3+rand(max-2);b=1+rand(a-1);r=a-b;txt=`${nm} έχει ${a} ${pl}. ${pick(['Χαρίζει '+b+' στη γιαγιά.','Δίνει '+b+' στον παππού.'])}`}
+  else{a=2+rand(max-3);b=2+rand(max-a-1);r=a+b;txt=`${nm} έχει ${a} ${pl}. ${pick(['Βρίσκει άλλα '+b+'.','Η μαμά '+p+' δίνει άλλα '+b+'.'])}`}
+  txt+=` Πόσα ${pl} έχει τώρα;`;
+  stage().innerHTML=`<div class="story"><button class="hear sm" id="hear" aria-label="Άκου το πρόβλημα">🔊</button><p>${txt}</p></div>
+   ${sub?goneRow(a,b,e):`<div class="sum">${grp(a,e)}<b>+</b>${grp(b,e)}</div>`}
+   <div class="opts c3">${btns(near(r,0,max))}</div>`;
+  $('hear').onclick=()=>gr(txt);
+  choose('.opts',r,problemRound,NW(r));ask(txt);
+}
+
+/* ch.17, 25 numbers to 20 / 50 */
+function bigRound(){
+  const max=G.lvl||(G.round<4?20:50);let ans,q,html;
+  if(G.round%2===0){ans=10+rand(max-9);const t=ans/10|0,u=ans%10;q='Πόσα κυβάκια είναι;';
+    html=`<div class="blocks">${('<span class="rod">'+'<i></i>'.repeat(10)+'</span>').repeat(t)}${u?`<span class="ones">${'<i></i>'.repeat(u)}</span>`:''}</div>`}
+  else{const after=Math.random()<.5,m=after?10+rand(max-10):11+rand(max-10);ans=after?m+1:m-1;
+    q=after?`Ποιος αριθμός έρχεται μετά το ${m};`:`Ποιος αριθμός είναι πριν από το ${m};`;
+    html=`<div class="seq">${after?`<span>${m}</span><span class="gap" id="gapbox">?</span>`:`<span class="gap" id="gapbox">?</span><span>${m}</span>`}</div>`}
+  const c=new Set([ans]);shuffle([ans+1,ans-1,ans+10,ans-10,ans+2]).forEach(v=>{if(c.size<3&&v>=0&&v<=max)c.add(v)});
+  stage().innerHTML=`<p class="prompt">${q}</p>${html}<div class="opts c3">${btns(shuffle([...c]))}</div>`;
+  choose('.opts',ans,bigRound,NW(ans),$('gapbox')?fillGap(ans):null);
+  ask(q.replace(/\d+/,d=>NW(+d)));
+}
+
+/* ch.19 ordinal numbers */
+const ORD=['πρώτο','δεύτερο','τρίτο','τέταρτο','πέμπτο','έκτο','έβδομο','όγδοο','ένατο','δέκατο'];
+const ANIMALS=['🐱','🐶','🐟','🐦','🐴','🦆','🐸','🐻','🦁','🐄','🐘','🐝'];
+function ordinalRound(){
+  const k=G.round<4?5:7,row=shuffle(ANIMALS).slice(0,k),t=rand(k),q=`Ποιο ζώο είναι ${ORD[t]};`;
+  stage().innerHTML=`<p class="prompt">${q}</p>
+   <div class="queue"><span class="flag">🚩</span>${row.map((e,i)=>`<button class="opt" data-v="${i}">${e}<small></small></button>`).join('')}</div>
+   <p class="counter">Η σειρά ξεκινά από τη σημαία 🚩</p>`;
+  choose('.queue',t,ordinalRound,`${ORD[t]}: ${WORDS.find(w=>w.e===row[t]).el}`,()=>stage().querySelectorAll('.queue small').forEach((s,i)=>s.textContent=(i+1)+'ο'));
+  ask(q);
+}
+
+/* ch.20 coins */
+const MONEY={1:'<span class="coin c1">1€</span>',2:'<span class="coin c2">2€</span>',5:'<span class="bill">5€</span>'};
+function coinsRound(){
+  const target=G.round>=4?5+rand(6):2+rand(5),parts=[];let sum=0;
+  if(target>=5&&Math.random()<.6){parts.push(5);sum=5}
+  while(sum<target){const c=target-sum>=2&&Math.random()<.5?2:1;parts.push(c);sum+=c}
+  stage().innerHTML=`<p class="prompt">Πόσα ευρώ είναι;</p><div class="objs money">${parts.map(c=>MONEY[c]).join('')}</div>
+   <div class="opts c3">${btns(near(target,1,10),'pic num',v=>v+'€')}</div>`;
+  choose('.opts',target,coinsRound,NW(target)+' ευρώ');ask('Πόσα ευρώ είναι;');
+}
+
+/* ch.26 drawing lines: dot to dot */
+const FIG=[
+ {n:'τρίγωνο',c:'#9CCB86',p:[[50,12],[88,84],[12,84]]},
+ {n:'τετράγωνο',c:'#7EC8E3',p:[[16,16],[84,16],[84,84],[16,84]]},
+ {n:'σπίτι',c:'#FFB677',p:[[20,90],[20,45],[50,12],[80,45],[80,90]]},
+ {n:'αστέρι',c:'#FFE08A',p:[[50,8],[75,86],[9,38],[91,38],[25,86]]},
+ {n:'βάρκα',c:'#C9B6E8',p:[[50,8],[80,58],[94,62],[76,88],[24,88],[6,62],[50,62]]},
+ {n:'ψάρι',c:'#F7A6A0',p:[[6,24],[36,44],[58,72],[82,62],[96,50],[82,38],[58,28],[36,58],[6,76]]}];
+function linesRound(){
+  if(!G.figs){G.figs=shuffle(FIG);if(!G.mix){G.total=FIG.length;drawDots()}}
+  const f=G.mix?pick(FIG):G.figs[G.round%FIG.length],P=f.p;let next=0;
+  const lab=([x,y])=>{const dx=x-50,dy=y-50,d=Math.hypot(dx,dy)||1;return[x+dx/d*9,y+dy/d*9]};
+  stage().innerHTML=`<p class="prompt">Ενώνω τις τελείες: 1, 2, 3…</p>
+   <svg class="d2d" viewBox="-8 -8 116 116" aria-label="Ένωσε τις τελείες με τη σειρά"><polygon id="dfill" points="${P.join(' ')}" fill="${f.c}" opacity="0"/><polyline class="ln" id="dline" points=""/>
+   ${P.map((q,i)=>`<circle class="pt${i?'':' nx'}" cx="${q[0]}" cy="${q[1]}" r="3.4"/><text x="${lab(q)[0]}" y="${lab(q)[1]}">${i+1}</text>`).join('')}</svg>
+   <p class="word" id="reveal"></p>`;
+  const svg=stage().querySelector('.d2d'),line=$('dline'),pts=[...svg.querySelectorAll('.pt')];
+  ptr(svg,e=>{
+    if(busy)return;const m=svg.createSVGPoint();m.x=e.clientX;m.y=e.clientY;const[x,y]=(({x,y})=>[x,y])(m.matrixTransform(svg.getScreenCTM().inverse()));
+    const dist=i=>Math.hypot(P[i][0]-x,P[i][1]-y);
+    if(dist(next)<=12){
+      pts[next].classList.remove('nx');pts[next].classList.add('on');
+      line.setAttribute('points',P.slice(0,next+1).join(' '));tone([392+next*40],.08);next++;
+      if(next<P.length)return;
+      busy=true;line.setAttribute('points',[...P,P[0]].join(' '));$('dfill').setAttribute('opacity','.6');$('reveal').textContent=f.n;gr(f.n);win(linesRound);
+    }else if(P.some((_,i)=>dist(i)<=10)){nope();pts[next].classList.add('nx')}
+  });
+  ask('Ενώνω τις τελείες με τη σειρά');
+}
+
+/* ch.31 calendar */
+const DAYS=[['Δευτέρα','τη Δευτέρα'],['Τρίτη','την Τρίτη'],['Τετάρτη','την Τετάρτη'],['Πέμπτη','την Πέμπτη'],['Παρασκευή','την Παρασκευή'],['Σάββατο','το Σάββατο'],['Κυριακή','την Κυριακή']];
+function calendarRound(){
+  const kind=G.round>=6?2:G.round%2,d=rand(7);let ans,q,html;
+  if(kind===0){ans=(d+1)%7;q=`Ποια μέρα έρχεται μετά ${DAYS[d][1]};`;html=`<span>${DAYS[d][0]}</span><b>➜</b><span class="gap" id="gapbox">?</span>`}
+  else if(kind===1){ans=(d+6)%7;q=`Ποια μέρα είναι πριν από ${DAYS[d][1]};`;html=`<span class="gap" id="gapbox">?</span><b>➜</b><span>${DAYS[d][0]}</span>`}
+  else{ans=d;q='Ποια μέρα λείπει;';html=DAYS.map((x,i)=>i===d?'<span class="gap" id="gapbox">?</span>':`<span>${x[0]}</span>`).join('')}
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="week">${html}</div>
+   <div class="opts c1">${btns(shuffle([ans,(ans+2)%7,(ans+5)%7]),'pic txt',v=>DAYS[v][0])}</div>`;
+  choose('.opts',ans,calendarRound,DAYS[ans][0],fillGap(DAYS[ans][0]));ask(q);
+}
+
+const ROUNDS={dice:diceRound,nline:lineRound,trace:traceRound,circle:circleRound,pattern:patternRound,read:readRound,spell:spellRound,first:firstRound,listen:listenRound,count:countRound,memory:memoryGame,learn:learnGame,
+  where:whereRound,shapes:shapesRound,sizes:sizesRound,compare:compareRound,split:splitRound,add:addRound,minus:minusRound,sign:signRound,problems:problemRound,big:bigRound,ordinal:ordinalRound,coins:coinsRound,lines:linesRound,calendar:calendarRound};
+
+/* ---------- book map (Μαθηματικά Α΄ Δημοτικού, contents) ---------- */
+const CAT={n:['Αριθμοί','#5BAE6B'],o:['Πράξεις','#4A90C8'],g:['Γεωμετρία','#E0604F'],m:['Μετρήσεις','#F0A040'],p:['Προβλήματα','#8E7CC3'],r:['Επανάληψη','#5BAE6B']};
+const UNITS=[
+ {t:'Ενότητα 1',s:'Οι αριθμοί μέχρι το 5 · Χώρος και σχήματα',c:[
+  [1,'g','Προσανατολισμός στον χώρο','where'],
+  [2,'g','Γεωμετρικά σχήματα','shapes'],
+  [3,'n','Σύγκριση και εκτίμηση ποσοτήτων','compare','q'],
+  [4,'n','Οι αριθμοί από το 1 έως το 5','dice',1],
+  [5,'n','Αρίθμηση, ανάγνωση και γραφή των αριθμών (I)','trace',5],
+  [6,'n','Αρίθμηση, ανάγνωση και γραφή των αριθμών (II)','circle',5],
+  [7,'o','Πρόσθεση και ανάλυση των αριθμών μέχρι το 5 (I)','split',5],
+  [8,'r','Επαναληπτικό μάθημα',[['where'],['shapes'],['compare','q'],['dice',1],['circle',5],['split',5]]]]},
+ {t:'Ενότητα 2',s:'Πρόσθεση και ανάλυση αριθμών μέχρι το 5',c:[
+  [9,'m','Σύγκριση μεγεθών','sizes'],
+  [10,'n','Οι αριθμοί από το 6 μέχρι το 10 (I)','nline'],
+  [11,'n','Οι αριθμοί από το 6 μέχρι το 10 (II)','trace',10],
+  [12,'n','Σύγκριση αριθμών – Τα σύμβολα =, > και <','compare','s'],
+  [13,'o','Πρόσθεση και ανάλυση των αριθμών μέχρι το 5 (II)','split',5],
+  [14,'o','Γραφή της πρόσθεσης με τη χρήση συμβόλων','add',5],
+  [15,'p','Προβλήματα','problems',5],
+  [16,'r','Επαναληπτικό μάθημα',[['sizes'],['nline'],['compare','s'],['split',5],['add',5],['problems',5]]]]},
+ {t:'Ενότητα 3',s:'Οι αριθμοί μέχρι το 20 · Αθροίσματα μέχρι το 10 · Νομίσματα',c:[
+  [17,'n','Οι αριθμοί από το 10 μέχρι το 20','big',20],
+  [18,'o','Αθροίσματα μέχρι το 10','add',10],
+  [19,'n','Οι τακτικοί αριθμοί – Τα διπλά αθροίσματα',[['ordinal'],['add','d']]],
+  [20,'m','Τα νομίσματα μέχρι το 10','coins'],
+  [21,'o','Προσθετική ανάλυση αριθμών από το 6 μέχρι το 10','split',10],
+  [22,'p','Προβλήματα','problems',10],
+  [23,'r','Επαναληπτικό μάθημα',[['big',20],['add',10],['ordinal'],['coins'],['split',10],['problems',10]]]]},
+ {t:'Ενότητα 4',s:'Αφαίρεση · Χάραξη γραμμών · Μοτίβα',c:[
+  [25,'n','Οι αριθμοί μέχρι το 50','big',50],
+  [26,'g','Χάραξη γραμμών','lines'],
+  [27,'m','Μοτίβα','pattern'],
+  [28,'o','Αφαίρεση με αφαιρετέο μικρό αριθμό','minus','s'],
+  [29,'o','Διάκριση των συμβόλων «+» και «−»','sign'],
+  [30,'o','Αφαίρεση με αφαιρετέο μεγάλο αριθμό','minus','b'],
+  [31,'o','Το ημερολόγιο','calendar'],
+  [32,'r','Επαναληπτικό μάθημα',[['big',50],['minus'],['sign'],['calendar'],['pattern'],['problems','x']]]]}];
+function openMap(ch){
+  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;try{speechSynthesis.cancel()}catch(e){}
+  $('gtitle').textContent='Το βιβλίο μου';G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
+  const all=[].concat(...UNITS.map(u=>u.c)),done=all.filter(c=>S.done[c[0]]).length;
+  stage().innerHTML=`<p class="counter">Μαθηματικά Α΄ Δημοτικού · ⭐ ${done} από ${all.length} κεφάλαια</p>
+   <div class="legend">${Object.keys(CAT).map(k=>[k,CAT[k]]).map(([k,[n,c]])=>`<span><i class="${k==='r'?'rev':''}" style="--k:${c}"></i>${n}</span>`).join('')}</div>
+   ${UNITS.map(u=>`<div class="unit"><h3>${u.t}</h3><p>${u.s}</p>${u.c.map(c=>`<button class="chap" id="ch${c[0]}" data-ch="${c[0]}"><span class="badge${c[1]==='r'?' rev':''}" style="--k:${CAT[c[1]][1]}"><span>${c[0]}</span></span><span class="t">${c[2]}</span><span class="chk">${S.done[c[0]]?'⭐':''}</span></button>`).join('')}</div>`).join('')}`;
+  stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>{const c=all.find(x=>x[0]==b.dataset.ch),mix=Array.isArray(c[3])?c[3]:null;
+    start(mix?'mix':c[3],{ch:c[0],t:c[2],l:c[4],mix})});
+  const el=ch&&$('ch'+ch);if(el)el.scrollIntoView({block:'center'});else scrollTo(0,0);
 }
 if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script>
