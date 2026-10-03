@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#CFE7F2">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Το νησί">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Το νησί του Τσαλαπετεινού</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Grandstander:wght@600;800&family=Noto+Sans+Arabic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#CFE7F2; --sea:#6FB7B5; --ink:#2E2A4F; --muted:#56526F; --card:#FFFDF6; --line:#2E2A4F;
+  --t1:#FFB677; --t2:#9CCB86; --t3:#C9B6E8; --t4:#FFE08A; --t5:#F7A6A0; --tink:#2E2A4F;
+  --ok:#5BAE6B; --no:#E07A6A;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){ --sky:#1F2547; --sea:#2C5A6B; --ink:#F5F0E1; --muted:#C4BFDD; --card:#2B2F57; --line:#F5F0E1; }
+}
+:root[data-theme="dark"]{ --sky:#1F2547; --sea:#2C5A6B; --ink:#F5F0E1; --muted:#C4BFDD; --card:#2B2F57; --line:#F5F0E1; }
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+body{background:var(--sky);color:var(--ink);font-family:Andika,"Noto Sans Arabic",system-ui,sans-serif;font-size:18px;line-height:1.4;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;touch-action:manipulation}
+button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
+[dir=rtl]{font-family:"Noto Sans Arabic",Andika,sans-serif}
+.app{max-width:760px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding:12px 16px 0}
+[hidden]{display:none!important}
+
+/* top bar */
+.bar{display:flex;align-items:center;gap:12px;min-height:48px}
+.stars{margin-left:auto;white-space:nowrap;flex:none;font-weight:700;background:var(--card);padding:6px 14px;border-radius:999px;border:2px solid var(--line)}
+.iconbtn{width:48px;height:48px;border-radius:50%;background:var(--card);border:2px solid var(--line);font-size:22px;display:grid;place-items:center}
+
+/* home */
+.hero{display:flex;align-items:center;gap:14px;margin:6px 0 14px}
+.hoopoe-wrap{flex:none;width:118px;height:118px;border-radius:50%;background:#FFF3C4;display:grid;place-items:center;border:3px solid var(--line)}
+.hoopoe{width:104px;height:104px;animation:bob 3.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px) rotate(-2deg)}}
+h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:clamp(26px,7vw,44px);line-height:1;margin:0;letter-spacing:-.5px}
+.hero p{margin:6px 0 0;color:var(--muted);max-width:30ch}
+.langs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none}
+.langs::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:8px 16px;border-radius:999px;border:2px solid var(--line);background:var(--card);font-weight:700;min-height:44px}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--sky)}
+.note{font-size:15px;color:var(--muted);margin:0 0 10px;min-height:1em}
+.games{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding-bottom:24px}
+@media (min-width:600px){.games{grid-template-columns:repeat(3,1fr)}}
+.tile{background:var(--c);color:var(--tink);border:3px solid #2E2A4F;padding:18px 14px 16px;text-align:left;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .15s}
+.tile:active{transform:scale(.96)}
+.tile .ico{font-size:44px;line-height:1;margin-bottom:auto}
+.tile b{font-family:Grandstander,Andika,sans-serif;font-size:22px;font-weight:800;display:block;margin-top:10px}
+.tile span{font-size:15px}
+.tile:nth-child(1){--c:var(--t1);border-radius:28px 44px 30px 40px}
+.tile:nth-child(2){--c:var(--t2);border-radius:44px 26px 42px 30px}
+.tile:nth-child(3){--c:var(--t3);border-radius:32px 40px 26px 46px}
+.tile:nth-child(4){--c:var(--t4);border-radius:40px 30px 46px 26px}
+.tile:nth-child(5){--c:var(--t5);border-radius:26px 46px 34px 36px}
+.tile:nth-child(6){--c:var(--t2);border-radius:38px 28px 44px 32px}
+.tile:nth-child(7){--c:var(--t1);border-radius:30px 42px 28px 44px}
+.target{font-size:clamp(34px,9vw,52px);font-weight:700;background:var(--card);border:3px solid var(--line);border-radius:28px;padding:10px 26px;min-width:60%;text-align:center}
+.slots{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;min-height:64px}
+.slots span{width:46px;height:58px;border-bottom:4px solid var(--line);font-size:36px;font-weight:700;display:grid;place-items:center}
+.letters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:440px}
+.letters button{width:60px;height:60px;border-radius:18px;background:var(--t4);color:var(--tink);border:3px solid #2E2A4F;font-size:32px;font-weight:700}
+.letters button.used{visibility:hidden}
+.letters button.no{animation:shake .4s}
+.big-e{font-size:clamp(100px,28vw,150px);line-height:1.1}
+.sum{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.sum .grp{display:flex;flex-wrap:wrap;gap:4px;max-width:150px;justify-content:center;font-size:34px;background:var(--card);border:3px solid var(--line);border-radius:24px;padding:8px}
+.sum b{font-family:Grandstander,Andika,sans-serif;font-size:44px}
+.sea{margin:auto -16px 0;height:70px;flex:none}
+.sea svg{display:block;width:100%;height:100%}
+
+/* game */
+.gtitle{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:22px;margin:0;line-height:1.1}
+.dots{display:flex;gap:6px;justify-content:center;margin:10px 0 6px}
+.dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--line)}
+.dots i.done{background:var(--ok);border-color:var(--ok)}
+.stage{flex:1;display:flex;flex-direction:column;align-items:center;gap:16px;padding:10px 0 24px}
+.hear{width:96px;height:96px;border-radius:50%;background:var(--t4);color:var(--tink);border:3px solid #2E2A4F;font-size:44px}
+.prompt{font-family:Grandstander,Andika,sans-serif;font-size:26px;font-weight:800;margin:0;text-align:center;min-height:36px}
+.word{font-size:clamp(34px,9vw,52px);font-weight:700;margin:0;text-align:center;min-height:1.3em}
+.opts{display:grid;gap:14px;width:100%;max-width:460px}
+.opts.c2{grid-template-columns:repeat(2,1fr)}
+.opts.c3{grid-template-columns:repeat(3,1fr)}
+.pic{aspect-ratio:1;background:var(--card);border:3px solid var(--line);border-radius:30px;font-size:clamp(52px,15vw,84px);display:grid;place-items:center;transition:transform .15s}
+.pic:active{transform:scale(.95)}
+.pic.ok{background:var(--ok);border-color:var(--ok)}
+.pic.no{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.num{font-family:Grandstander,Andika,sans-serif;font-size:44px;font-weight:800;color:var(--ink)}
+.count-field{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:420px;min-height:120px}
+.count-field button{font-size:44px;width:64px;height:64px;border-radius:50%;transition:transform .15s,opacity .2s}
+.count-field button.tapped{opacity:.45;transform:scale(.88)}
+.shadow{font-size:clamp(110px,32vw,170px);line-height:1;filter:brightness(0);opacity:.75}
+:root[data-theme=dark] .shadow{filter:brightness(0) invert(1)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .shadow{filter:brightness(0) invert(1)}}
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:440px}
+@media (min-width:560px){.mem{grid-template-columns:repeat(4,1fr)}}
+.card{aspect-ratio:3/4;border-radius:18px;border:3px solid #2E2A4F;background:var(--t3);color:var(--tink);font-size:16px;font-weight:700;display:grid;place-items:center;padding:6px;text-align:center;word-break:break-word}
+.card .face{display:none}
+.card.open,.card.done{background:var(--card);color:var(--ink);border-color:var(--line)}
+.card.open .face,.card.done .face{display:block}
+.card.open .back,.card.done .back{display:none}
+.card .back{font-size:34px}
+.card.done{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 25%,var(--card))}
+.card .face.e{font-size:38px}
+.learn-card{width:100%;max-width:380px;background:var(--card);border:3px solid var(--line);border-radius:40px 34px 44px 30px;padding:24px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.learn-card .big{font-size:clamp(110px,30vw,150px);line-height:1.1}
+.row{display:flex;gap:14px;align-items:center}
+.pill{padding:12px 22px;border-radius:999px;border:3px solid var(--line);background:var(--card);font-weight:700;min-height:52px}
+.pill.main{background:var(--ink);color:var(--sky)}
+.counter{color:var(--muted);font-size:15px}
+
+/* finish */
+.finish{position:fixed;inset:0;background:color-mix(in srgb,var(--sky) 85%,transparent);display:grid;place-items:center;padding:24px;z-index:5}
+.finish .box{background:var(--card);border:3px solid var(--line);border-radius:44px 36px 48px 32px;padding:26px 22px;text-align:center;max-width:360px;width:100%}
+.finish h2{font-family:Grandstander,Andika,sans-serif;font-size:34px;margin:8px 0 4px}
+.finish p{margin:0 0 18px;color:var(--muted)}
+.finish .row{justify-content:center;flex-wrap:wrap}
+.burst{font-size:42px;letter-spacing:6px}
+
+.sect{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;margin:8px 0 2px}
+:root{--guide:#F3DDB8;--ink2:#E0604F}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--guide:#4A4F80;--ink2:#FF8A78}}
+:root[data-theme=dark]{--guide:#4A4F80;--ink2:#FF8A78}
+.dice{display:flex;gap:16px;justify-content:center}
+.die{width:110px;height:110px;background:#fff;border:3px solid #2E2A4F;border-radius:22px;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:14px;gap:6px}
+.die i.on{background:#2E2A4F;border-radius:50%}
+.nline{display:flex;gap:4px;width:100%;max-width:520px}
+.nline span{flex:1 1 0;min-width:0;height:48px;border:2px solid var(--line);border-radius:10px;display:grid;place-items:center;font-weight:700;font-size:20px;background:var(--card)}
+.nline span.gap{background:var(--t4);color:var(--tink);border-width:3px}
+.nline span.fill{background:var(--ok);color:#fff;border-color:var(--ok)}
+.objs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:360px;font-size:42px;background:var(--card);border:3px solid var(--line);border-radius:28px;padding:14px;min-height:90px}
+.inorder{display:flex;gap:18px}
+.inorder .pic{width:84px;font-family:Grandstander,Andika,sans-serif;font-size:40px;border-radius:50%;background:transparent;border-color:transparent;color:var(--ink)}
+.inorder .pic.ok{background:transparent;border:4px solid var(--ink2);color:var(--ink)}
+.seq{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-family:Grandstander,Andika,sans-serif;font-size:36px;font-weight:800}
+.seq span{min-width:52px;height:60px;display:grid;place-items:center;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:0 6px}
+.seq span.gap{background:var(--t4);color:var(--tink);border-width:3px}
+.seq.small{font-size:28px;font-family:inherit}
+.tracebox{width:min(300px,78vw);aspect-ratio:1;position:relative;background:var(--card);border:3px solid var(--line);border-radius:32px}
+.tracebox canvas{position:absolute;inset:0;width:100%;height:100%}
+#ink{touch-action:none;cursor:crosshair}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HOME -->
+  <section id="home">
+    <div class="bar"><div class="stars" id="starCount" aria-live="polite">⭐ 0</div></div>
+    <div class="hero">
+      <div class="hoopoe-wrap" id="mascotHome"></div>
+      <div>
+        <h1>Το νησί του Τσαλαπετεινού</h1>
+        <p>Παιχνίδια για ανάγνωση, γραφή και αριθμούς για παιδιά 6 ετών.</p>
+      </div>
+    </div>
+    <p class="note" id="voiceNote"></p>
+    <div class="games">
+      <button class="tile" data-game="read"><div class="ico">👀</div><b>Διαβάζω</b><span>Διάβασε τη λέξη, βρες την εικόνα</span></button>
+      <button class="tile" data-game="spell"><div class="ico">✏️</div><b>Γράφω τη λέξη</b><span>Φτιάξε τη λέξη γράμμα γράμμα</span></button>
+      <button class="tile" data-game="first"><div class="ico" style="font-family:Grandstander,Andika,sans-serif;font-weight:800">Αα</div><b>Το πρώτο γράμμα</b><span>Από ποιο γράμμα αρχίζει;</span></button>
+      <button class="tile" data-game="count"><div class="ico">➕</div><b>Μετρώ και προσθέτω</b><span>Μέτρα και βάλε μαζί</span></button>
+      <button class="tile" data-game="listen"><div class="ico">👂</div><b>Ακούω</b><span>Άκου τη λέξη, βρες την εικόνα</span></button>
+      <button class="tile" data-game="memory"><div class="ico">🃏</div><b>Ζευγάρια</b><span>Ταίριαξε εικόνες και λέξεις</span></button>
+      <button class="tile" data-game="learn"><div class="ico">📖</div><b>Το βιβλίο των λέξεων</b><span>Κοίτα, πάτησε, άκου</span></button>
+    </div>
+    <h2 class="sect">Μαθηματικά Α΄ Δημοτικού</h2>
+    <div class="games">
+      <button class="tile" data-game="dice"><div class="ico">🎲</div><b>Ζάρια</b><span>Πόσες τελείες έχει;</span></button>
+      <button class="tile" data-game="nline"><div class="ico">📏</div><b>Αριθμογραμμή</b><span>Ποιος αριθμός λείπει;</span></button>
+      <button class="tile" data-game="trace"><div class="ico">✍️</div><b>Γράφω τους αριθμούς</b><span>Γράψε με το δάχτυλο</span></button>
+      <button class="tile" data-game="circle"><div class="ico">⭕</div><b>Μετρώ και κυκλώνω</b><span>Βρες τον σωστό αριθμό</span></button>
+      <button class="tile" data-game="pattern"><div class="ico">🔁</div><b>Συνεχίζω</b><span>Με τον ίδιο τρόπο</span></button>
+    </div>
+  </section>
+
+  <!-- GAME -->
+  <section id="game" hidden style="display:flex;flex-direction:column;flex:1">
+    <div class="bar">
+      <button class="iconbtn" id="back" aria-label="Πίσω στο νησί">🏝️</button>
+      <h2 class="gtitle" id="gtitle"></h2>
+      <div class="stars" id="starCount2">⭐ 0</div>
+    </div>
+    <div class="dots" id="dots" aria-hidden="true"></div>
+    <div class="stage" id="stage"></div>
+  </section>
+
+  <div class="sea" aria-hidden="true">
+    <svg viewBox="0 0 400 70" preserveAspectRatio="none"><path d="M0 30 Q50 10 100 30 T200 30 T300 30 T400 30 V70 H0Z" fill="var(--sea)"/><path d="M0 45 Q50 28 100 45 T200 45 T300 45 T400 45 V70 H0Z" fill="var(--sea)" opacity=".6"/></svg>
+  </div>
+</div>
+
+<div class="finish" id="finish" hidden>
+  <div class="box">
+    <div class="hoopoe-wrap" style="margin:0 auto" id="mascotFinish"></div>
+    <h2 id="finTitle">Μπράβο!</h2>
+    <p id="finText"></p>
+    <div class="row">
+      <button class="pill main" id="again">Ξανά</button>
+      <button class="pill" id="toIsland">Στο νησί</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- content ---------- */
+const LANGS=[
+ {id:'en',name:'English',tts:'en'},{id:'el',name:'Ελληνικά',tts:'el'},{id:'ar',name:'العربية',tts:'ar',rtl:1},
+ {id:'fr',name:'Français',tts:'fr'},{id:'ru',name:'Русский',tts:'ru'},{id:'bg',name:'Български',tts:'bg'},
+ {id:'es',name:'Español',tts:'es'},{id:'de',name:'Deutsch',tts:'de'},{id:'it',name:'Italiano',tts:'it'}];
+const ORDER=LANGS.map(l=>l.id);
+const W=(e,s)=>{const o={e};s.split('|').forEach((w,i)=>o[ORDER[i]]=w);return o};
+const WORDS=[
+ W('🐱','cat|γάτα|قطة|chat|кошка|котка|gato|Katze|gatto'),
+ W('🐶','dog|σκύλος|كلب|chien|собака|куче|perro|Hund|cane'),
+ W('🍎','apple|μήλο|تفاحة|pomme|яблоко|ябълка|manzana|Apfel|mela'),
+ W('☀️','sun|ήλιος|شمس|soleil|солнце|слънце|sol|Sonne|sole'),
+ W('🐟','fish|ψάρι|سمكة|poisson|рыба|риба|pez|Fisch|pesce'),
+ W('🐦','bird|πουλί|طائر|oiseau|птица|птица|pájaro|Vogel|uccello'),
+ W('🚗','car|αυτοκίνητο|سيارة|voiture|машина|кола|coche|Auto|macchina'),
+ W('⚽','ball|μπάλα|كرة|ballon|мяч|топка|pelota|Ball|palla'),
+ W('🌼','flower|λουλούδι|زهرة|fleur|цветок|цвете|flor|Blume|fiore'),
+ W('🌳','tree|δέντρο|شجرة|arbre|дерево|дърво|árbol|Baum|albero'),
+ W('🏠','house|σπίτι|بيت|maison|дом|къща|casa|Haus|casa'),
+ W('⭐','star|αστέρι|نجمة|étoile|звезда|звезда|estrella|Stern|stella'),
+ W('🍌','banana|μπανάνα|موزة|banane|банан|банан|plátano|Banane|banana'),
+ W('🌙','moon|φεγγάρι|قمر|lune|луна|луна|luna|Mond|luna'),
+ W('🐴','horse|άλογο|حصان|cheval|лошадь|кон|caballo|Pferd|cavallo'),
+ W('🎂','cake|τούρτα|كعكة|gâteau|торт|торта|pastel|Kuchen|torta'),
+ W('🦆','duck|πάπια|بطة|canard|утка|патица|pato|Ente|anatra'),
+ W('🐸','frog|βάτραχος|ضفدع|grenouille|лягушка|жаба|rana|Frosch|rana'),
+ W('🐻','bear|αρκούδα|دب|ours|медведь|мечка|oso|Bär|orso'),
+ W('🦁','lion|λιοντάρι|أسد|lion|лев|лъв|león|Löwe|leone'),
+ W('🥚','egg|αυγό|بيضة|œuf|яйцо|яйце|huevo|Ei|uovo'),
+ W('🥛','milk|γάλα|حليب|lait|молоко|мляко|leche|Milch|latte'),
+ W('🍞','bread|ψωμί|خبز|pain|хлеб|хляб|pan|Brot|pane'),
+ W('📚','book|βιβλίο|كتاب|livre|книга|книга|libro|Buch|libro'),
+ W('🚌','bus|λεωφορείο|حافلة|bus|автобус|автобус|autobús|Bus|autobus'),
+ W('✈️','plane|αεροπλάνο|طائرة|avion|самолёт|самолет|avión|Flugzeug|aereo'),
+ W('🚲','bike|ποδήλατο|دراجة|vélo|велосипед|колело|bicicleta|Fahrrad|bicicletta'),
+ W('🌧️','rain|βροχή|مطر|pluie|дождь|дъжд|lluvia|Regen|pioggia'),
+ W('🍇','grapes|σταφύλι|عنب|raisin|виноград|грозде|uvas|Trauben|uva'),
+ W('🐄','cow|αγελάδα|بقرة|vache|корова|крава|vaca|Kuh|mucca'),
+ W('🐘','elephant|ελέφαντας|فيل|éléphant|слон|слон|elefante|Elefant|elefante'),
+ W('🐝','bee|μέλισσα|نحلة|abeille|пчела|пчела|abeja|Biene|ape')];
+WORDS.forEach(w=>ORDER.forEach(k=>w[k]=w[k].normalize('NFC')));
+const letters=w=>Array.from(w);
+const NUMS={
+ en:'one|two|three|four|five|six|seven|eight|nine|ten',
+ el:'ένα|δύο|τρία|τέσσερα|πέντε|έξι|επτά|οκτώ|εννέα|δέκα',
+ ar:'واحد|اثنان|ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة|عشرة',
+ fr:'un|deux|trois|quatre|cinq|six|sept|huit|neuf|dix',
+ ru:'один|два|три|четыре|пять|шесть|семь|восемь|девять|десять',
+ bg:'едно|две|три|четири|пет|шест|седем|осем|девет|десет',
+ es:'uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez',
+ de:'eins|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn',
+ it:'uno|due|tre|quattro|cinque|sei|sette|otto|nove|dieci'};
+for(const k in NUMS)NUMS[k]=NUMS[k].split('|');
+const PRAISE={en:'Well done!',el:'Μπράβο!',ar:'أحسنت!',fr:'Bravo !',ru:'Молодец!',bg:'Браво!',es:'¡Muy bien!',de:'Super!',it:'Bravo!'};
+const HOWMANY={en:'How many?',el:'Πόσα;',ar:'كم عددها؟',fr:'Combien ?',ru:'Сколько?',bg:'Колко?',es:'¿Cuántos?',de:'Wie viele?',it:'Quanti?'};
+const AGAIN={en:'Try again',el:'Ξανά',ar:'حاول مرة أخرى',fr:'Essaie encore',ru:'Попробуй ещё',bg:'Опитай пак',es:'Otra vez',de:'Noch einmal',it:'Riprova'};
+
+/* ---------- state ---------- */
+let S={lang:'el',stars:0};
+try{Object.assign(S,JSON.parse(localStorage.getItem('hoopoe')||'{}'))}catch(e){}
+S.lang='el';
+const save=()=>{try{localStorage.setItem('hoopoe',JSON.stringify(S))}catch(e){}};
+const L=()=>LANGS.find(l=>l.id===S.lang);
+const $=id=>document.getElementById(id);
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const dirAttr=()=>L().rtl?'dir="rtl"':'';
+const digit=n=>S.lang==='ar'?String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]):String(n);
+
+/* ---------- mascot ---------- */
+const crest=[-50,-25,0,25,50].map(a=>`<g transform="rotate(${a} 62 52)"><ellipse cx="62" cy="24" rx="5.5" ry="15" fill="#E8955A"/><ellipse cx="62" cy="11" rx="4.5" ry="4.5" fill="#2E2A4F"/></g>`).join('');
+const MASCOT=`<svg class="hoopoe" viewBox="0 0 140 130" aria-hidden="true">${crest}
+<path d="M104 78 L134 70 L130 84 Z" fill="#2E2A4F"/><path d="M118 74 L122 80" stroke="#fff" stroke-width="4"/>
+<line x1="72" y1="100" x2="70" y2="120" stroke="#8A6A5A" stroke-width="4" stroke-linecap="round"/>
+<line x1="86" y1="100" x2="88" y2="120" stroke="#8A6A5A" stroke-width="4" stroke-linecap="round"/>
+<ellipse cx="78" cy="82" rx="34" ry="23" fill="#F2B07A"/>
+<ellipse cx="88" cy="78" rx="24" ry="13" transform="rotate(-12 88 78)" fill="#2E2A4F"/>
+<path d="M76 70 q6 9 3 18 M86 68 q6 9 3 18 M96 67 q5 8 3 16" stroke="#FFF3C4" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+<circle cx="62" cy="52" r="19" fill="#F2B07A"/>
+<path d="M45 50 Q28 52 10 66 Q30 58 45 57 Z" fill="#3B3355"/>
+<circle cx="56" cy="47" r="4" fill="#2E2A4F"/><circle cx="57.3" cy="45.7" r="1.3" fill="#fff"/></svg>`;
+$('mascotHome').innerHTML=MASCOT;$('mascotFinish').innerHTML=MASCOT;
+
+/* ---------- speech & sound ---------- */
+let voices=[];
+const loadVoices=()=>{try{voices=speechSynthesis.getVoices()}catch(e){};voiceNote()};
+if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
+const voiceFor=t=>voices.find(v=>v.lang&&v.lang.toLowerCase().replace('_','-').startsWith(t));
+function voiceNote(){
+  const n=$('voiceNote');
+  if(!('speechSynthesis' in window)){n.textContent='Αυτός ο browser δεν μπορεί να διαβάσει τις λέξεις φωναχτά. Οι λέξεις φαίνονται κανονικά στην οθόνη.';return}
+  n.textContent=voices.length&&!voiceFor('el')?'Δεν υπάρχει ελληνική φωνή σε αυτή τη συσκευή. Πρόσθεσέ τη από τις ρυθμίσεις μετατροπής κειμένου σε ομιλία.':'';
+}
+function speak(text,lang){
+  if(!('speechSynthesis' in window))return;
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const t=lang||L().tts,v=voiceFor(t);
+    if(v)u.voice=v;u.lang=v?v.lang:t;u.rate=.8;u.pitch=1.1;speechSynthesis.speak(u)}catch(e){}
+}
+let ac;
+function tone(freqs,dur=.14,type='sine'){
+  try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+    freqs.forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime+i*dur;
+      o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.02);
+      g.gain.exponentialRampToValueAtTime(.0001,t+dur*1.8);o.connect(g).connect(ac.destination);o.start(t);o.stop(t+dur*2)})}catch(e){}
+}
+const yay=()=>tone([523,659,784]);
+const nope=()=>tone([220,196],.16,'triangle');
+
+/* ---------- home ---------- */
+function updateStars(){$('starCount').textContent=$('starCount2').textContent='⭐ '+S.stars}
+updateStars();
+
+/* ---------- game shell ---------- */
+const BOOK=['dice','nline','trace','circle','pattern'];
+const TITLES={dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
+let G=null,busy=false;
+document.querySelectorAll('.games').forEach(g=>g.onclick=e=>{const t=e.target.closest('[data-game]');if(t)start(t.dataset.game)});
+$('back').onclick=$('toIsland').onclick=home;
+$('again').onclick=()=>start(G.name);
+function home(){$('finish').hidden=true;$('game').hidden=true;$('home').hidden=false;try{speechSynthesis.cancel()}catch(e){}}
+function start(name){
+  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;$('gtitle').textContent=TITLES[name];
+  G={name,round:0,total:8,earned:0,gr:BOOK.includes(name),digits:shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,8)};busy=false;
+  ({dice:diceRound,nline:lineRound,trace:traceRound,circle:circleRound,pattern:patternRound,read:readRound,spell:spellRound,first:firstRound,listen:listenRound,count:countRound,memory:memoryGame,learn:learnGame})[name]();
+  drawDots();
+}
+function drawDots(){$('dots').innerHTML=G.name==='learn'?'':Array.from({length:G.total},(_,i)=>`<i class="${i<G.round?'done':''}"></i>`).join('')}
+function win(next){
+  G.round++;G.earned++;S.stars++;save();updateStars();drawDots();yay();
+  setTimeout(()=>{busy=false;G.round>=G.total?finish():next()},1500);
+}
+function finish(){
+  const lg=G.gr?'el':S.lang;
+  $('finTitle').textContent=PRAISE[lg];$('finTitle').dir=lg==='ar'?'rtl':'ltr';
+  $('finText').textContent=`Κέρδισες ${G.earned} ${G.earned===1?'αστέρι':'αστέρια'}. ⭐`;
+  $('finish').hidden=false;speak(PRAISE[lg],lg);
+}
+const stage=()=>$('stage');
+
+/* ---------- 1. listen & tap ---------- */
+function listenRound(){
+  const pool=shuffle(WORDS),target=pool[0],opts=shuffle(pool.slice(0,6));
+  stage().innerHTML=`<button class="hear" id="hear" aria-label="Άκου ξανά τη λέξη">🔊</button>
+   <p class="word" id="reveal" ${dirAttr()}></p>
+   <div class="opts c3">${opts.map(w=>`<button class="pic" data-e="${w.e}">${w.e}</button>`).join('')}</div>`;
+  $('hear').onclick=()=>speak(target[S.lang]);
+  stage().querySelector('.opts').onclick=e=>{
+    const b=e.target.closest('.pic');if(!b||busy)return;
+    if(b.dataset.e===target.e){busy=true;b.classList.add('ok');$('reveal').textContent=target[S.lang];speak(target[S.lang]);win(listenRound)}
+    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope();setTimeout(()=>speak(target[S.lang]),350)}
+  };
+  setTimeout(()=>speak(target[S.lang]),300);
+}
+
+/* ---------- 2. count & add ---------- */
+const grp=(n,e)=>`<div class="grp">${Array(n).fill(e).join('')}</div>`;
+function countRound(){
+  const item=WORDS[Math.random()*WORDS.length|0],add=G.round%2===1;
+  let n,html;
+  if(add){const x=1+(Math.random()*5|0),y=1+(Math.random()*(Math.min(5,10-x))|0);n=x+y;
+    html=`<div class="sum">${grp(x,item.e)}<b>+</b>${grp(y,item.e)}<b>=</b><b>?</b></div>`}
+  else{n=4+(Math.random()*7|0);html=`<div class="sum">${grp(n,item.e)}</div>`}
+  const choices=new Set([n]);while(choices.size<3){const c=n+[-2,-1,1,2][Math.random()*4|0];if(c>0&&c<=10)choices.add(c)}
+  stage().innerHTML=`<p class="prompt" ${dirAttr()}>${HOWMANY[S.lang]}</p>${html}
+   <p class="word" id="cnum" ${dirAttr()}></p>
+   <div class="opts c3">${shuffle([...choices]).map(c=>`<button class="pic num" data-n="${c}">${digit(c)}</button>`).join('')}</div>`;
+  stage().querySelector('.opts').onclick=e=>{
+    const b=e.target.closest('.pic');if(!b||busy)return;
+    if(+b.dataset.n===n){busy=true;b.classList.add('ok');$('cnum').textContent=NUMS[S.lang][n-1];speak(NUMS[S.lang][n-1]);win(countRound)}
+    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope();speak(AGAIN[S.lang])}
+  };
+  setTimeout(()=>speak(HOWMANY[S.lang]),300);
+}
+
+/* ---------- read & tap ---------- */
+function readRound(){
+  const pool=shuffle(WORDS),target=pool[0],opts=shuffle(pool.slice(0,4));
+  stage().innerHTML=`<div class="target" ${dirAttr()}>${target[S.lang]}</div>
+   <div class="opts c2">${opts.map(w=>`<button class="pic" data-e="${w.e}">${w.e}</button>`).join('')}</div>`;
+  stage().querySelector('.opts').onclick=e=>{
+    const b=e.target.closest('.pic');if(!b||busy)return;
+    if(b.dataset.e===target.e){busy=true;b.classList.add('ok');speak(target[S.lang]);win(readRound)}
+    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope()}
+  };
+}
+
+/* ---------- spell it ---------- */
+function spellRound(){
+  const ok=WORDS.filter(w=>!/\s/.test(w[S.lang])&&letters(w[S.lang]).length<=7);
+  const target=ok[Math.random()*ok.length|0],word=letters(target[S.lang]);
+  let pos=0;
+  stage().innerHTML=`<button class="hear" id="hear" aria-label="Άκου τη λέξη">${target.e}</button>
+   <div class="slots" id="slots" ${dirAttr()}>${word.map(()=>'<span></span>').join('')}</div>
+   <p class="word" id="built" ${dirAttr()}></p>
+   <div class="letters">${shuffle(word.map((c,i)=>({c,i}))).map(o=>`<button data-c="${o.c}">${o.c}</button>`).join('')}</div>`;
+  $('hear').onclick=()=>speak(target[S.lang]);
+  stage().querySelector('.letters').onclick=e=>{
+    const b=e.target.closest('button');if(!b||busy||b.classList.contains('used'))return;
+    if(b.dataset.c===word[pos]){b.classList.add('used');$('slots').children[pos].textContent=b.dataset.c;pos++;
+      $('built').textContent=word.slice(0,pos).join('');tone([440+pos*40],.08);
+      if(pos===word.length){busy=true;speak(target[S.lang]);win(spellRound)}}
+    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope()}
+  };
+  setTimeout(()=>speak(target[S.lang]),300);
+}
+
+/* ---------- first letter ---------- */
+const first=w=>letters(w)[0].toLocaleUpperCase();
+function firstRound(){
+  const target=WORDS[Math.random()*WORDS.length|0],ans=first(target[S.lang]);
+  const pool=[...new Set(WORDS.map(w=>first(w[S.lang])))].filter(c=>c!==ans);
+  const opts=shuffle([ans,...shuffle(pool).slice(0,3)]);
+  stage().innerHTML=`<button class="big-e" id="hear" aria-label="Άκου τη λέξη">${target.e}</button>
+   <p class="word" id="reveal" ${dirAttr()}></p>
+   <div class="opts c2" style="max-width:320px">${opts.map(c=>`<button class="pic num" data-c="${c}">${c}</button>`).join('')}</div>`;
+  $('hear').onclick=()=>speak(target[S.lang]);
+  stage().querySelector('.opts').onclick=e=>{
+    const b=e.target.closest('.pic');if(!b||busy)return;
+    if(b.dataset.c===ans){busy=true;b.classList.add('ok');$('reveal').textContent=target[S.lang];speak(target[S.lang]);win(firstRound)}
+    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope();speak(target[S.lang])}
+  };
+  setTimeout(()=>speak(target[S.lang]),300);
+}
+
+/* ---------- 3. pairs ---------- */
+function memoryGame(){
+  const picks=shuffle(WORDS).slice(0,8);
+  const cards=shuffle(picks.flatMap((w,i)=>[{i,face:`<span class="face e">${w.e}</span>`},{i,face:`<span class="face" ${dirAttr()}>${w[S.lang]}</span>`}]));
+  stage().innerHTML=`<p class="prompt">Βρες τα ζευγάρια</p><div class="mem">${cards.map((c,k)=>`<button class="card" data-k="${k}" aria-label="Κάρτα ${k+1}"><span class="back">🪶</span>${c.face}</button>`).join('')}</div>`;
+  let open=[];
+  stage().querySelector('.mem').onclick=e=>{
+    const b=e.target.closest('.card');if(!b||busy||b.classList.contains('open')||b.classList.contains('done'))return;
+    const c=cards[b.dataset.k];b.classList.add('open');speak(picks[c.i][S.lang]);open.push(b);
+    if(open.length<2)return;
+    const [a,z]=open;open=[];
+    if(cards[a.dataset.k].i===cards[z.dataset.k].i){
+      a.classList.replace('open','done');z.classList.replace('open','done');
+      G.round++;G.earned++;S.stars++;save();updateStars();drawDots();yay();
+      if(G.round>=G.total)setTimeout(finish,1200);
+    }else{busy=true;setTimeout(()=>{nope();a.classList.remove('open');z.classList.remove('open');busy=false},1000)}
+  };
+}
+
+/* ================= Maths book (Greek) ================= */
+const GR=['μηδέν','ένα','δύο','τρία','τέσσερα','πέντε','έξι','επτά','οκτώ','εννέα','δέκα','έντεκα','δώδεκα'];
+const gr=t=>speak(t,'el');
+const bad=b=>{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope()};
+const near=(n,lo,hi,k=3)=>{const c=new Set([n]);let guard=0;while(c.size<k&&guard++<50){const v=n+[-2,-1,1,2][Math.random()*4|0];if(v>=lo&&v<=hi)c.add(v)}return shuffle([...c])};
+const PIPS={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
+const die=n=>`<div class="die" aria-label="${n}">${[...Array(9)].map((_,i)=>`<i class="${PIPS[n].includes(i)?'on':''}"></i>`).join('')}</div>`;
+function pickNum(cls,choices,ans,onOk,next){
+  stage().querySelector(cls).onclick=e=>{const b=e.target.closest('.pic');if(!b||busy)return;
+    if(+b.dataset.n===ans){busy=true;b.classList.add('ok');gr(GR[ans]);onOk&&onOk();win(next)}else{bad(b);gr('Ξανά')}};
+}
+
+function diceRound(){
+  const two=G.round>=4,a=1+(Math.random()*6|0),b=two?1+(Math.random()*6|0):0,n=a+b;
+  const q=two?'Πόσες τελείες έχουν τα ζάρια;':'Πόσες τελείες έχει το ζάρι;';
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="dice">${die(a)}${two?die(b):''}</div>
+   <div class="opts c3">${near(n,1,12).map(c=>`<button class="pic num" data-n="${c}">${c}</button>`).join('')}</div>`;
+  pickNum('.opts',null,n,null,diceRound);setTimeout(()=>gr(q),300);
+}
+
+function lineRound(){
+  const miss=Math.random()*11|0;
+  stage().innerHTML=`<p class="prompt">Ποιος αριθμός λείπει;</p>
+   <div class="nline">${[...Array(11)].map((_,i)=>`<span class="${i===miss?'gap':''}" ${i===miss?'id="gapbox"':''}>${i===miss?'?':i}</span>`).join('')}</div>
+   <div class="opts c3">${near(miss,0,10).map(c=>`<button class="pic num" data-n="${c}">${c}</button>`).join('')}</div>`;
+  pickNum('.opts',null,miss,()=>{const g=$('gapbox');g.textContent=miss;g.className='fill'},lineRound);
+  setTimeout(()=>gr('Ποιος αριθμός λείπει;'),300);
+}
+
+function circleRound(){
+  const n=1+(Math.random()*Math.min(10,4+G.round)|0),item=['✏️','🖍️','🐌','🦜','🍀','🐝','🍎','⚽'][Math.random()*8|0];
+  let s=n-(Math.random()*3|0);if(s<1)s=1;if(s>8)s=8;
+  stage().innerHTML=`<p class="prompt">Μετρώ και βάζω σε κύκλο τον σωστό αριθμό</p>
+   <div class="objs">${Array(n).fill(item).join('')}</div>
+   <div class="inorder">${[s,s+1,s+2].map(c=>`<button class="pic" data-n="${c}">${c}</button>`).join('')}</div>`;
+  pickNum('.inorder',null,n,null,circleRound);setTimeout(()=>gr('Μετρώ και βάζω σε κύκλο τον σωστό αριθμό'),300);
+}
+
+function patternRound(){
+  const r=G.round,E=shuffle(['🍎','🍌','⭐','🐟','🌼','⚽','🐝','🍇']);
+  let seq,ans,opts;
+  if(r<2){const k=2+r,cyc=E.slice(0,k);seq=[...Array(6)].map((_,i)=>cyc[i%k]);ans=cyc[6%k];opts=shuffle([...new Set([ans,...cyc,E[k]])]).slice(0,3);if(!opts.includes(ans))opts[0]=ans}
+  else if(r<4){const a=Math.random()*6|0;seq=[a,a+1,a+2,a+3,a+4];ans=a+5}
+  else if(r<6){const k=3+(r-4)*2;seq=[...Array(k+2)].map((_,i)=>1+i%k);ans=1+(k+2)%k}
+  else{const a=6+(Math.random()*5|0);seq=[a,a-1,a-2,a-3];ans=a-4}
+  if(typeof ans==='number')opts=near(ans,0,10);
+  stage().innerHTML=`<p class="prompt">Συνεχίζω με τον ίδιο τρόπο</p>
+   <div class="seq">${seq.map(x=>`<span>${x}</span>`).join('')}<span class="gap" id="gapbox">?</span></div>
+   <div class="opts c3">${shuffle(opts).map(c=>`<button class="pic ${typeof c==='number'?'num':''}" data-v="${c}">${c}</button>`).join('')}</div>`;
+  stage().querySelector('.opts').onclick=e=>{const b=e.target.closest('.pic');if(!b||busy)return;
+    if(b.dataset.v===String(ans)){busy=true;b.classList.add('ok');const g=$('gapbox');g.textContent=ans;g.className='';
+      if(typeof ans==='number')gr(GR[ans]);win(patternRound)}else bad(b)};
+  setTimeout(()=>gr('Συνεχίζω με τον ίδιο τρόπο'),300);
+}
+
+function traceRound(){
+  const d=G.digits[G.round],item=['🐦','🍎','🌼','🐟','⭐'][Math.random()*5|0];
+  stage().innerHTML=`<p class="prompt">Γράφω τον αριθμό ${d}</p>
+   <div class="seq small">${d?Array(d).fill(item).join(''):'μηδέν'}</div>
+   <div class="tracebox"><canvas id="guide"></canvas><canvas id="ink" aria-label="Γράψε τον αριθμό ${d} με το δάχτυλο"></canvas></div>
+   <p class="counter" id="tmsg">Πέρασε με το δάχτυλο πάνω από τον αριθμό.</p>
+   <div class="row"><button class="pill" id="clr">Σβήνω</button><button class="pill main" id="chk">Έτοιμο</button></div>`;
+  const box=stage().querySelector('.tracebox'),g=$('guide'),k=$('ink'),dpr=Math.min(2,window.devicePixelRatio||1);
+  const W=Math.round(box.clientWidth*dpr);[g,k].forEach(c=>{c.width=c.height=W});
+  const gc=g.getContext('2d'),kc=k.getContext('2d');
+  const tol=document.createElement('canvas');tol.width=tol.height=W;const tc=tol.getContext('2d');
+  let mask,tmask;
+  const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const drawGuide=()=>{
+    const font=`700 ${W*.82}px Andika, sans-serif`;
+    [gc,tc].forEach(c=>{c.clearRect(0,0,W,W);c.font=font;c.textAlign='center';c.textBaseline='middle'});
+    gc.fillStyle=css('--guide');gc.fillText(d,W/2,W*.55);
+    tc.fillStyle=tc.strokeStyle='#000';tc.lineWidth=W*.09;tc.lineJoin='round';tc.fillText(d,W/2,W*.55);tc.strokeText(d,W/2,W*.55);
+    mask=gc.getImageData(0,0,W,W).data;tmask=tc.getImageData(0,0,W,W).data;
+  };
+  (document.fonts?document.fonts.load('700 100px Andika'):Promise.resolve()).then(drawGuide,drawGuide);
+  kc.lineCap=kc.lineJoin='round';kc.lineWidth=W*.075;kc.strokeStyle=css('--ink2');
+  let down=false;
+  const pt=e=>{const rc=k.getBoundingClientRect();return[(e.clientX-rc.left)*W/rc.width,(e.clientY-rc.top)*W/rc.height]};
+  k.onpointerdown=e=>{down=true;k.setPointerCapture(e.pointerId);const[x,y]=pt(e);kc.beginPath();kc.moveTo(x,y);kc.lineTo(x+.1,y);kc.stroke()};
+  k.onpointermove=e=>{if(!down)return;const[x,y]=pt(e);kc.lineTo(x,y);kc.stroke()};
+  k.onpointerup=k.onpointercancel=()=>{down=false};
+  $('clr').onclick=()=>{kc.clearRect(0,0,W,W);$('tmsg').textContent='Πέρασε με το δάχτυλο πάνω από τον αριθμό.'};
+  $('chk').onclick=()=>{
+    if(busy||!mask)return;const ink=kc.getImageData(0,0,W,W).data;let gt=0,cov=0,it=0,out=0;
+    for(let i=3;i<ink.length;i+=12){const gm=mask[i]>40,im=ink[i]>40;if(gm){gt++;if(im)cov++}if(im){it++;if(tmask[i]<40)out++}}
+    const c=gt?cov/gt:0,o=it?out/it:1;
+    if(c>=.6&&o<=.25){busy=true;$('tmsg').textContent='Τέλεια!';gr(GR[d]);win(traceRound)}
+    else{nope();const m=c<.6?'Πέρασε πάνω από όλο τον αριθμό.':'Μείνε μέσα στον αριθμό.';$('tmsg').textContent=m;gr(m)}
+  };
+  setTimeout(()=>gr('Γράφω τον αριθμό '+GR[d]),300);
+}
+
+/* ---------- 5. word book ---------- */
+function learnGame(){
+  let i=0;
+  const draw=()=>{const w=WORDS[i];
+    stage().innerHTML=`<button class="learn-card" id="lc" aria-label="Άκου τη λέξη"><span class="big">${w.e}</span><span class="word" ${dirAttr()}>${w[S.lang]}</span></button>
+     <div class="row"><button class="pill" id="prev" aria-label="Προηγούμενη λέξη">◀</button><span class="counter">${digit(i+1)} / ${digit(WORDS.length)}</span><button class="pill main" id="next" aria-label="Επόμενη λέξη">▶</button></div>`;
+    $('lc').onclick=()=>speak(w[S.lang]);
+    $('prev').onclick=()=>{i=(i-1+WORDS.length)%WORDS.length;draw();speak(WORDS[i][S.lang])};
+    $('next').onclick=()=>{i=(i+1)%WORDS.length;draw();speak(WORDS[i][S.lang])};
+  };
+  draw();setTimeout(()=>speak(WORDS[0][S.lang]),300);
+}
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
