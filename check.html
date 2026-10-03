@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Έλεγχος εφαρμογής</title>
+<style>
+body{margin:0;background:#CFE7F2;color:#2E2A4F;font:17px/1.4 system-ui,-apple-system,sans-serif}
+.w{max-width:560px;margin:0 auto;padding:16px}
+h1{font-size:24px;margin:4px 0 12px}
+ul{list-style:none;padding:0;margin:0 0 14px;background:#FFFDF6;border:2px solid #2E2A4F;border-radius:16px}
+li{padding:10px 12px;border-top:1px solid #ddd;word-break:break-word}
+li:first-child{border-top:0}
+small{color:#56526F}
+button{display:block;width:100%;font:700 18px system-ui,sans-serif;padding:14px;margin:0 0 10px;border-radius:14px;border:2px solid #2E2A4F;background:#FFE08A;color:#2E2A4F}
+button.go{background:#2E2A4F;color:#CFE7F2}
+iframe{position:absolute;left:-9999px;width:390px;height:700px;border:0}
+</style>
+</head>
+<body>
+<div class="w">
+  <h1>Έλεγχος εφαρμογής</h1>
+  <p>Περίμενε λίγα δευτερόλεπτα και στείλε ένα στιγμιότυπο οθόνης.</p>
+  <ul id="out"></ul>
+  <button id="voice">🔊 Δοκιμή φωνής</button>
+  <button id="sound">🎵 Δοκιμή ήχου</button>
+  <button id="reset" class="go">🔄 Επαναφορά και άνοιγμα της εφαρμογής</button>
+</div>
+<iframe id="app" title="app"></iframe>
+<script>
+var out=document.getElementById('out');
+function row(id,label,txt){var li=document.getElementById(id);if(!li){li=document.createElement('li');li.id=id;out.appendChild(li)}
+  li.innerHTML='';var b=document.createElement('b');b.textContent=label+': ';li.appendChild(b);li.appendChild(document.createTextNode(txt))}
+row('dev','Συσκευή',navigator.userAgent);
+row('mode','Άνοιγμα',(window.navigator.standalone||(window.matchMedia&&matchMedia('(display-mode: standalone)').matches))?'από εικονίδιο αρχικής οθόνης':'από τον browser');
+
+// 1. latest version on the server and whether this browser can read its code
+var x=new XMLHttpRequest();x.open('GET','index.html?nocache='+Date.now());
+x.onload=function(){var h=x.responseText,m=h.match(/var APPV='(\d+)'/);row('srv','Έκδοση στον server',m?m[1]:'άγνωστη');
+  var parts=h.split('<script>'),bad='';
+  for(var i=1;i<parts.length;i++){var js=parts[i].split('</'+'script>')[0];try{new Function(js)}catch(e){bad+=' [κομμάτι '+i+'] '+e.message}}
+  row('syn','Κώδικας',bad?'❌ '+bad:'✅ διαβάζεται σωστά');
+  runApp()};
+x.onerror=function(){row('srv','Έκδοση στον server','❌ δεν φορτώνει (internet;)')};x.send();
+
+// 2. run the real app hidden in a frame and see if it starts
+function runApp(){var f=document.getElementById('app'),errs=[];
+  f.onload=function(){var w=f.contentWindow,d=f.contentDocument;
+    try{w.addEventListener('error',function(e){errs.push(e.message)})}catch(e){}
+    setTimeout(function(){try{
+      var ok=typeof w.start==='function'&&d.getElementById('mascotHome').innerHTML.length>0,eb=d.getElementById('errbox');
+      row('run','Η εφαρμογή ξεκινά',ok?'✅ ναι (έκδοση '+w.APPV+')':'❌ όχι');
+      if(eb)row('err','Σφάλμα',eb.textContent);
+      if(ok){w.start('where');var n=d.querySelectorAll('#stage [data-v]').length;row('game','Παιχνίδι ανοίγει',n?'✅ ναι':'❌ όχι');
+        w.openMap();row('map','Χάρτης βιβλίου',d.querySelectorAll('.chap').length+' κεφάλαια')}
+      if(errs.length)row('err2','Σφάλματα',errs.join(' | '));
+    }catch(e){row('run','Η εφαρμογή ξεκινά','❌ '+e.message)}},2500)};
+  f.src='index.html?check='+Date.now()}
+
+// 3. offline copy (service worker) and storage
+if('serviceWorker' in navigator&&navigator.serviceWorker.getRegistrations){navigator.serviceWorker.getRegistrations().then(function(r){row('sw','Αποθηκευμένη εφαρμογή',r.length?'ναι ('+r.length+')':'όχι')})}else row('sw','Αποθηκευμένη εφαρμογή','δεν υποστηρίζεται');
+if(window.caches)caches.keys().then(function(k){row('cache','Αντίγραφα',k.join(', ')||'κανένα')});
+try{localStorage.setItem('t','1');localStorage.removeItem('t');row('ls','Αποθήκευση αστεριών','✅')}catch(e){row('ls','Αποθήκευση αστεριών','❌ '+e.message)}
+
+// 4. voices
+function voices(){if(!('speechSynthesis' in window)){row('tts','Φωνή','❌ δεν υπάρχει');return}
+  var v=speechSynthesis.getVoices(),el=v.filter(function(x){return /^el/i.test(x.lang)});
+  row('tts','Φωνές',v.length+' συνολικά · ελληνικές: '+(el.length?'✅ '+el.map(function(x){return x.name}).join(', '):'❌ καμία'))}
+voices();if('speechSynthesis' in window)speechSynthesis.onvoiceschanged=voices;setTimeout(voices,1500);
+
+document.getElementById('voice').onclick=function(){try{var u=new SpeechSynthesisUtterance('Γεια σου! Μπράβο!');u.lang='el-GR';
+  var el=speechSynthesis.getVoices().filter(function(x){return /^el/i.test(x.lang)})[0];if(el)u.voice=el;u.rate=.85;
+  u.onstart=function(){row('vt','Δοκιμή φωνής','✅ μιλάει')};u.onerror=function(e){row('vt','Δοκιμή φωνής','❌ '+(e.error||'σφάλμα'))};
+  speechSynthesis.cancel();speechSynthesis.speak(u);row('vt','Δοκιμή φωνής','… (αν δεν ακούς τίποτα: έλεγξε ένταση/αθόρυβο)')}catch(e){row('vt','Δοκιμή φωνής','❌ '+e.message)}};
+document.getElementById('sound').onclick=function(){try{var C=window.AudioContext||window.webkitAudioContext,a=new C();if(a.resume)a.resume();
+  var o=a.createOscillator(),g=a.createGain();o.frequency.value=660;g.gain.value=.2;o.connect(g);g.connect(a.destination);o.start(0);o.stop(a.currentTime+.4);
+  row('st','Δοκιμή ήχου','✅ έπαιξε (αν δεν ακούς: έλεγξε ένταση/αθόρυβο)')}catch(e){row('st','Δοκιμή ήχου','❌ '+e.message)}};
+
+// 5. reset: remove the stored app copy (stars are kept) and open the newest version
+document.getElementById('reset').onclick=function(){var b=this;b.textContent='Περίμενε…';
+  var p1=('serviceWorker' in navigator&&navigator.serviceWorker.getRegistrations)?navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.unregister()}))}):Promise.resolve();
+  var p2=window.caches?caches.keys().then(function(k){return Promise.all(k.map(function(n){return caches.delete(n)}))}):Promise.resolve();
+  Promise.all([p1,p2]).then(function(){location.href='./?fresh='+Date.now()},function(){location.href='./?fresh='+Date.now()})};
+</script>
+</body>
+</html>
