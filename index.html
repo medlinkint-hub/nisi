@@ -12,6 +12,13 @@
 <meta name="apple-mobile-web-app-title" content="Το νησί">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
+<script>
+var APPV='4';
+window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
+  d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
+  (document.body||document.documentElement).appendChild(d)}
+  d.textContent='Σφάλμα (έκδοση '+APPV+'): '+m+' · γραμμή '+line;}catch(e){}};
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Grandstander:wght@600;800&family=Noto+Sans+Arabic:wght@500;700&display=swap" rel="stylesheet">
@@ -130,6 +137,8 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .finish .row{justify-content:center;flex-wrap:wrap}
 .burst{font-size:42px;letter-spacing:6px}
 
+.ver{position:absolute;right:16px;bottom:4px;margin:0;font-size:12px;color:var(--muted);opacity:.7}
+#home{position:relative}
 .sect{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;margin:8px 0 2px}
 :root{--guide:#F3DDB8;--ink2:#E0604F}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]){--guide:#4A4F80;--ink2:#FF8A78}}
@@ -266,6 +275,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
       </div>
     </div>
     <p class="note" id="voiceNote"></p>
+    <p class="ver" id="ver"></p>
     <div class="games">
       <button class="tile" data-game="read"><div class="ico">👀</div><b>Διαβάζω</b><span>Διάβασε τη λέξη, βρες την εικόνα</span></button>
       <button class="tile" data-game="spell"><div class="ico">✏️</div><b>Γράφω τη λέξη</b><span>Φτιάξε τη λέξη γράμμα γράμμα</span></button>
@@ -442,6 +452,7 @@ function tone(freqs,dur=.14,type='sine'){
 let unlocked=false;
 function unlock(){
   if(unlocked)return;unlocked=true;
+  try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
   try{audio();const b=ac.createBuffer(1,1,22050),src=ac.createBufferSource();src.buffer=b;src.connect(ac.destination);(src.start||src.noteOn).call(src,0)}catch(e){}
   try{if('speechSynthesis' in window){const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}}catch(e){}
 }
@@ -973,7 +984,14 @@ function openMap(ch){
     start(mix?'mix':c[3],{ch:c[0],t:c[2],l:c[4],mix})});
   const el=ch&&$('ch'+ch);if(el)el.scrollIntoView({block:'center'});else scrollTo(0,0);
 }
-if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+$('ver').textContent='έκδοση '+APPV;
+if('serviceWorker' in navigator){
+  const hadCtl=!!navigator.serviceWorker.controller;let reloaded=false;
+  // a new version took over: reload once so the phone shows it straight away
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(hadCtl&&!reloaded){reloaded=true;location.reload()}});
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>{r.update();
+    document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')r.update()})}).catch(()=>{}));
+}
 </script>
 </body>
 </html>
