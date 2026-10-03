@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='9';
+var APPV='10';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -312,6 +312,18 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .drawer{display:block;height:84px;background:#C97B63;border:2px solid #2E2A4F;border-radius:6px;background-image:repeating-linear-gradient(#C97B63 0 18px,#2E2A4F 18px 20px)}
 .book{display:block;height:110px;background:#8FA3B8;border:2px solid #2E2A4F;border-radius:3px 6px 6px 3px}
 .coin.cu{background:radial-gradient(circle,#E9A27C 0 60%,#C0784F 61%);width:52px;height:52px;font-size:17px}
+.board.scene{font-size:30px;gap:6px 8px;max-width:440px}
+.tray{min-height:76px;min-width:240px}
+.tray .tc{padding:0;border-radius:50%}
+.cpick .opt{padding:6px 10px}
+.bstring{display:flex;align-items:center;gap:3px;background:linear-gradient(transparent 47%,#C0784F 47% 53%,transparent 53%);padding:6px 10px}
+.bstring b{font:800 28px Grandstander,Andika,sans-serif;margin-right:10px;background:var(--card);border:2px solid var(--line);border-radius:10px;padding:2px 10px}
+.bstring i{width:34px;height:28px;border-radius:50%;border:2px solid #2E2A4F;display:block}
+.bparts{display:flex;gap:14px}
+.bparts span{min-width:56px;height:56px;display:grid;place-items:center;border:4px solid;border-radius:12px;background:var(--card);font:800 30px Grandstander,Andika,sans-serif}
+.bparts span.gap{background:var(--t4);color:var(--tink)}
+.bparts span.fill{background:var(--ok);color:#fff}
+.pic.eqn{font-family:Grandstander,Andika,sans-serif;font-size:30px;letter-spacing:2px}
 /* older phones: no aspect-ratio (iOS < 15, Chrome < 88) */
 @supports not (aspect-ratio:1/1){
   .pic{min-height:100px}
@@ -368,6 +380,8 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
       <button class="tile" data-game="fingers"><div class="ico">✌️</div><b>Δάχτυλα</b><span>Πόσα όλα μαζί;</span></button>
       <button class="tile" data-game="frog"><div class="ico">🐸</div><b>Ο βάτραχος</b><span>Πάνω, κάτω, αριστερά, δεξιά</span></button>
       <button class="tile" data-game="order"><div class="ico">📊</div><b>Σειρά</b><span>Από το πιο ψηλό στο πιο χαμηλό</span></button>
+      <button class="tile" data-game="makecoins"><div class="ico">💰</div><b>Φτιάχνω ποσά</b><span>Με κέρματα</span></button>
+      <button class="tile" data-game="equation"><div class="ico">📝</div><b>Γράφω την πρόσθεση</b><span>Τι θα γράψει ο μαθηματικός;</span></button>
       <button class="tile" data-game="sizes"><div class="ico">🐘</div><b>Μεγάλο – μικρό</b><span>Ψηλό, κοντό, μακρύ</span></button>
       <button class="tile" data-game="dice"><div class="ico">🎲</div><b>Ζάρια</b><span>Πόσες τελείες έχει;</span></button>
       <button class="tile" data-game="trace"><div class="ico">✍️</div><b>Γράφω τους αριθμούς</b><span>Γράψε με το δάχτυλο</span></button>
@@ -580,7 +594,8 @@ const TEN={read:['Read','Read the word, find the picture'],spell:['Spell the wor
   big:['Numbers to 50','Tens and ones'],ordinal:['Who is first?','First, second, third'],coins:['Euros','Count the money'],lines:['Join the dots','Draw lines 1, 2, 3'],
   pattern:['Patterns','Keep it going'],minus:['Subtraction','How many are left?'],sign:['+ or −?','Find the right sign'],calendar:['Days of the week','Monday, Tuesday, Wednesday…'],
   marbles:['Marbles','Inside, between, on'],drum:['The drum','How many beats?'],match:['Are there enough?','More, fewer, the same'],forms:['Same amount','Dice, birds, lines'],abacus:['Abacus','Make the numbers'],tally:['Little lines','As many lines as fish'],words:['Number words','one, two, three'],
-  fingers:['Fingers','How many altogether?'],frog:['The frog','Up, down, left, right'],order:['In order','From the tallest to the shortest'],body:['My body','How many eyes?'],nest:['Nests','How many eggs?'],baskets:['Baskets','Share the apples'],stairs:['Split it','0 and 5, 1 and 4…'],down:['Counting down','10, 9, 8…'],twos:['In twos','2, 4, 6, 8, 10']};
+  fingers:['Fingers','How many altogether?'],frog:['The frog','Up, down, left, right'],order:['In order','From the tallest to the shortest'],body:['My body','How many eyes?'],nest:['Nests','How many eggs?'],baskets:['Baskets','Share the apples'],stairs:['Split it','0 and 5, 1 and 4…'],down:['Counting down','10, 9, 8…'],twos:['In twos','2, 4, 6, 8, 10'],
+  makecoins:['Make amounts','With coins'],equation:['Write the sum','What does the mathematician write?'],scene:['How many?','Count in the picture'],groups:['Groups','How do they split?'],beads3:['Beads','Three colours']};
 const STATIC=[['h1',"The Hoopoe's Island"],['.hero p','Games for reading, writing and numbers for 6-year-olds.'],['.sect','Maths – Grade 1'],['#again','Again'],['#toIsland','To the island'],['[data-game="first"] .ico','Aa']];
 function openVoices(){
   const t=S.lang,all=voicesFor(t),good=all.filter(v=>vscore(v,t)>-50),list=good.length?good:all,cur=voiceFor(t);
@@ -605,7 +620,7 @@ function applyLang(){
   $('ver').textContent=tr('έκδοση ','version ')+APPV;$('voiceBtn').textContent=tr('🗣️ Φωνή','🗣️ Voice');$('voiceBtn').hidden=!('speechSynthesis' in window);voiceNote();
 }
 $('langs').onclick=e=>{const b=e.target.closest('[data-lang]');if(!b||b.dataset.lang===S.lang)return;S.lang=b.dataset.lang;save();applyLang();speak(tr('Ελληνικά','English'))};
-const TITLES={fingers:'Δάχτυλα',frog:'Ο βάτραχος',order:'Σειρά',body:'Το σώμα μου',nest:'Φωλιές',baskets:'Καλάθια',stairs:'Αναλύω',down:'Κατεβαίνω',twos:'Ανά δύο',marbles:'Βόλοι',drum:'Ταμπουρίνο',match:'Φτάνουν;',forms:'Ίδιο πλήθος',abacus:'Αριθμητήριο',tally:'Γραμμούλες',words:'Λέξεις αριθμών',where:'Πού είναι;',shapes:'Σχήματα',sizes:'Μεγάλο – μικρό',compare:'Σύγκριση',split:'Το σπίτι των αριθμών',add:'Πρόσθεση',problems:'Προβλήματα',big:'Αριθμοί μέχρι το 50',ordinal:'Ποιος είναι πρώτος;',coins:'Τα ευρώ',lines:'Ενώνω τις τελείες',minus:'Αφαίρεση',sign:'+ ή −;',calendar:'Οι μέρες της εβδομάδας',dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
+const TITLES={makecoins:'Φτιάχνω ποσά',equation:'Γράφω την πρόσθεση',scene:'Βρες πόσα',groups:'Ομάδες',beads3:'Χάντρες',fingers:'Δάχτυλα',frog:'Ο βάτραχος',order:'Σειρά',body:'Το σώμα μου',nest:'Φωλιές',baskets:'Καλάθια',stairs:'Αναλύω',down:'Κατεβαίνω',twos:'Ανά δύο',marbles:'Βόλοι',drum:'Ταμπουρίνο',match:'Φτάνουν;',forms:'Ίδιο πλήθος',abacus:'Αριθμητήριο',tally:'Γραμμούλες',words:'Λέξεις αριθμών',where:'Πού είναι;',shapes:'Σχήματα',sizes:'Μεγάλο – μικρό',compare:'Σύγκριση',split:'Το σπίτι των αριθμών',add:'Πρόσθεση',problems:'Προβλήματα',big:'Αριθμοί μέχρι το 50',ordinal:'Ποιος είναι πρώτος;',coins:'Τα ευρώ',lines:'Ενώνω τις τελείες',minus:'Αφαίρεση',sign:'+ ή −;',calendar:'Οι μέρες της εβδομάδας',dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
 let G=null,busy=false;
 document.querySelectorAll('.games').forEach(g=>g.onclick=e=>{const t=e.target.closest('[data-game]');if(t)start(t.dataset.game)});
 $('back').onclick=$('toIsland').onclick=()=>G&&G.o&&G.o.ch?openMap(G.o.ch):home();
@@ -909,7 +924,7 @@ function compareRound(){
     stage().innerHTML=`<p class="prompt">${q}</p><div class="vs">${[a,b].map((n,i)=>`<button class="opt grpbtn" data-v="${i}">${Array(n).fill(e).join('')}</button>`).join('')}</div>`;
     choose('.vs',ans,compareRound,null);ask(q);
   }else{
-    const a=rand(11),b=Math.random()<.25?a:rand(11),sym=a>b?'>':a<b?'<':'=',pics=G.round<5&&a<=6&&b<=6;
+    const gr10=G.lvl==='g',a=gr10?1+rand(10):rand(11),b=Math.random()<.25?a:gr10?1+rand(10):rand(11),sym=a>b?'>':a<b?'<':'=',pics=gr10||(G.round<5&&a<=6&&b<=6);
     const say=tr(`Το ${NW(a)} είναι ${a>b?'μεγαλύτερο από το':a<b?'μικρότερο από το':'ίσο με το'} ${NW(b)}`,`${NW(a)} is ${a>b?'greater than':a<b?'less than':'equal to'} ${NW(b)}`),sq=tr('Ποιο σύμβολο ταιριάζει;','Which sign fits?');
     stage().innerHTML=`<p class="prompt">${sq}</p>
      <div class="seq"><span>${a}</span><span class="gap" id="gapbox">?</span><span>${b}</span></div>
@@ -1194,9 +1209,9 @@ function abacusRound(){
 
 /* ch.5 p.21: match the amount to the number word */
 function wordsRound(){
-  const n=1+rand(5),coin=Math.random()<.5,q=tr('Πόσα είναι; Βρες τη λέξη','How many? Find the word');
+  const max=G.lvl===10?10:5,n=1+rand(max),coin=Math.random()<.5,q=tr('Πόσα είναι; Βρες τη λέξη','How many? Find the word');
   stage().innerHTML=`<p class="prompt">${q}</p><div class="objs money">${coin?'<span class="coin c1">1€</span>'.repeat(n):`<span>${'🍎'.repeat(n)}</span>`}</div>
-   <div class="opts c1">${near(n,1,5).map(v=>`<button class="pic txt" data-v="${v}">${NW(v)} (${v})</button>`).join('')}</div>`;
+   <div class="opts c1">${near(n,1,max).map(v=>`<button class="pic txt" data-v="${v}">${NW(v)} (${v})</button>`).join('')}</div>`;
   choose('.opts',n,wordsRound,NW(n));ask(q);
 }
 
@@ -1317,10 +1332,76 @@ function orderRound(){
   G.solve=()=>sorted.forEach(v=>bs[h.indexOf(v)].click());ask(q);
 }
 
+/* ================= Book pages, chapters 10-14 ================= */
+/* ch.10 p.32: count one kind of animal in a busy scene */
+const SCENES=[[['🐬','Πόσα δελφίνια βλέπεις;','How many dolphins do you see?'],['🐙','Πόσα χταπόδια βλέπεις;','How many octopuses do you see?'],['🐚','Πόσα κοχύλια βλέπεις;','How many shells do you see?'],['🐠','Πόσα ψάρια βλέπεις;','How many fish do you see?']],
+  [['🐝','Πόσες μέλισσες βλέπεις;','How many bees do you see?'],['🐞','Πόσες πασχαλίτσες βλέπεις;','How many ladybirds do you see?'],['🐌','Πόσα σαλιγκάρια βλέπεις;','How many snails do you see?']],
+  [['🐦','Πόσα πουλιά βλέπεις;','How many birds do you see?'],['🐤','Πόσα κοτοπουλάκια βλέπεις;','How many chicks do you see?']]];
+function sceneRound(){
+  const kinds=shuffle(pick(SCENES)).slice(0,3),[e,qel,qen]=kinds[0],n=6+rand(5),q=tr(qel,qen);
+  const all=shuffle([...Array(n).fill(e),...[].concat(...kinds.slice(1).map(k=>Array(3+rand(5)).fill(k[0])))]);
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="board scene">${all.map(x=>`<span>${x}</span>`).join('')}</div><div class="opts c3">${btns(near(n,3,10))}</div>`;
+  choose('.opts',n,sceneRound,NW(n));ask(q);
+}
+
+/* ch.10 p.33: how many altogether, and how do they split? */
+function groupsRound(){
+  const n=6+rand(5),a=1+rand(n-1),b=n-a,e=pick(['🐝','🐞','🐟','⭐']),total=G.round%2===0;
+  const q=total?tr('Πόσα είναι όλα μαζί;','How many altogether?'):tr(`Είναι ${n}. Χωρίζονται σε ${a} και πόσα;`,`There are ${n}. They split into ${a} and how many?`);
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="sum">${grp(a,e)}<b>${tr('και','and')}</b>${grp(b,e)}</div>
+   <div class="opts c3">${btns(total?near(n,3,10):near(b,1,9))}</div>`;
+  choose('.opts',total?n:b,groupsRound,tr(`${NW(a)} και ${NW(b)} κάνουν ${NW(n)}`,`${NW(a)} and ${NW(b)} make ${NW(n)}`));ask(q);
+}
+
+/* ch.11 p.34, ch.13 p.39: make an amount with coins in different ways */
+function makecoinsRound(){
+  const eur=G.lvl==='e'||(!G.lvl&&G.round%2===1),target=eur?2+rand(4):3+rand(8),vals=eur?[1,2]:[1,2,5],unit=eur?'€':tr('λ','c');
+  const coin=v=>eur?MONEY[v]:`<span class="coin cu">${v}${tr('λ','c')}</span>`,put=[];
+  const q=eur?tr(`Φτιάχνω ${target} ευρώ με κέρματα`,`Make ${target} euros with coins`):tr(`Φτιάχνω ${target} λεπτά με κέρματα`,`Make ${target} cents with coins`);
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="objs money tray" id="tray"></div><p class="word" id="ctot">0${unit}</p>
+   <div class="row cpick">${vals.map(v=>`<button class="opt" data-c="${v}" aria-label="${v}${unit}">${coin(v)}</button>`).join('')}</div>
+   <p class="counter">${tr('Πάτησε ένα κέρμα για να το βάλεις. Πάτησε ένα κέρμα πάνω για να το βγάλεις.','Tap a coin to add it. Tap a coin above to take it away.')}</p>
+   <div class="row"><button class="pill main" id="cok">${tr('Έτοιμο','Done')}</button></div>`;
+  const sum=()=>put.reduce((s,v)=>s+v,0),draw=()=>{$('tray').innerHTML=put.map((v,i)=>`<button class="tc" data-i="${i}">${coin(v)}</button>`).join('');$('ctot').textContent=sum()+unit};
+  stage().querySelector('.cpick').onclick=e=>{const b=e.target.closest('[data-c]');if(!b||busy||put.length>=10)return;put.push(+b.dataset.c);draw();tone([500],.06)};
+  $('tray').onclick=e=>{const b=e.target.closest('[data-i]');if(!b||busy)return;put.splice(+b.dataset.i,1);draw()};
+  $('cok').onclick=()=>{if(busy)return;const s=sum();if(s===target){busy=true;gr(PRAISE[S.lang]);win(makecoinsRound)}
+    else{nope();gr(s<target?tr('Θέλει κι άλλα.','You need more.'):tr('Είναι πάρα πολλά.','That is too much.'))}};
+  G.solve=()=>{let r=target;while(r>0){const v=[...vals].reverse().find(x=>x<=r);put.push(v);r-=v}draw();$('cok').click()};
+  ask(q);
+}
+
+/* ch.13 p.39: bead strings in three colours */
+function beads3Round(){
+  const n=3+rand(4),a=1+rand(n-2),b=1+rand(n-a-1),c=n-a-b,parts=[a,b,c],miss=rand(3),C=['#E0604F','#4FA88A','#4A90C8'];
+  stage().innerHTML=`<p class="prompt">${tr('Πόσες χάντρες έχει κάθε χρώμα;','How many beads of each colour?')}</p>
+   <div class="bstring"><b>${n}</b>${parts.map((p,i)=>`<i style="background:${C[i]}"></i>`.repeat(p)).join('')}</div>
+   <div class="bparts">${parts.map((p,i)=>`<span style="border-color:${C[i]}" ${i===miss?'class="gap" id="gapbox"':''}>${i===miss?'?':p}</span>`).join('')}</div>
+   <div class="opts c3">${btns(near(parts[miss],1,5))}</div>`;
+  choose('.opts',parts[miss],beads3Round,tr(`${parts.map(NW).join(' και ')} κάνουν ${NW(n)}`,`${parts.map(NW).join(' and ')} make ${NW(n)}`),fillGap(parts[miss]));
+  ask(tr('Πόσες χάντρες λείπουν;','How many beads are missing?'));
+}
+
+/* ch.14 p.40-41: what does the mathematician write? */
+function equationRound(){
+  const[nm,p,enm,he,him]=pick(KIDS),[pl,e,epl]=pick(THINGS),a=1+rand(4),b=1+rand(5-a),v=rand(2);
+  const txt=tr(`${nm} έχει ${a} ${pl}. ${['Βρίσκει ακόμη '+b+'.','Η μαμά '+p+' δίνει ακόμη '+b+'.'][v]} Πόσα ${pl} έχει τώρα;`,
+    `${enm} has ${a} ${epl}. ${[he+' finds '+b+' more.','Mum gives '+him+' '+b+' more.'][v]} How many ${epl} does ${he.toLowerCase()} have now?`);
+  const eq=(x,y)=>`${x} + ${y} = ${x+y}`,ok=eq(a,b),opts=[ok];
+  [[a,b+1],[a+1,b],[b,b],[a,a],[Math.max(1,a-1),b]].forEach(([x,y])=>{const s=eq(x,y);if(opts.length<3&&!opts.includes(s)&&x+y<=6)opts.push(s)});
+  stage().innerHTML=`<div class="story"><button class="hear sm" id="hear" aria-label="${tr('Άκου την ιστορία','Hear the story')}">🔊</button><p>${txt}</p></div>
+   <div class="sum">${grp(a,e)}<b>+</b>${grp(b,e)}</div>
+   <p class="prompt">${tr('Τι θα γράψει ο μαθηματικός;','What does the mathematician write?')}</p>
+   <div class="opts c1">${shuffle(opts).map(s=>`<button class="pic txt eqn" data-v="${s}">${s}</button>`).join('')}</div>`;
+  $('hear').onclick=()=>gr(txt);
+  choose('.opts',ok,equationRound,tr(`${NW(a)} συν ${NW(b)} ίσον ${NW(a+b)}`,`${NW(a)} plus ${NW(b)} equals ${NW(a+b)}`));ask(txt);
+}
+
 const ROUNDS={dice:diceRound,nline:lineRound,trace:traceRound,circle:circleRound,pattern:patternRound,read:readRound,spell:spellRound,first:firstRound,listen:listenRound,count:countRound,memory:memoryGame,learn:learnGame,
   where:whereRound,shapes:shapesRound,sizes:sizesRound,compare:compareRound,split:splitRound,add:addRound,minus:minusRound,sign:signRound,problems:problemRound,big:bigRound,ordinal:ordinalRound,coins:coinsRound,lines:linesRound,calendar:calendarRound,
   marbles:marblesRound,drum:drumRound,match:matchRound,forms:formsRound,abacus:abacusRound,words:wordsRound,tally:tallyRound,
-  body:bodyRound,nest:nestRound,fingers:fingersRound,baskets:basketsRound,stairs:stairsRound,down:downRound,twos:twosRound,frog:frogRound,order:orderRound};
+  body:bodyRound,nest:nestRound,fingers:fingersRound,baskets:basketsRound,stairs:stairsRound,down:downRound,twos:twosRound,frog:frogRound,order:orderRound,
+  scene:sceneRound,groups:groupsRound,makecoins:makecoinsRound,beads3:beads3Round,equation:equationRound};
 
 /* ---------- book map (Μαθηματικά Α΄ Δημοτικού, contents) ---------- */
 const CAT={n:['Αριθμοί','#5BAE6B'],o:['Πράξεις','#4A90C8'],g:['Γεωμετρία','#E0604F'],m:['Μετρήσεις','#F0A040'],p:['Προβλήματα','#8E7CC3'],r:['Επανάληψη','#5BAE6B']};
@@ -1336,13 +1417,13 @@ const UNITS=[
   [8,'r','Επαναληπτικό μάθημα',[['down'],['match'],['frog'],['twos'],['forms'],['coins',5]]]]},
  {t:'Ενότητα 2',s:'Πρόσθεση και ανάλυση αριθμών μέχρι το 5',c:[
   [9,'m','Σύγκριση μεγεθών',[['sizes'],['order'],['sizes'],['twos']]],
-  [10,'n','Οι αριθμοί από το 6 μέχρι το 10 (I)','nline'],
-  [11,'n','Οι αριθμοί από το 6 μέχρι το 10 (II)','trace',10],
-  [12,'n','Σύγκριση αριθμών – Τα σύμβολα =, > και <','compare','s'],
-  [13,'o','Πρόσθεση και ανάλυση των αριθμών μέχρι το 5 (II)','split',5],
-  [14,'o','Γραφή της πρόσθεσης με τη χρήση συμβόλων','add',5],
+  [10,'n','Οι αριθμοί από το 6 μέχρι το 10 (I)',[['scene'],['fingers',10],['groups'],['trace',10],['dice']]],
+  [11,'n','Οι αριθμοί από το 6 μέχρι το 10 (II)',[['abacus',10],['down'],['makecoins','c'],['twos'],['lines'],['nline']]],
+  [12,'n','Σύγκριση αριθμών – Τα σύμβολα =, > και <',[['compare','g'],['compare','s'],['words',10]]],
+  [13,'o','Πρόσθεση και ανάλυση των αριθμών μέχρι το 5 (II)',[['add',5],['beads3'],['makecoins','e'],['split',5]]],
+  [14,'o','Γραφή της πρόσθεσης με τη χρήση συμβόλων',[['equation'],['add',5],['equation'],['problems',5]]],
   [15,'p','Προβλήματα','problems',5],
-  [16,'r','Επαναληπτικό μάθημα',[['sizes'],['nline'],['compare','s'],['split',5],['add',5],['problems',5]]]]},
+  [16,'r','Επαναληπτικό μάθημα',[['sizes'],['scene'],['compare','g'],['beads3'],['equation'],['makecoins','c']]]]},
  {t:'Ενότητα 3',s:'Οι αριθμοί μέχρι το 20 · Αθροίσματα μέχρι το 10 · Νομίσματα',c:[
   [17,'n','Οι αριθμοί από το 10 μέχρι το 20','big',20],
   [18,'o','Αθροίσματα μέχρι το 10','add',10],
