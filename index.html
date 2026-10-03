@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='6';
+var APPV='7';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -139,6 +139,14 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 
 .ver{position:absolute;right:16px;bottom:4px;margin:0;font-size:12px;color:var(--muted);opacity:.7}
 #home{position:relative}
+.vbtn{min-height:44px;padding:8px 16px;margin:0 0 12px;font-size:16px}
+.vbox{max-height:86vh;overflow-y:auto;text-align:left}
+.vbox h2{text-align:center;margin-top:0}
+.vlist button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px;border-radius:14px;border:2px solid transparent;font-size:16px;min-height:48px}
+.vlist button[aria-pressed=true]{border-color:var(--ok);background:rgba(91,174,107,.18)}
+.vlist small{margin-left:auto;color:var(--muted);font-size:13px;white-space:nowrap}
+.vhint{font-size:14px;color:var(--muted);margin:12px 0}
+.vbox .pill{display:block;margin:0 auto}
 .sect{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;margin:8px 0 2px}
 :root{--guide:#F3DDB8;--ink2:#E0604F}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]){--guide:#4A4F80;--ink2:#FF8A78}}
@@ -275,6 +283,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
       </div>
     </div>
     <p class="note" id="voiceNote"></p>
+    <button class="pill vbtn" id="voiceBtn">🗣️ Φωνή</button>
     <p class="ver" id="ver"></p>
     <div class="games">
       <button class="tile" data-game="read"><div class="ico">👀</div><b>Διαβάζω</b><span>Διάβασε τη λέξη, βρες την εικόνα</span></button>
@@ -323,6 +332,15 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 
   <div class="sea" aria-hidden="true">
     <svg viewBox="0 0 400 70" preserveAspectRatio="none"><path d="M0 30 Q50 10 100 30 T200 30 T300 30 T400 30 V70 H0Z" fill="var(--sea)"/><path d="M0 45 Q50 28 100 45 T200 45 T300 45 T400 45 V70 H0Z" fill="var(--sea)" opacity=".6"/></svg>
+  </div>
+</div>
+
+<div class="finish" id="vpanel" hidden>
+  <div class="box vbox">
+    <h2 id="vtitle">Διάλεξε φωνή</h2>
+    <div class="vlist" id="vlist"></div>
+    <p class="vhint" id="vhint"></p>
+    <button class="pill main" id="vclose">OK</button>
   </div>
 </div>
 
@@ -428,8 +446,17 @@ $('mascotHome').innerHTML=MASCOT;$('mascotFinish').innerHTML=MASCOT;
 /* ---------- speech & sound ---------- */
 let voices=[];
 const loadVoices=()=>{try{voices=speechSynthesis.getVoices()}catch(e){};voiceNote()};
+// pick the most natural voice the phone has: premium/enhanced/neural first, never the novelty voices
+const vlang=v=>(v.lang||'').toLowerCase().replace('_','-');
+const vscore=(v,t)=>{const n=v.name||'';let sc=0;
+  if(/premium/i.test(n))sc+=60;if(/enhanced|neural|natural|wavenet|studio|online/i.test(n))sc+=50;if(/siri/i.test(n))sc+=40;if(/google/i.test(n))sc+=30;
+  if(/albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|ralph/i.test(n))sc-=100;
+  if(/eddy|flo\b|grandma|grandpa|reed|rocko|sandy|shelley|espeak/i.test(n))sc-=40;
+  if(vlang(v)===(t==='el'?'el-gr':'en-gb')||vlang(v)==='en-us')sc+=5;if(v.localService)sc+=2;if(v.default)sc+=1;return sc};
+const voicesFor=t=>voices.filter(v=>vlang(v).startsWith(t)).sort((a,b)=>vscore(b,t)-vscore(a,t));
+const voiceFor=t=>{const all=voicesFor(t),pick=S.voice&&S.voice[t];return all.find(v=>v.voiceURI===pick)||all[0]};
+// load voices only now: Safari has them ready at once, and voiceNote() needs voiceFor above
 if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
-const voiceFor=t=>voices.find(v=>v.lang&&v.lang.toLowerCase().replace('_','-').startsWith(t));
 function voiceNote(){
   const n=$('voiceNote');
   if(!('speechSynthesis' in window)){n.textContent=tr('Αυτός ο browser δεν μπορεί να διαβάσει τις λέξεις φωναχτά. Οι λέξεις φαίνονται κανονικά στην οθόνη.','This browser cannot read the words aloud. The words still show on the screen.');return}
@@ -438,7 +465,7 @@ function voiceNote(){
 function speak(text,lang){
   if(!('speechSynthesis' in window))return;
   try{const say=()=>{try{const u=new SpeechSynthesisUtterance(text);const t=lang||L().tts,v=voiceFor(t);
-      if(v)u.voice=v;u.lang=v?v.lang:t;u.rate=.8;u.pitch=1.1;speechSynthesis.speak(u)}catch(e){}};
+      if(v)u.voice=v;u.lang=v?v.lang:t;u.rate=t==='el'?.92:.9;u.pitch=1;speechSynthesis.speak(u)}catch(e){}};
     // Android Chrome can drop an utterance queued right after cancel(), so wait a moment
     if(speechSynthesis.speaking||speechSynthesis.pending){speechSynthesis.cancel();setTimeout(say,80)}else say()}catch(e){}
 }
@@ -485,6 +512,19 @@ const TEN={read:['Read','Read the word, find the picture'],spell:['Spell the wor
   big:['Numbers to 50','Tens and ones'],ordinal:['Who is first?','First, second, third'],coins:['Euros','Count the money'],lines:['Join the dots','Draw lines 1, 2, 3'],
   pattern:['Patterns','Keep it going'],minus:['Subtraction','How many are left?'],sign:['+ or −?','Find the right sign'],calendar:['Days of the week','Monday, Tuesday, Wednesday…']};
 const STATIC=[['h1',"The Hoopoe's Island"],['.hero p','Games for reading, writing and numbers for 6-year-olds.'],['.sect','Maths – Grade 1'],['#again','Again'],['#toIsland','To the island'],['[data-game="first"] .ico','Aa']];
+function openVoices(){
+  const t=S.lang,all=voicesFor(t),good=all.filter(v=>vscore(v,t)>-50),list=good.length?good:all,cur=voiceFor(t);
+  $('vtitle').textContent=tr('Διάλεξε φωνή','Choose a voice');
+  $('vlist').innerHTML=list.length?list.slice(0,10).map((v,i)=>`<button data-uri="${v.voiceURI.replace(/"/g,'&quot;')}" aria-pressed="${v===cur}">🔊 ${v.name.replace(/</g,'&lt;')}${i===0?`<small>${tr('η πιο φυσική','most natural')}</small>`:''}</button>`).join('')
+    :`<p>${tr('Δεν βρέθηκε ελληνική φωνή σε αυτή τη συσκευή.','No English voice was found on this device.')}</p>`;
+  $('vhint').textContent=tr('Για πιο ανθρώπινη φωνή κατέβασε μια «Βελτιωμένη» ή «Premium» φωνή. iPhone: Ρυθμίσεις › Προσβασιμότητα › Εκφωνούμενο περιεχόμενο › Φωνές. Android: Ρυθμίσεις › Μετατροπή κειμένου σε ομιλία › Google › Εγκατάσταση φωνητικών δεδομένων. Μετά άνοιξε ξανά την εφαρμογή.',
+    'For a more human voice, download an "Enhanced" or "Premium" voice. iPhone: Settings › Accessibility › Spoken Content › Voices. Android: Settings › Text-to-speech › Google › Install voice data. Then reopen the app.');
+  $('vpanel').hidden=false;
+}
+$('voiceBtn').onclick=openVoices;
+$('vclose').onclick=()=>{$('vpanel').hidden=true};
+$('vlist').onclick=e=>{const b=e.target.closest('[data-uri]');if(!b)return;S.voice=S.voice||{};S.voice[S.lang]=b.dataset.uri;save();
+  $('vlist').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));speak(tr('Γεια σου! Πάμε να παίξουμε!','Hi there! Let’s play!'))};
 function applyLang(){
   const en=EN();document.documentElement.lang=S.lang;document.title=en?"The Hoopoe's Island":'Το νησί του Τσαλαπετεινού';
   document.querySelectorAll('#langs .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.lang===S.lang));
@@ -492,7 +532,7 @@ function applyLang(){
   STATIC.forEach(([q,t])=>sw(document.querySelector(q),t));
   document.querySelectorAll('.tile').forEach(t=>{const x=TEN[t.dataset.game];if(x){sw(t.querySelector('b'),x[0]);sw(t.querySelector('span'),x[1])}});
   $('back').setAttribute('aria-label',tr('Πίσω στο νησί','Back to the island'));
-  $('ver').textContent=tr('έκδοση ','version ')+APPV;voiceNote();
+  $('ver').textContent=tr('έκδοση ','version ')+APPV;$('voiceBtn').textContent=tr('🗣️ Φωνή','🗣️ Voice');$('voiceBtn').hidden=!('speechSynthesis' in window);voiceNote();
 }
 $('langs').onclick=e=>{const b=e.target.closest('[data-lang]');if(!b||b.dataset.lang===S.lang)return;S.lang=b.dataset.lang;save();applyLang();speak(tr('Ελληνικά','English'))};
 const TITLES={where:'Πού είναι;',shapes:'Σχήματα',sizes:'Μεγάλο – μικρό',compare:'Σύγκριση',split:'Το σπίτι των αριθμών',add:'Πρόσθεση',problems:'Προβλήματα',big:'Αριθμοί μέχρι το 50',ordinal:'Ποιος είναι πρώτος;',coins:'Τα ευρώ',lines:'Ενώνω τις τελείες',minus:'Αφαίρεση',sign:'+ ή −;',calendar:'Οι μέρες της εβδομάδας',dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
