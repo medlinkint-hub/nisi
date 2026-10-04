@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='17';
+var APPV='18';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -392,7 +392,7 @@ details.more .games{padding-top:4px}
 }
 /* older phones: no gap in flexbox (iOS < 14.5) - set by a JS check */
 .nogap .bar>*,.nogap .hero>*,.nogap .row>*,.nogap .dice>*,.nogap .inorder>*,.nogap .vs>*,.nogap .trio>*,.nogap .chap>*{margin:0 6px}
-.unit.kid{padding:0;overflow:hidden}
+.unit.kidu{padding:0;overflow:hidden}
 .uhead{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--c);color:var(--tink);border-bottom:3px solid #2E2A4F}
 .uhead .uic{font-size:46px;line-height:1;flex:none}
 .uhead h3{margin:0}.unit .uhead p{margin:0;color:var(--tink);opacity:.85}
@@ -484,8 +484,8 @@ details.more .games{padding-top:4px}
 .bars{display:flex;align-items:flex-end;gap:6px;height:110px}.bars div{flex:1;text-align:center;font-size:12px}.bars i{display:block;background:var(--ok);border-radius:6px 6px 0 0;margin-bottom:2px;min-height:2px}
 .abar{height:14px;border-radius:7px;background:var(--sky);overflow:hidden;margin:2px 0 8px}.abar i{display:block;height:100%;background:var(--ok)}
 .kids{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));grid-gap:10px;gap:10px;width:100%;max-width:560px}
-.kid{border:3px solid #2E2A4F;border-radius:22px;background:var(--t4);color:var(--tink);padding:10px;text-align:center;box-shadow:0 4px 0 #2E2A4F}
-.kid span{display:block;font-size:46px}.kid b{display:block;font-size:17px}.kid.cur{background:var(--t2);box-shadow:0 0 0 5px var(--ok)}
+.kidc{border:3px solid #2E2A4F;border-radius:22px;background:var(--t4);color:var(--tink);padding:10px;text-align:center;box-shadow:0 4px 0 #2E2A4F}
+.kidc span{display:block;font-size:46px}.kidc b{display:block;font-size:17px}.kidc.cur{background:var(--t2);box-shadow:0 0 0 5px var(--ok)}
 .avs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.avs button{font-size:32px;width:52px;height:52px;border-radius:50%;border:3px solid transparent;background:var(--card)}.avs button.on{border-color:var(--ok)}
 .kname{font:inherit;font-size:20px;padding:10px 14px;border-radius:14px;border:3px solid var(--line);width:100%;max-width:300px;background:var(--card);color:var(--ink)}
 @media (prefers-reduced-motion:reduce){.hoopoe,.eye,.chap.lcard.next{animation:none!important}}
@@ -1952,7 +1952,7 @@ const LPX={ι:'⛵',υ:'😴',φ:'🍓',ευ:'🙏'};   // ιστιοφόρο, �
 const LPIC=x=>{if(LPX[x])return LPX[x];const q=o=>o.w.normalize('NFD').replace(/\u0301/g,'').toLowerCase().replace(/ς/g,'σ'),r=new RegExp(x+'(?!\u0308)');
   const w=LW.find(o=>q(o).search(r)===0)||LW.find(o=>r.test(q(o)));return w?w.e:'🔤'};
 const card=(id,badge,lb,rev,k,pic,title)=>`<button class="chap lcard${S.done[id]?' done':''}" id="ch${id}" data-ch="${id}"><span class="badge${lb?' lb':''}${rev?' rev':''}" style="--k:${k}"><span>${badge}</span></span><span class="pic2">${pic}</span><span class="t">${title}</span><span class="chk">${S.done[id]?'⭐':''}</span></button>`;
-const unitBox=(ui,ic,h,p,body)=>`<div class="unit kid" style="--c:var(${UCOL[ui%5]})"><div class="uhead"><span class="uic">${ic}</span><span><h3>${h}</h3><p>${p}</p></span></div><div class="path">${body}</div></div>`;
+const unitBox=(ui,ic,h,p,body)=>`<div class="unit kidu" style="--c:var(${UCOL[ui%5]})"><div class="uhead"><span class="uic">${ic}</span><span><h3>${h}</h3><p>${p}</p></span></div><div class="path">${body}</div></div>`;
 const pbar=(d,n)=>`<div class="pbar" role="progressbar" aria-valuenow="${d}" aria-valuemax="${n}"><i style="width:${n?Math.round(d*100/n):0}%"></i></div>`;
 // a tapped card bounces and chimes, then the lesson opens
 const cardTaps=go=>stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>{if(b.classList.contains('tap'))return;b.classList.add('tap');tone([660,880],.07);setTimeout(()=>go(b.dataset.ch),230)});
@@ -2425,7 +2425,7 @@ function openKids(){
   const stars=k=>{try{return(JSON.parse(localStorage.getItem(kidKey(k.id))||'{}').stars)||0}catch(e){return 0}};
   let av=pick(AV);
   stage().innerHTML=`<p class="counter">${tr('Κάθε παιδί έχει τη δική του πρόοδο, αστέρια και νησί.','Each child has their own progress, stars and island.')}</p>
-   <div class="kids">${KPROF.list.map(k=>`<button class="kid${k.id===KPROF.cur?' cur':''}" data-k="${k.id}"><span>${k.a}</span><b>${kidName(k)}</b>⭐ ${k.id===KPROF.cur?S.stars:stars(k)}</button>`).join('')}</div>
+   <div class="kids">${KPROF.list.map(k=>`<button class="kidc${k.id===KPROF.cur?' cur':''}" data-k="${k.id}"><span>${k.a}</span><b>${kidName(k)}</b>⭐ ${k.id===KPROF.cur?S.stars:stars(k)}</button>`).join('')}</div>
    <div class="pcard"><h3>${tr('Όνομα και εικόνα','Name and picture')}</h3><input class="kname" id="kn" maxlength="20" placeholder="${tr('Όνομα','Name')}"><div class="avs" id="avs">${AV.map(a=>`<button data-a="${a}">${a}</button>`).join('')}</div>
      <div class="row"><button class="pill main" id="kAdd">➕ ${tr('Νέο παιδί','New child')}</button><button class="pill" id="kEdit">✏️ ${tr('Αλλαγή τρέχοντος','Change current')}</button><button class="pill" id="kDel">🗑️ ${tr('Διαγραφή','Delete')}</button></div></div>`;
   const cur=KPROF.list.find(k=>k.id===KPROF.cur)||KPROF.list[0];$('kn').value=cur.n||'';av=cur.a;
