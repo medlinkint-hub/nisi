@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='13';
+var APPV='14';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -1225,11 +1225,17 @@ const solidSvg=k=>`<svg class="pic2" viewBox="0 0 100 100"><g stroke="#2E2A4F" s
 const OBJS=[['⚽','s'],['🏀','s'],['🍊','s'],['🥁','y'],['🕯️','y'],['🎲','k'],['🎁','k'],['📦','b']];
 function shapesRound(){
   const r=G.round;
-  if(r<3){
+  if(r===2||r===3){
+    const t=pick(SHAPES),n=1+rand(5),others=SHAPES.filter(s=>s!==t),all=shuffle([...Array(n).fill(t.k),...[...Array(3+rand(4))].map(()=>pick(others).k)]);
+    stage().innerHTML=`<p class="prompt">${L2(t.many)}</p><div class="board">${all.map(k=>shp(k,40+rand(30)+'px')).join('')}</div>
+     <div class="opts c3">${btns(near(n,1,6))}</div>`;
+    choose('.opts',n,shapesRound,NW(n));ask(L2(t.many));return;
+  }
+  if(r<2){
     const t=pick(SHAPES),q=tr('Βρες ','Find ')+L2(t.one);
     stage().innerHTML=`<p class="prompt">${q}</p><div class="opts c2">${shuffle(SHAPES).map(s=>`<button class="pic" data-v="${s.k}">${shp(s.k,'70%')}</button>`).join('')}</div>`;
     choose('.opts',t.k,shapesRound,L2(t.nom));ask(q);
-  }else if(r<5){
+  }else if(r<6){
     const[e,k]=pick(OBJS),opts=shuffle([k,...shuffle(Object.keys(SOLID).filter(x=>x!==k)).slice(0,2)]),q=tr('Τι σχήμα έχει;','What shape is it?');
     stage().innerHTML=`<p class="prompt">${q}</p><div class="big-e">${e}</div>
      <div class="opts c3">${opts.map(o=>`<button class="opt solid" data-v="${o}">${solidSvg(o)}<small>${SOLID[o][EN()?1:0]}</small></button>`).join('')}</div>`;
@@ -1954,7 +1960,7 @@ function openMap(ch){
   markNext(ch,all.find(c=>!S.done[c[0]]),c=>c[0]);
 }
 S.open=S.open||{};
-['moreLang','moreMath'].forEach(id=>{const d=$(id);d.open=!!S.open[id];d.addEventListener('toggle',()=>{S.open[id]=d.open;save()})});
+['moreLang','moreMath'].forEach(id=>{const d=$(id);d.open=S.open[id]!==false;d.addEventListener('toggle',()=>{S.open[id]=d.open;save()})});
 $('rep').onclick=()=>{if(lastSay)speak(lastSay[0],lastSay[1])};
 applyLang();
 if('serviceWorker' in navigator){
