@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='16';
+var APPV='17';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -426,6 +426,69 @@ details.more .games{padding-top:4px}
 .wtiles{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:440px}
 .wtiles button{padding:8px 14px;border-radius:16px;background:var(--t4);color:var(--tink);border:3px solid #2E2A4F;font-size:26px;font-weight:700}
 .wtiles button.used{visibility:hidden}.wtiles button.no{animation:shake .4s}
+.drow{position:relative;width:100%;min-height:56px;display:flex;justify-content:center;align-items:center}
+.buddy{position:absolute;right:2px;top:50%;margin-top:-28px;width:56px;height:56px;border-radius:50%;background:#FFF3C4;border:2px solid var(--line);display:grid;place-items:center}
+.buddy .hoopoe{width:50px;height:50px}
+.bub{position:absolute;right:64px;top:50%;margin-top:-17px;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:4px 10px;font-weight:700;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
+.bub.on{opacity:1}
+.buddy.happy .hoopoe,#mascotFinish .hoopoe{animation:dance .8s ease-in-out}
+#mascotFinish .hoopoe{animation-iteration-count:infinite}
+.buddy.sad .hoopoe{animation:nod .6s ease-in-out}
+.eye{animation:blink 4.5s infinite;transform-origin:56px 47px}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes dance{25%{transform:translateY(-10px) rotate(-10deg)}50%{transform:translateY(0)}75%{transform:translateY(-8px) rotate(10deg)}}
+@keyframes nod{25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+#fx{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:30;overflow:hidden}
+.fxp{position:absolute;font-size:24px;line-height:1;animation:fxfly .9s ease-out forwards}
+.fxp.dot{width:10px;height:10px;border-radius:3px}
+@keyframes fxfly{0%{transform:translate(0,0) scale(.4);opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--r)) scale(1);opacity:0}}
+.toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-120px);z-index:31;background:var(--card);color:var(--ink);border:3px solid #2E2A4F;border-radius:22px;padding:10px 18px;font-weight:700;box-shadow:0 5px 0 #2E2A4F;transition:transform .35s;max-width:92vw;text-align:center}
+.toast.on{transform:translate(-50%,0)}
+.sbig{position:fixed;left:50%;top:40%;z-index:31;font-family:Grandstander,Andika,sans-serif;font-size:40px;font-weight:800;color:#E0604F;text-shadow:0 3px 0 #fff;pointer-events:none;opacity:0;transform:translate(-50%,-50%)}
+.sbig.on{animation:sbig 1.3s ease-out}
+@keyframes sbig{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}75%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-70%) scale(1)}}
+.boing{animation:pop .35s ease-out}
+.stk-new{font-size:18px;font-weight:700;margin:-8px 0 14px}
+.stk-new span{display:inline-block;font-size:56px;animation:spin .9s ease-out}
+@keyframes spin{0%{transform:scale(0) rotate(-180deg)}100%{transform:scale(1) rotate(0)}}
+.games.fun{grid-template-columns:repeat(3,1fr);padding-bottom:12px}
+.fun .tile{min-height:120px;padding:10px 8px}.fun .tile .ico{font-size:40px}.fun .tile b{font-size:16px}
+.fun .tile:nth-child(1){--c:#7EC8E3}.fun .tile:nth-child(2){--c:var(--t5)}.fun .tile:nth-child(3){--c:var(--t3)}
+.ghost{opacity:.9;transform:scale(1.1);box-shadow:0 8px 16px rgba(0,0,0,.3)}
+.dropok{box-shadow:0 0 0 5px var(--ok)!important}
+.stage.dnd .opts [data-v],.stage.dnd .opts [data-n],.stage.dnd .inorder [data-n],.stage.dnd .letters button,.stage.dnd .wtiles button{touch-action:none}
+.isl{position:relative;width:100%;max-width:420px;height:0;padding-bottom:100%;max-height:420px;border-radius:32px;border:3px solid #2E2A4F;overflow:hidden;background:linear-gradient(#BFE6FF 0,#BFE6FF 22%,#5BC0DE 22%,#3FA7C9 100%);touch-action:none}
+@media (min-width:460px){.isl{padding-bottom:420px}}
+.isl .land{position:absolute;left:10%;top:28%;width:80%;height:52%;border-radius:50%;background:#F6D78B;box-shadow:inset 0 -10px 0 #E9C46A}
+.isl .land i{position:absolute;left:14%;top:12%;width:72%;height:62%;border-radius:50%;background:#9CCB86}
+.isl .sun{position:absolute;left:5%;top:3%;font-size:40px}
+.isl .it{position:absolute;font-size:38px;line-height:1;transform:translate(-50%,-50%);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.isl .it.boing{animation:pop2 .35s ease-out}
+@keyframes pop2{50%{transform:translate(-50%,-50%) scale(1.35)}}
+.shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));grid-gap:8px;gap:8px;width:100%;max-width:440px}
+.shop button{border:3px solid #2E2A4F;border-radius:18px;background:var(--card);padding:6px 2px;font-size:32px;line-height:1.1;box-shadow:0 3px 0 #2E2A4F}
+.shop button small{display:block;font-size:14px;font-weight:700}
+.shop button.poor{opacity:.45}
+.medals{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));grid-gap:10px;gap:10px;width:100%;max-width:560px}
+.med{border:3px solid #2E2A4F;border-radius:20px;background:var(--t4);color:var(--tink);padding:10px 8px;text-align:center}
+.med span{display:block;font-size:42px}.med b{display:block;font-size:15px}.med small{display:block;font-size:13px;opacity:.8}
+.med.no{background:var(--card);color:var(--muted);border-style:dashed}.med.no span{filter:grayscale(1);opacity:.4}
+.album{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));grid-gap:8px;gap:8px;width:100%;max-width:560px}
+.stk{position:relative;aspect-ratio:1;min-height:64px;border-radius:50%;border:3px solid #2E2A4F;background:#FFF3C4;font-size:36px;display:grid;place-items:center}
+.stk.no{border-style:dashed;background:var(--card);color:var(--muted);font-size:24px;font-weight:800}
+.stk sup{position:absolute;right:-4px;top:-6px;background:#E0604F;color:#fff;border-radius:10px;padding:1px 6px;font-size:13px}
+.pcard{width:100%;max-width:560px;background:var(--card);border:3px solid var(--line);border-radius:24px;padding:12px 14px}
+.pcard h3{margin:0 0 6px;font-family:Grandstander,Andika,sans-serif}
+.pcard ul{margin:4px 0;padding-left:20px}
+.nums{display:flex;flex-wrap:wrap;gap:8px}.nums div{flex:1;min-width:90px;text-align:center;background:var(--sky);border-radius:14px;padding:6px}.nums b{display:block;font-size:26px}
+.bars{display:flex;align-items:flex-end;gap:6px;height:110px}.bars div{flex:1;text-align:center;font-size:12px}.bars i{display:block;background:var(--ok);border-radius:6px 6px 0 0;margin-bottom:2px;min-height:2px}
+.abar{height:14px;border-radius:7px;background:var(--sky);overflow:hidden;margin:2px 0 8px}.abar i{display:block;height:100%;background:var(--ok)}
+.kids{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));grid-gap:10px;gap:10px;width:100%;max-width:560px}
+.kid{border:3px solid #2E2A4F;border-radius:22px;background:var(--t4);color:var(--tink);padding:10px;text-align:center;box-shadow:0 4px 0 #2E2A4F}
+.kid span{display:block;font-size:46px}.kid b{display:block;font-size:17px}.kid.cur{background:var(--t2);box-shadow:0 0 0 5px var(--ok)}
+.avs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.avs button{font-size:32px;width:52px;height:52px;border-radius:50%;border:3px solid transparent;background:var(--card)}.avs button.on{border-color:var(--ok)}
+.kname{font:inherit;font-size:20px;padding:10px 14px;border-radius:14px;border:3px solid var(--line);width:100%;max-width:300px;background:var(--card);color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.hoopoe,.eye,.chap.lcard.next{animation:none!important}}
 .nogap .dots>*,.nogap .slots>*,.nogap .letters>*,.nogap .sum>*,.nogap .sum .grp>*,.nogap .count-field>*,.nogap .nline>*,.nogap .objs>*,.nogap .seq>*,
 .nogap .board>*,.nogap .queue>*,.nogap .week>*,.nogap .legend>*,.nogap .blocks>*,.nogap .ones>*,.nogap .grpbtn>*{margin:3px}
 .nogap .stage>*,.nogap .stack>*,.nogap .learn-card>*{margin:8px 0}
@@ -446,9 +509,15 @@ details.more .games{padding-top:4px}
       </div>
     </div>
     <p class="note" id="voiceNote"></p>
+    <button class="pill vbtn" id="who"></button>
     <button class="pill vbtn" id="voiceBtn">🗣️ Φωνή</button>
     <p class="ver" id="ver"></p>
     <div class="cont" id="cont"></div>
+    <div class="games fun">
+      <button class="tile" data-game="island"><div class="ico">🏝️</div><b>Το νησί μου</b><span>Στόλισέ το με τα ⭐</span></button>
+      <button class="tile" data-game="treasure"><div class="ico">🎁</div><b>Ο θησαυρός μου</b><span>Αυτοκόλλητα και μετάλλια</span></button>
+      <button class="tile" data-game="parents"><div class="ico">👪</div><b>Για γονείς</b><span>Η πρόοδος του παιδιού</span></button>
+    </div>
     <div class="games books">
       <button class="tile bkt" data-game="langmap"><div class="ico">📗</div><b>Το βιβλίο της Γλώσσας</b><span>Γράμματα, λέξεις, ιστορίες – με τη σειρά του βιβλίου</span></button>
       <button class="tile bkt" data-game="map"><div class="ico">📘</div><b>Το βιβλίο των Μαθηματικών</b><span>Όλα τα κεφάλαια, με τη σειρά του βιβλίου</span></button>
@@ -517,7 +586,7 @@ details.more .games{padding-top:4px}
       <button class="iconbtn rep" id="rep" aria-label="Άκου ξανά">🔊</button>
       <div class="stars" id="starCount2">⭐ 0</div>
     </div>
-    <div class="dots" id="dots" aria-hidden="true"></div>
+    <div class="drow"><div class="dots" id="dots" aria-hidden="true"></div><div class="buddy" id="buddy" aria-hidden="true"></div></div>
     <div class="stage" id="stage"></div>
   </section>
 
@@ -540,6 +609,7 @@ details.more .games{padding-top:4px}
     <div class="hoopoe-wrap" style="margin:0 auto" id="mascotFinish"></div>
     <h2 id="finTitle">Μπράβο!</h2>
     <p id="finText"></p>
+    <div class="stk-new" id="finStk"></div>
     <div class="row">
       <button class="pill main" id="again">Ξανά</button>
       <button class="pill" id="toIsland">Στο νησί</button>
@@ -547,6 +617,7 @@ details.more .games{padding-top:4px}
   </div>
 </div>
 
+<div id="fx" aria-hidden="true"></div><div class="toast" id="toast" role="status" aria-live="polite"></div><div class="sbig" id="sbig" aria-hidden="true"></div>
 <script>
 (function(){try{const d=document.createElement('div');d.style.cssText='display:flex;flex-direction:column;row-gap:1px;position:absolute';d.innerHTML='<div></div><div></div>';
   document.body.appendChild(d);if(d.scrollHeight!==1)document.documentElement.classList.add('nogap');d.remove()}catch(e){}})();
@@ -608,12 +679,16 @@ const HOWMANY={en:'How many?',el:'Πόσα;',ar:'كم عددها؟',fr:'Combien 
 const AGAIN={en:'Try again',el:'Ξανά',ar:'حاول مرة أخرى',fr:'Essaie encore',ru:'Попробуй ещё',bg:'Опитай пак',es:'Otra vez',de:'Noch einmal',it:'Riprova'};
 
 /* ---------- state ---------- */
+// each child has their own saved progress; the first child keeps the original 'hoopoe' key
+let KPROF={cur:'p0',list:[{id:'p0',n:'',a:'🦊'}]};
+try{Object.assign(KPROF,JSON.parse(localStorage.getItem('hoopoe-kids')||'{}'))}catch(e){}
+const kidKey=id=>id==='p0'?'hoopoe':'hoopoe-'+id,KEY=kidKey(KPROF.cur);
 let S={lang:'el',stars:0};
-try{Object.assign(S,JSON.parse(localStorage.getItem('hoopoe')||'{}'))}catch(e){}
+try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
 if(S.lang!=='en')S.lang='el';S.done=S.done||{};
 const EN=()=>S.lang==='en';
 const tr=(el,en)=>EN()?en:el;
-const save=()=>{try{localStorage.setItem('hoopoe',JSON.stringify(S))}catch(e){}};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const L=()=>LANGS.find(l=>l.id===S.lang);
 const $=id=>document.getElementById(id);
 const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
@@ -631,8 +706,8 @@ const MASCOT=`<svg class="hoopoe" viewBox="0 0 140 130" aria-hidden="true">${cre
 <path d="M76 70 q6 9 3 18 M86 68 q6 9 3 18 M96 67 q5 8 3 16" stroke="#FFF3C4" stroke-width="3.5" fill="none" stroke-linecap="round"/>
 <circle cx="62" cy="52" r="19" fill="#F2B07A"/>
 <path d="M45 50 Q28 52 10 66 Q30 58 45 57 Z" fill="#3B3355"/>
-<circle cx="56" cy="47" r="4" fill="#2E2A4F"/><circle cx="57.3" cy="45.7" r="1.3" fill="#fff"/></svg>`;
-$('mascotHome').innerHTML=MASCOT;$('mascotFinish').innerHTML=MASCOT;
+<g class="eye"><circle cx="56" cy="47" r="4" fill="#2E2A4F"/><circle cx="57.3" cy="45.7" r="1.3" fill="#fff"/></g></svg>`;
+$('mascotHome').innerHTML=MASCOT;$('mascotFinish').innerHTML=MASCOT;$('buddy').innerHTML=MASCOT+'<span class="bub" id="bub"></span>';
 
 /* ---------- speech & sound ---------- */
 let voices=[];
@@ -689,7 +764,7 @@ function ptr(el,down,move,up){
   el.onmousedown=down;if(move)el.onmousemove=move;if(up)el.onmouseup=el.onmouseleave=up;
 }
 const yay=()=>tone([523,659,784]);
-const nope=()=>tone([220,196],.16,'triangle');
+const nope=()=>{tone([220,196],.16,'triangle');onWrong()};
 
 /* ---------- home ---------- */
 function updateStars(){$('starCount').textContent=$('starCount2').textContent='⭐ '+S.stars}
@@ -712,6 +787,7 @@ const TEN={read:['Read','Read the word, find the picture'],spell:['Spell the wor
   inverse:['Undo it','5 + 3 = 8, 8 − 3 = 5'],calc:['Mental maths','Up to 20'],mult:['Multiplication','Equal groups'],share:['Sharing','Division'],measure:['Measuring','How many squares long?'],
   symmetry:['Symmetry','Mirror pictures'],weight:['The scale','Heavier or lighter?'],money100:['Money to 100€','Notes and coins'],
   'wb:wl':['Greek workbook','Write letters, words, dictation'],'wb:wh':['My first writing book','Write every letter with your finger'],'wb:wm':['Maths workbook','Write the answer yourself'],'wb:wp':['Maths practice book','Worksheets and a test for every unit'],
+  island:['My island','Decorate it with your ⭐'],treasure:['My treasure','Stickers and medals'],parents:['For parents',"Your child's progress"],
   langmap:['My reading book','Letters, words, stories – in book order'],letter:['Letters','Find the letter'],syl:['Syllables','Find the syllable'],join:['Join letters','π + α = πα'],readw:['Read words','Find the picture'],
   listenw:['Listen and read','How is it written?'],missw:['Missing letter','Fill the gap'],spellw:['Write words','Letter by letter'],firstl:['First letter','Which letter does it start with?'],caps:['Capital letters','Big and small'],
   accent:['The accent','Where does it go?'],sent:['Sentences','Read and find'],punct:['Punctuation','. ; !']};
@@ -748,11 +824,12 @@ function home(){$('finish').hidden=true;$('game').hidden=true;$('home').hidden=f
 function start(name,o={}){
   if(name==='map')return openMap();
   if(name==='langmap')return openLangMap();
+  if(name==='island')return openIsland();if(name==='treasure')return openTreasure();if(name==='parents')return openParents();
   if(name.indexOf('wb:')===0)return openWB(name.slice(3));
   $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;$('gtitle').textContent=o.tt?o.tt:o.ch?(o.lang?o.t:`${o.ch}. ${o.t}`):EN()?TEN[name][0]:TITLES[name];
   const l=o.l,digits=l===5?shuffle([1,2,3,4,5,1,2,3]):l===10?shuffle([6,7,8,9,6,7,8,9]):shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,8);
   lastSay=null;
-  G={name,cur:name,o,round:0,total:o.total||8,earned:0,gr:!READ.includes(name),lvl:l,mix:o.mix?shuffle(o.mix):null,digits};busy=false;
+  G={name,cur:name,streak:0,o,round:0,total:o.total||8,earned:0,gr:!READ.includes(name),lvl:l,mix:o.mix?shuffle(o.mix):null,digits};busy=false;
   $('toIsland').textContent=o.ch?tr('Στο βιβλίο','To the book'):tr('Στο νησί','To the island');
   (G.mix?mixRound:ROUNDS[name])();
   drawDots();scrollTo(0,0);
@@ -760,15 +837,15 @@ function start(name,o={}){
 function mixRound(){const[f,l]=G.mix[G.round%G.mix.length];G.lvl=l;G.cur=f;ROUNDS[f]()}
 function drawDots(){$('dots').innerHTML=G.name==='learn'?'':Array.from({length:G.total},(_,i)=>`<i class="${i<G.round?'done':''}"></i>`).join('')}
 function win(next){
-  G.solve=null;G.round++;G.earned++;S.stars++;save();updateStars();drawDots();yay();
+  G.solve=null;G.round++;G.earned++;S.stars++;onRight();save();updateStars();drawDots();yay();
   setTimeout(()=>{busy=false;G.round>=G.total?finish():(G.mix?mixRound:next)()},1500);
 }
 function finish(){
-  const lg=S.lang;
+  const lg=S.lang,fresh=!!(G.o&&G.o.ch&&!S.done[G.o.ch]);
   if(G.o&&G.o.ch){S.done[G.o.ch]=1;save()}
   $('finTitle').textContent=PRAISE[lg];$('finTitle').dir=lg==='ar'?'rtl':'ltr';
   $('finText').textContent=tr(`Κέρδισες ${G.earned} ${G.earned===1?'αστέρι':'αστέρια'}. ⭐`,`You earned ${G.earned} ${G.earned===1?'star':'stars'}. ⭐`);
-  $('finish').hidden=false;speak(PRAISE[lg],lg);
+  $('finish').hidden=false;speak(PRAISE[lg],lg);onFinish(fresh);
 }
 const stage=()=>$('stage');
 
@@ -889,7 +966,7 @@ function pickNum(cls,choices,ans,onOk,next){
   const box=stage().querySelector(cls),miss=hintAfter(box,x=>+x.dataset.n===ans);
   const ok=b=>{busy=true;b.classList.add('ok');gr(NW(ans));onOk&&onOk();win(next)};
   box.onclick=e=>{const b=e.target.closest('.pic');if(!b||busy)return;
-    if(+b.dataset.n===ans)ok(b);else{bad(b);gr(AGAIN[S.lang]);miss()}};
+    if(+b.dataset.n===ans)ok(b);else{noteMix(ans,b.dataset.n);bad(b);gr(AGAIN[S.lang]);miss()}};
   writeIn(box,ans,ok);
 }
 
@@ -1002,7 +1079,7 @@ function choose(sel,ans,next,say,onOk){
   const box=stage().querySelector(sel),miss=hintAfter(box,x=>x.dataset.v===String(ans));
   const ok=b=>{busy=true;b.classList.add('ok');onOk&&onOk(b);if(say)gr(say);win(next)};
   box.onclick=e=>{const b=e.target.closest('[data-v]');if(!b||busy)return;
-    if(b.dataset.v===String(ans))ok(b);else{bad(b);gr(AGAIN[S.lang]);miss()}};
+    if(b.dataset.v===String(ans))ok(b);else{noteMix(ans,b.dataset.v);bad(b);gr(AGAIN[S.lang]);miss()}};
   writeIn(box,ans,ok);
 }
 const fillGap=v=>()=>{const g=$('gapbox');g.textContent=v;g.className='fill'};
@@ -2138,6 +2215,233 @@ function openWB(key,ch){
   cardTaps(id=>go(all.find(x=>x.id===id)));
   markNext(ch,all.find(l=>!S.done[l.id]),l=>l.id);
 }
+/* ================= Fun layer: effects, buddy, streaks, stickers, island, medals, drag & drop, parents, profiles ================= */
+const CALM=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+const dkey=(d=new Date())=>d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
+S.log=S.log||{};S.gs=S.gs||{};S.conf=S.conf||{};S.stk=S.stk||{};S.isl=S.isl||[];S.spent=S.spent||0;S.medals=S.medals||{};S.best=S.best||0;S.free=S.free||0;
+// days in a row
+(()=>{const t=dkey(),y=dkey(new Date(Date.now()-864e5));const d=S.days||{last:'',n:0};if(d.last!==t){d.n=d.last===y?d.n+1:1;d.last=t}S.days=d;
+  const keep=Object.keys(S.log).sort().slice(-40);Object.keys(S.log).forEach(k=>{if(keep.indexOf(k)<0)delete S.log[k]});save()})();
+const today=()=>S.log[dkey()]||(S.log[dkey()]={t:0,l:0,r:0,w:0});
+
+/* where the finger last touched, so effects start from there */
+let lastXY=[innerWidth/2,innerHeight/2];
+['pointerdown','touchstart','mousedown'].forEach(t=>document.addEventListener(t,e=>{const p=e.touches?e.touches[0]:e;if(p)lastXY=[p.clientX,p.clientY]},{capture:true,passive:true}));
+
+/* 1. confetti and fireworks */
+const FXC=['#E0604F','#F0A040','#FFD34D','#5BAE6B','#4A90C8','#8E7CC3'];
+function burst(x,y,n,chars,spread){
+  if(CALM)return;const fx=$('fx');spread=spread||1;
+  for(let i=0;i<n;i++){const p=document.createElement('span'),a=Math.random()*Math.PI*2,d=(50+Math.random()*110)*spread,c=chars&&pick(chars);
+    p.className='fxp'+(c?'':' dot');if(c)p.textContent=c;else p.style.background=pick(FXC);
+    p.style.left=x+'px';p.style.top=y+'px';p.style.setProperty('--dx',Math.cos(a)*d+'px');p.style.setProperty('--dy',(Math.sin(a)*d-30*spread)+'px');p.style.setProperty('--r',(rand(720)-360)+'deg');
+    p.style.animationDuration=(.7+Math.random()*.5)+'s';fx.appendChild(p);setTimeout(()=>p.remove(),1300)}
+}
+function fireworks(){for(let k=0;k<6;k++)setTimeout(()=>{burst(40+Math.random()*(innerWidth-80),60+Math.random()*innerHeight*.45,22,k%2?['⭐','✨','🎉']:null,1.3)},k*260)}
+let toastT;
+function toast(html){const t=$('toast');t.innerHTML=html;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),3200)}
+function bigText(t){const b=$('sbig');b.textContent=t;b.classList.remove('on');void b.offsetWidth;b.classList.add('on')}
+
+/* 2. the hoopoe buddy reacts */
+let bubT;
+function buddy(mood,text){const b=$('buddy');if(!b)return;b.classList.remove('happy','sad');void b.offsetWidth;b.classList.add(mood);
+  const u=$('bub');if(text){u.textContent=text;u.classList.add('on');clearTimeout(bubT);bubT=setTimeout(()=>u.classList.remove('on'),1600)}}
+const CHEER=[['Μπράβο!','Well done!'],['Τέλεια!','Perfect!'],['Πολύ ωραία!','Great!'],['Σούπερ!','Super!'],['Ναι!','Yes!']];
+/* 3. streaks + stats for the parents page */
+function onRight(){
+  if(!G)return;const c=G.cur||G.name;G.streak=(G.streak||0)+1;if(G.streak>S.best)S.best=G.streak;
+  today().r++;(S.gs[c]=S.gs[c]||[0,0])[0]++;
+  burst(lastXY[0],lastXY[1],14,['⭐','✨',null]);buddy('happy',L2(pick(CHEER)));
+  if(G.streak>=3&&G.streak%3===0){bigText('🔥 '+G.streak+' '+tr('στη σειρά!','in a row!'));setTimeout(()=>burst(innerWidth/2,innerHeight*.4,26,['🔥','⭐',null],1.4),150)}
+}
+function onWrong(){
+  if(!G||G.name==='map'||G.name==='page')return;const c=G.cur||G.name;G.streak=0;today().w++;(S.gs[c]=S.gs[c]||[0,0])[1]++;
+  buddy('sad',tr('Πάμε ξανά!','Try again!'));save();
+}
+// which answers get mixed up (ε ↔ η, 6 ↔ 9 …)
+function noteMix(ans,got){ans=String(ans);got=String(got);if(ans.length>3||got.length>3||ans===got)return;const k=ans+'→'+got;S.conf[k]=(S.conf[k]||0)+1}
+
+/* 4. stickers */
+const STK=[['🐶','σκυλάκι','puppy'],['🐱','γατούλα','kitten'],['🐭','ποντικάκι','mouse'],['🐹','χάμστερ','hamster'],['🐰','κουνελάκι','bunny'],['🦊','αλεπού','fox'],['🐻','αρκουδάκι','bear'],['🐼','πάντα','panda'],
+ ['🐨','κοάλα','koala'],['🐯','τίγρης','tiger'],['🦁','λιοντάρι','lion'],['🐮','αγελάδα','cow'],['🐷','γουρουνάκι','piglet'],['🐸','βατραχάκι','frog'],['🐵','μαϊμού','monkey'],['🐔','κότα','hen'],
+ ['🐧','πιγκουίνος','penguin'],['🐤','κοτοπουλάκι','chick'],['🦆','παπάκι','duckling'],['🦉','κουκουβάγια','owl'],['🐴','αλογάκι','pony'],['🦄','μονόκερος','unicorn'],['🐝','μέλισσα','bee'],['🐛','κάμπια','caterpillar'],
+ ['🦋','πεταλούδα','butterfly'],['🐌','σαλιγκάρι','snail'],['🐞','πασχαλίτσα','ladybird'],['🐢','χελώνα','turtle'],['🐙','χταπόδι','octopus'],['🦀','καβουράκι','crab'],['🐠','ψαράκι','fish'],['🐬','δελφίνι','dolphin'],
+ ['🐳','φάλαινα','whale'],['🦈','καρχαρίας','shark'],['🐊','κροκόδειλος','crocodile'],['🦓','ζέβρα','zebra'],['🐘','ελέφαντας','elephant'],['🦒','καμηλοπάρδαλη','giraffe'],['🐪','καμήλα','camel'],['🐑','προβατάκι','lamb'],
+ ['🐐','κατσικούλα','goat'],['🦌','ελάφι','deer'],['🐿️','σκίουρος','squirrel'],['🦔','σκαντζόχοιρος','hedgehog'],['🦜','παπαγάλος','parrot'],['🦚','παγώνι','peacock'],['🦢','κύκνος','swan'],['🐓','κόκορας','rooster']];
+function giveSticker(){const own=STK.filter(s=>S.stk[s[0]]),pool=STK.filter(s=>!S.stk[s[0]]),s=pick(pool.length?pool:STK);S.stk[s[0]]=(S.stk[s[0]]||0)+1;return s}
+function onFinish(fresh){
+  today().l++;let s=null;
+  if(fresh)s=giveSticker();else if(!(G.o&&G.o.ch)&&++S.free%3===0)s=giveSticker();
+  $('finStk').innerHTML=s?`${tr('Νέο αυτοκόλλητο!','New sticker!')}<br><span>${s[0]}</span><br>${tr(s[1],s[2])}`:'';
+  save();fireworks();setTimeout(checkMedals,1400);
+}
+
+/* 6. medals */
+const doneN=()=>Object.keys(S.done).length,stkN=()=>Object.keys(S.stk).length;
+const allDone=ids=>ids.length&&ids.every(i=>S.done[i]);
+const MEDALS=[
+ ['first','🎈','Πρώτο μάθημα','First lesson','Τελείωσε ένα μάθημα','Finish a lesson',()=>doneN()>=1],
+ ['l10','🥉','10 μαθήματα','10 lessons','Τελείωσε 10 μαθήματα','Finish 10 lessons',()=>doneN()>=10],
+ ['l50','🥈','50 μαθήματα','50 lessons','Τελείωσε 50 μαθήματα','Finish 50 lessons',()=>doneN()>=50],
+ ['l100','🥇','100 μαθήματα','100 lessons','Τελείωσε 100 μαθήματα','Finish 100 lessons',()=>doneN()>=100],
+ ['s100','⭐','100 αστέρια','100 stars','Μάζεψε 100 ⭐','Collect 100 ⭐',()=>S.stars>=100],
+ ['s500','🌟','500 αστέρια','500 stars','Μάζεψε 500 ⭐','Collect 500 ⭐',()=>S.stars>=500],
+ ['s1000','💫','1000 αστέρια','1000 stars','Μάζεψε 1000 ⭐','Collect 1000 ⭐',()=>S.stars>=1000],
+ ['uL1','📗','Ενότητα 1 Γλώσσας','Reading unit 1','Όλα τα μαθήματα της 1ης ενότητας','Every lesson of unit 1',()=>allDone(LLESSONS[0].ls.map(l=>l.id))],
+ ['uM1','📘','Ενότητα 1 Μαθηματικών','Maths unit 1','Όλα τα κεφάλαια της 1ης ενότητας','Every chapter of unit 1',()=>allDone(UNITS[0].c.map(c=>c[0]))],
+ ['abc','🔤','Όλα τα γράμματα!','All the letters!','Όλα τα μαθήματα γραμμάτων','Every letter lesson',()=>allDone([].concat(...LLESSONS.filter(x=>x.u.L).map(x=>x.ls.map(l=>l.id))))],
+ ['math','🧮','Όλα τα Μαθηματικά!','All of maths!','Όλα τα κεφάλαια του βιβλίου','Every chapter in the book',()=>allDone(mathAll().map(c=>c[0]))],
+ ['wb','📒','Τα τετράδια','The workbooks','Ένα μάθημα από τετράδιο','A lesson from a workbook',()=>Object.keys(S.done).some(k=>/^(W|P)/.test(k))],
+ ['d3','📅','3 μέρες στη σειρά','3 days in a row','Παίξε 3 μέρες στη σειρά','Play 3 days in a row',()=>S.days.n>=3],
+ ['d7','🗓️','7 μέρες στη σειρά','7 days in a row','Παίξε 7 μέρες στη σειρά','Play 7 days in a row',()=>S.days.n>=7],
+ ['d10','🏅','10 μέρες στη σειρά','10 days in a row','Παίξε 10 μέρες στη σειρά','Play 10 days in a row',()=>S.days.n>=10],
+ ['fire','🔥','Φωτιά!','On fire!','9 σωστές στη σειρά','9 right answers in a row',()=>S.best>=9],
+ ['stk10','🎁','10 αυτοκόλλητα','10 stickers','Μάζεψε 10 αυτοκόλλητα','Collect 10 stickers',()=>stkN()>=10],
+ ['stkAll','👑','Όλο το άλμπουμ!','The whole album!','Μάζεψε όλα τα αυτοκόλλητα','Collect every sticker',()=>stkN()>=STK.length],
+ ['isl5','🏝️','Χτίζω το νησί','Island builder','Βάλε 5 πράγματα στο νησί','Put 5 things on the island',()=>S.isl.length>=5]];
+function checkMedals(){const nw=MEDALS.filter(m=>!S.medals[m[0]]&&m[6]());nw.forEach(m=>{S.medals[m[0]]=dkey()});if(!nw.length)return;save();
+  const m=nw[0];toast(`🏅 ${tr('Νέο μετάλλιο','New medal')}: ${m[1]} ${tr(m[2],m[3])}`);fireworks();tone([523,659,784,1046],.12)}
+
+/* page shell for the extra screens */
+function page(title){$('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;try{speechSynthesis.cancel()}catch(e){}
+  $('gtitle').textContent=title;G={name:'page',o:{},round:0,total:0,earned:0};busy=false;drawDots();scrollTo(0,0)}
+
+/* 5. my island: buy with stars, drag to arrange */
+const ISL=[['🌼',5,'λουλούδι','flower'],['🍄',5,'μανιτάρι','mushroom'],['🐚',8,'κοχύλι','shell'],['🌴',10,'φοίνικας','palm tree'],['🌳',10,'δέντρο','tree'],['🦀',12,'καβουράκι','crab',1],
+ ['🐢',15,'χελώνα','turtle'],['🐠',15,'ψαράκι','fish',1],['🐑',15,'προβατάκι','lamb'],['🐓',15,'κόκορας','rooster'],['🐬',20,'δελφίνι','dolphin',1],['⛺',20,'σκηνή','tent'],
+ ['⛵',25,'βαρκούλα','sailing boat',1],['🏠',30,'σπιτάκι','little house'],['🚂',40,'τρενάκι','little train'],['⛲',40,'συντριβάνι','fountain'],['🌈',50,'ουράνιο τόξο','rainbow'],['🐳',50,'φάλαινα','whale',1],
+ ['🎡',60,'ρόδα','big wheel'],['🏰',80,'κάστρο','castle']];
+const wallet=()=>Math.max(0,S.stars-S.spent);
+function openIsland(){
+  page(tr('Το νησί μου','My island'));
+  const draw=()=>{
+    stage().innerHTML=`<p class="counter">⭐ <b>${wallet()}</b> ${tr('αστέρια για να ψωνίσεις','stars to spend')}</p>
+     <div class="isl" id="isl"><span class="sun">☀️</span><div class="land"><i></i></div>${S.isl.map((o,i)=>`<span class="it" data-i="${i}" style="left:${o.x}%;top:${o.y}%">${o.e}</span>`).join('')}</div>
+     <p class="counter">${tr('Πάτησε κάτι για να το αγοράσεις. Σύρε τα πράγματα όπου θέλεις!','Tap something to buy it. Drag things wherever you like!')}</p>
+     <div class="shop">${ISL.map((x,i)=>`<button data-buy="${i}" class="${wallet()<x[1]?'poor':''}" aria-label="${tr(x[2],x[3])}">${x[0]}<small>⭐ ${x[1]}</small></button>`).join('')}</div>`;
+    const isl=$('isl');
+    isl.querySelectorAll('.it').forEach(el=>{let st=null;
+      ptr(el,e=>{st=[e.clientX,e.clientY,false]},e=>{if(!st)return;if(Math.abs(e.clientX-st[0])+Math.abs(e.clientY-st[1])>6)st[2]=true;if(!st[2])return;
+        const r=isl.getBoundingClientRect(),o=S.isl[+el.dataset.i];o.x=Math.max(3,Math.min(97,(e.clientX-r.left)*100/r.width));o.y=Math.max(4,Math.min(96,(e.clientY-r.top)*100/r.height));el.style.left=o.x+'%';el.style.top=o.y+'%'},
+        ()=>{if(!st)return;const moved=st[2];st=null;if(moved){save();return}
+          const o=S.isl[+el.dataset.i],it=ISL.find(x=>x[0]===o.e);el.classList.remove('boing');void el.offsetWidth;el.classList.add('boing');tone([700,900],.06);if(it)gr(tr(it[2],it[3]))})});
+    stage().querySelector('.shop').onclick=e=>{const b=e.target.closest('[data-buy]');if(!b)return;const x=ISL[+b.dataset.buy];
+      if(wallet()<x[1]){nope();toast(tr(`Χρειάζεσαι ακόμα ${x[1]-wallet()} ⭐ — παίξε και μάζεψε!`,`You need ${x[1]-wallet()} more ⭐ — play and collect!`));return}
+      if(S.isl.length>=40){toast(tr('Το νησί γέμισε!','The island is full!'));return}
+      const sea=!!x[4];S.isl.push({e:x[0],x:sea?8+rand(84):22+rand(56),y:sea?84+rand(10):36+rand(34)});S.spent+=x[1];save();
+      tone([523,784,1046],.09);gr(tr(x[2],x[3]));draw();const it=$('isl').lastElementChild,r=it.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,18,['✨','⭐',null]);checkMedals()};
+  };
+  draw();
+}
+
+/* 4+6. my treasure: medals and the sticker album */
+function openTreasure(){
+  page(tr('Ο θησαυρός μου','My treasure'));checkMedals();
+  const got=MEDALS.filter(m=>S.medals[m[0]]).length;
+  stage().innerHTML=`<h2 class="sect">🏅 ${tr('Μετάλλια','Medals')} ${got}/${MEDALS.length}</h2>
+   <div class="medals">${MEDALS.map(m=>S.medals[m[0]]?`<div class="med"><span>${m[1]}</span><b>${tr(m[2],m[3])}</b><small>${tr(m[4],m[5])}</small></div>`:`<div class="med no"><span>${m[1]}</span><b>🔒 ${tr(m[2],m[3])}</b><small>${tr(m[4],m[5])}</small></div>`).join('')}</div>
+   <h2 class="sect">🎁 ${tr('Αυτοκόλλητα','Stickers')} ${stkN()}/${STK.length}</h2>
+   <p class="counter">${tr('Κάθε καινούριο μάθημα που τελειώνεις σου χαρίζει ένα αυτοκόλλητο!','Every new lesson you finish gives you a sticker!')}</p>
+   <div class="album">${STK.map((s,i)=>S.stk[s[0]]?`<button class="stk" data-s="${i}" aria-label="${tr(s[1],s[2])}">${s[0]}${S.stk[s[0]]>1?`<sup>×${S.stk[s[0]]}</sup>`:''}</button>`:'<span class="stk no">?</span>').join('')}</div>`;
+  stage().querySelector('.album').onclick=e=>{const b=e.target.closest('[data-s]');if(!b)return;const s=STK[+b.dataset.s];b.classList.remove('boing');void b.offsetWidth;b.classList.add('boing');tone([660,880],.06);gr(tr(s[1],s[2]))};
+}
+
+/* 7. drag & drop: drag an answer onto the gap, a letter onto the line, a word into the sentence */
+(()=>{let drag=null,swallow=null;
+  const dropT=()=>stage().querySelector('#gapbox,#slots,#sline');
+  const near=(d,x,y)=>{const r=d.getBoundingClientRect();return x>r.left-30&&x<r.right+30&&y>r.top-30&&y<r.bottom+30};
+  const down=(x,y,t)=>{if(!t||!t.closest||busy||!G||G.name==='map'||G.name==='page')return;const b=t.closest('#stage .opts [data-v],#stage .opts [data-n],#stage .inorder [data-n],#stage .letters button,#stage .wtiles button');
+    if(!b||b.classList.contains('used')||b.closest('[hidden]')||!dropT())return;drag={b,x,y,g:null}};
+  const move=(x,y,e)=>{if(!drag)return;
+    if(!drag.g){if(Math.abs(x-drag.x)+Math.abs(y-drag.y)<10)return;const r=drag.b.getBoundingClientRect(),g=drag.b.cloneNode(true);g.classList.add('ghost');g.removeAttribute('id');
+      g.style.cssText=`position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;margin:0;z-index:20;pointer-events:none`;document.body.appendChild(g);drag.g=g;drag.ox=x-r.left;drag.oy=y-r.top}
+    drag.g.style.left=(x-drag.ox)+'px';drag.g.style.top=(y-drag.oy)+'px';const d=dropT();if(d)d.classList.toggle('dropok',near(d,x,y));if(e&&e.cancelable)e.preventDefault()};
+  const up=(x,y)=>{if(!drag)return;const{b,g}=drag;drag=null;if(!g)return;g.remove();const d=dropT();
+    if(d){d.classList.remove('dropok');if(near(d,x,y)&&!busy)b.click()}swallow={b,t:Date.now()}};
+  // the browser may still send a click to the dragged button: ignore it
+  document.addEventListener('click',e=>{if(swallow&&Date.now()-swallow.t<500&&swallow.b.contains(e.target)&&e.isTrusted){e.stopPropagation();e.preventDefault();swallow=null}},true);
+  if(window.PointerEvent){document.addEventListener('pointerdown',e=>{if(e.isPrimary)down(e.clientX,e.clientY,e.target)},true);
+    document.addEventListener('pointermove',e=>move(e.clientX,e.clientY,e),{capture:true,passive:false});document.addEventListener('pointerup',e=>up(e.clientX,e.clientY),true);
+    document.addEventListener('pointercancel',()=>{if(drag&&drag.g)drag.g.remove();drag=null},true)}
+  else{const P=f=>e=>{const p=e.changedTouches[0];f(p.clientX,p.clientY,e)};document.addEventListener('touchstart',P((x,y,e)=>down(x,y,e.target)),{capture:true,passive:true});
+    document.addEventListener('touchmove',P(move),{capture:true,passive:false});document.addEventListener('touchend',P(up),true)}
+  // let the page know when something can be dragged (stops scrolling while dragging)
+  if(window.MutationObserver)new MutationObserver(()=>{stage().classList.toggle('dnd',!!dropT())}).observe(stage(),{childList:true,subtree:true});
+})();
+
+/* 8+9. tap anything: pictures bounce and sparkle, letters, words and numbers speak */
+stage().addEventListener('click',e=>{
+  const t=e.target;if(!G||G.name==='map'||G.name==='page'||!t.closest||t.closest('button,canvas,input,a,.tracebox,.kpad'))return;
+  const el=t.closest('.lett,.target,.word,.story p,.slots span,.sline span,.seq span,.nline span,.bigl,.big-e,.objs,.grp,.board span,.board,.dice,.die')||t;
+  if(el===stage())return;
+  el.classList.remove('boing');void el.offsetWidth;el.classList.add('boing');tone([880+rand(300)],.05);burst(lastXY[0],lastXY[1],6,['✨']);
+  const txt=(el.textContent||'').trim();
+  if(/^\d{1,3}$/.test(txt))gr(NW(+txt));
+  else if(/^[Ͱ-Ͽἀ-῿]{1,2}$/.test(txt)&&LNAME[txt.toLowerCase()])say(LNAME[txt.toLowerCase()]);
+  else if(/[Ͱ-Ͽἀ-῿]/.test(txt)&&txt.length<60)say(txt.replace(/_/g,''));
+});
+
+/* 10. for parents (with a grown-up question first) */
+const LANGG=['letter','syl','join','readw','listenw','missw','spellw','firstl','caps','accent','sent','punct','dict','sentb','tracel','read','spell','first','listen','memory','learn'];
+const XT={dict:['Υπαγόρευση','Dictation'],sentb:['Φτιάχνω προτάσεις','Building sentences'],tracel:['Γράφω γράμματα','Writing letters'],mix:['Μαθήματα','Lessons']};
+const gName=c=>XT[c]?tr(XT[c][0],XT[c][1]):EN()?(TEN[c]?TEN[c][0]:c):(TITLES[c]||c);
+function openParents(ok){
+  page(tr('Για γονείς','For parents'));
+  if(!ok){const a=6+rand(4),b=6+rand(4),ans=a*b;
+    stage().innerHTML=`<p class="prompt">${tr('Μόνο για μεγάλους 🙂','Grown-ups only 🙂')}</p><p class="word">${a} × ${b} = ?</p><div class="opts c3">${btns(shuffle([ans,ans+a,ans-b]))}</div>`;
+    stage().querySelector('.opts').onclick=e=>{const x=e.target.closest('[data-v]');if(!x)return;if(+x.dataset.v===ans)openParents(1);else{bad(x);home()}};return}
+  const t=today(),days=[...Array(7)].map((_,i)=>{const d=new Date(Date.now()-(6-i)*864e5);return[d,S.log[dkey(d)]||{t:0,l:0,r:0,w:0}]}),mx=Math.max(60,...days.map(x=>x[1].t));
+  const wd=EN()?['Su','Mo','Tu','We','Th','Fr','Sa']:['Κυ','Δε','Τρ','Τε','Πε','Πα','Σα'];
+  const area=f=>{let r=0,w=0;Object.keys(S.gs).forEach(k=>{if(f(k)){r+=S.gs[k][0];w+=S.gs[k][1]}});return[r,w]};
+  const pct=([r,w])=>r+w?Math.round(r*100/(r+w)):0,la=area(k=>LANGG.indexOf(k)>=0),ma=area(k=>LANGG.indexOf(k)<0);
+  const hard=Object.keys(S.gs).filter(k=>S.gs[k][0]+S.gs[k][1]>=5).sort((a,b)=>pct(S.gs[a])-pct(S.gs[b])).slice(0,5);
+  const conf=Object.keys(S.conf).sort((a,b)=>S.conf[b]-S.conf[a]).slice(0,6);
+  const cnt=re=>Object.keys(S.done).filter(k=>re.test(k)).length;
+  stage().innerHTML=`<div class="pcard"><h3>${tr('Σήμερα','Today')}</h3><div class="nums">
+     <div><b>${Math.round(t.t/60)}′</b>${tr('λεπτά','minutes')}</div><div><b>${t.l}</b>${tr('μαθήματα','lessons')}</div><div><b>${t.r}</b>${tr('σωστές','right')}</div><div><b>${t.w}</b>${tr('λάθη','mistakes')}</div></div></div>
+   <div class="pcard"><h3>${tr('Τελευταίες 7 μέρες (λεπτά)','Last 7 days (minutes)')}</h3><div class="bars">${days.map(([d,x])=>`<div><small>${x.t&&x.t<60?'<1':Math.round(x.t/60)}</small><i style="height:${Math.round(x.t*80/mx)}px"></i>${wd[d.getDay()]}</div>`).join('')}</div>
+     <p>🔥 ${tr('Μέρες στη σειρά','Days in a row')}: <b>${S.days.n}</b> · ⭐ ${S.stars} · 🎁 ${stkN()}/${STK.length} · 🏅 ${Object.keys(S.medals).length}/${MEDALS.length}</p></div>
+   <div class="pcard"><h3>${tr('Επιτυχία','Accuracy')}</h3>
+     ${tr('Γλώσσα','Reading & writing')}: <b>${pct(la)}%</b> <small>(${la[0]}/${la[0]+la[1]})</small><div class="abar"><i style="width:${pct(la)}%"></i></div>
+     ${tr('Μαθηματικά','Maths')}: <b>${pct(ma)}%</b> <small>(${ma[0]}/${ma[0]+ma[1]})</small><div class="abar"><i style="width:${pct(ma)}%"></i></div></div>
+   <div class="pcard"><h3>${tr('Εδώ δυσκολεύεται','Finds these harder')}</h3>${hard.length?`<ul>${hard.map(k=>`<li>${gName(k)}: ${pct(S.gs[k])}% ${tr('σωστά','right')}</li>`).join('')}</ul>`:`<p>${tr('Χρειάζεται λίγο ακόμα παιχνίδι για να φανεί.','A little more play is needed to tell.')}</p>`}
+     ${conf.length?`<h3>${tr('Μπερδεύει','Mixes up')}</h3><ul>${conf.map(k=>{const[a,b]=k.split('→');return`<li>${tr(`το <b>${a}</b> με το <b>${b}</b>`,`<b>${a}</b> with <b>${b}</b>`)} (${S.conf[k]} ${S.conf[k]===1?tr('φορά','time'):tr('φορές','times')})</li>`}).join('')}</ul>`:''}</div>
+   <div class="pcard"><h3>${tr('Πρόοδος','Progress')}</h3><ul>
+     <li>📗 ${tr('Βιβλίο Γλώσσας','Reading book')}: ${cnt(/^L\d/)}/${langAll().length}</li><li>📘 ${tr('Βιβλίο Μαθηματικών','Maths book')}: ${mathAll().filter(c=>S.done[c[0]]).length}/${mathAll().length}</li>
+     <li>📓 ${tr('Τετράδιο Γλώσσας','Greek workbook')}: ${cnt(/^WL/)}</li><li>✍️ ${tr('Τετράδιο γραφής','Writing book')}: ${cnt(/^WH/)}</li><li>📒 ${tr('Τετράδιο Μαθηματικών','Maths workbook')}: ${cnt(/^W\d/)}</li><li>📙 ${tr('Φύλλα εργασίας','Worksheets')}: ${cnt(/^P/)}</li></ul></div>
+   <div class="row"><button class="pill" id="kidsBtn">👧👦 ${tr('Παιδιά','Children')}</button><button class="pill" id="resetKid">🗑️ ${tr('Μηδενισμός προόδου','Reset progress')}</button></div>`;
+  $('kidsBtn').onclick=openKids;
+  $('resetKid').onclick=()=>{if(!confirm(tr('Να σβηστεί όλη η πρόοδος αυτού του παιδιού;','Erase all of this child\'s progress?')))return;const l=S.lang;S={lang:l,stars:0};save();location.reload()};
+}
+setInterval(()=>{if(document.visibilityState!=='hidden'&&!$('game').hidden&&G&&G.name!=='map'&&G.name!=='page'){today().t+=15;save()}},15000);
+
+/* 11. one profile per child */
+const AV=['🦊','🐻','🐼','🐯','🦁','🐸','🐵','🦄','🐱','🐶','🐰','🐧'];
+const kidName=k=>k.n||tr('Παιδί','Child');
+const saveKids=()=>{try{localStorage.setItem('hoopoe-kids',JSON.stringify(KPROF))}catch(e){}};
+function switchKid(id){save();KPROF.cur=id;saveKids();location.reload()}
+function openKids(){
+  page(tr('Τα παιδιά','Children'));
+  const stars=k=>{try{return(JSON.parse(localStorage.getItem(kidKey(k.id))||'{}').stars)||0}catch(e){return 0}};
+  let av=pick(AV);
+  stage().innerHTML=`<p class="counter">${tr('Κάθε παιδί έχει τη δική του πρόοδο, αστέρια και νησί.','Each child has their own progress, stars and island.')}</p>
+   <div class="kids">${KPROF.list.map(k=>`<button class="kid${k.id===KPROF.cur?' cur':''}" data-k="${k.id}"><span>${k.a}</span><b>${kidName(k)}</b>⭐ ${k.id===KPROF.cur?S.stars:stars(k)}</button>`).join('')}</div>
+   <div class="pcard"><h3>${tr('Όνομα και εικόνα','Name and picture')}</h3><input class="kname" id="kn" maxlength="20" placeholder="${tr('Όνομα','Name')}"><div class="avs" id="avs">${AV.map(a=>`<button data-a="${a}">${a}</button>`).join('')}</div>
+     <div class="row"><button class="pill main" id="kAdd">➕ ${tr('Νέο παιδί','New child')}</button><button class="pill" id="kEdit">✏️ ${tr('Αλλαγή τρέχοντος','Change current')}</button><button class="pill" id="kDel">🗑️ ${tr('Διαγραφή','Delete')}</button></div></div>`;
+  const cur=KPROF.list.find(k=>k.id===KPROF.cur)||KPROF.list[0];$('kn').value=cur.n||'';av=cur.a;
+  const mark=()=>stage().querySelectorAll('#avs button').forEach(b=>b.classList.toggle('on',b.dataset.a===av));mark();
+  $('avs').onclick=e=>{const b=e.target.closest('[data-a]');if(b){av=b.dataset.a;mark()}};
+  stage().querySelector('.kids').onclick=e=>{const b=e.target.closest('[data-k]');if(b&&b.dataset.k!==KPROF.cur)switchKid(b.dataset.k)};
+  $('kEdit').onclick=()=>{cur.n=$('kn').value.trim();cur.a=av;saveKids();renderWho();openKids()};
+  $('kAdd').onclick=()=>{const k={id:'p'+Date.now(),n:$('kn').value.trim(),a:av};KPROF.list.push(k);saveKids();
+    try{localStorage.setItem(kidKey(k.id),JSON.stringify({lang:S.lang,stars:0}))}catch(e){}switchKid(k.id)};
+  $('kDel').onclick=()=>{if(KPROF.list.length<2){toast(tr('Χρειάζεται τουλάχιστον ένα παιδί.','At least one child is needed.'));return}
+    if(!confirm(tr(`Να διαγραφεί το παιδί «${kidName(cur)}» και η πρόοδός του;`,`Delete «${kidName(cur)}» and their progress?`)))return;
+    KPROF.list=KPROF.list.filter(k=>k!==cur);try{localStorage.removeItem(kidKey(cur.id))}catch(e){}KPROF.cur=KPROF.list[0].id;saveKids();location.reload()};
+}
+function renderWho(){const k=KPROF.list.find(x=>x.id===KPROF.cur)||KPROF.list[0];$('who').textContent=k.a+' '+(k.n?tr('Γεια σου, ','Hi, ')+k.n+'!':kidName(k))}
+$('who').onclick=openKids;renderWho();
+setTimeout(checkMedals,1500);
 S.open=S.open||{};
 ['moreLang','moreMath'].forEach(id=>{const d=$(id);d.open=S.open[id]!==false;d.addEventListener('toggle',()=>{S.open[id]=d.open;save()})});
 $('rep').onclick=()=>{if(lastSay)speak(lastSay[0],lastSay[1])};
