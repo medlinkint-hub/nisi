@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='15';
+var APPV='16';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -392,6 +392,26 @@ details.more .games{padding-top:4px}
 }
 /* older phones: no gap in flexbox (iOS < 14.5) - set by a JS check */
 .nogap .bar>*,.nogap .hero>*,.nogap .row>*,.nogap .dice>*,.nogap .inorder>*,.nogap .vs>*,.nogap .trio>*,.nogap .chap>*{margin:0 6px}
+.unit.kid{padding:0;overflow:hidden}
+.uhead{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--c);color:var(--tink);border-bottom:3px solid #2E2A4F}
+.uhead .uic{font-size:46px;line-height:1;flex:none}
+.uhead h3{margin:0}.unit .uhead p{margin:0;color:var(--tink);opacity:.85}
+.path{display:grid;grid-template-columns:repeat(auto-fill,minmax(136px,1fr));grid-gap:12px;gap:12px;padding:14px 12px}
+.chap.lcard{position:relative;flex-direction:column;justify-content:flex-start;align-items:center;text-align:center;gap:2px;min-height:140px;padding:16px 6px 10px;border-radius:24px;background:var(--c);color:var(--tink);border:3px solid #2E2A4F;box-shadow:0 5px 0 #2E2A4F;margin-bottom:5px;transition:transform .1s}
+.chap.lcard+.chap.lcard{border-top:3px solid #2E2A4F}
+.chap.lcard:active{transform:translateY(4px);box-shadow:0 1px 0 #2E2A4F}
+.chap.lcard .pic2{flex:1;display:flex;align-items:center;justify-content:center;font-size:54px;line-height:1.15;font-family:Grandstander,Andika,sans-serif;font-weight:800}
+.chap.lcard .t{flex:none;font-size:14px;hyphens:auto;-webkit-hyphens:auto;font-weight:700;line-height:1.2}
+.chap.lcard .badge{position:absolute;top:-8px;left:-8px;box-shadow:0 2px 0 #2E2A4F}
+.chap.lcard .chk{position:absolute;top:2px;right:4px;width:auto;font-size:30px}
+.chap.lcard.done .pic2{opacity:.75}
+.chap.lcard.next{background:var(--c);animation:wig 1.6s ease-in-out infinite;box-shadow:0 5px 0 #2E2A4F,0 0 0 6px var(--ok)}
+.chap.lcard.next .chk::after{content:'▶';display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--ok);color:#fff;font-size:18px}
+.chap.lcard.tap{animation:pop .25s ease-out}
+@keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-2deg) scale(1.03)}75%{transform:rotate(2deg) scale(1.03)}}
+@keyframes pop{50%{transform:scale(1.12)}}
+.pbar{width:100%;max-width:560px;height:20px;border-radius:10px;background:var(--card);border:3px solid #2E2A4F;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--ok);border-radius:0 8px 8px 0}
 .wbs .tile.bkt:nth-child(1){--c:var(--t3)}.wbs .tile.bkt:nth-child(2){--c:var(--t1)}.wbs .tile.bkt:nth-child(3){--c:var(--t5)}.wbs .tile.bkt:nth-child(4){--c:var(--t2)}
 .wbh{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:22px;margin:4px 6px 8px}
 .kpad{display:flex;flex-direction:column;align-items:center;width:100%}
@@ -1842,6 +1862,24 @@ function punctRound(){
   $('hear').onclick=()=>say(s+p);choose('.opts',p,punctRound,null,()=>{$('gapbox').textContent=p;$('gapbox').className='fillw';say(s+p)});setTimeout(()=>say(s+p),300);
 }
 
+/* ---------- picture cards for the book maps ---------- */
+const UCOL=['--t4','--t2','--t3','--t1','--t5'];
+const LUIC=['🔍','👫','🎭','🌧️','😜','🔑','⛵','🌸','📚','🐚'],MUIC=['🔺','✋','💶','➖','🔟','🕒','🧩','✖️','💯'];
+const GICON={body:'🧍',nest:'🐣',baskets:'🧺',stairs:'📶',down:'⬇️',twos:'👟',words:'🔤',complement:'🔟',commute:'🔁',sum3:'➕',bridge:'🌉',bridgeminus:'🌉',twodig:'🔢',inverse:'↔️',calc:'🧮',share:'🍰',measure:'📏',symmetry:'🦋',money100:'💶',scene:'🐬',groups:'🐝',beads3:'📿',
+  caps:'🔠',readw:'📖',spellw:'✏️',accent:'🗣️',sent:'💬',punct:'❗',letter:'🔤',syl:'🔤',join:'🔗',listenw:'👂',missw:'❓',firstl:'🅰️',dict:'👂',sentb:'💬',tracel:'✍️'};
+const CATIC={n:'🔢',o:'➕',g:'🔺',m:'📏',p:'🧩',r:'🏆'};
+const gIcon=g=>{const t=document.querySelector(`#home [data-game="${g}"] .ico`);return GICON[g]||(t?t.textContent:'')};
+const chPic=c=>c[1]==='r'?'🏆':(cmix(c).map(m=>gIcon(m[0])).find(x=>x)||CATIC[c[1]]);
+// a picture word for a letter: one that starts with it, else one that contains it (ϊ in μαϊμού is not αι)
+const LPX={ι:'⛵',υ:'😴',φ:'🍓',ευ:'🙏'};   // ιστιοφόρο, ύπνος, φράουλα, ευχαριστώ
+const LPIC=x=>{if(LPX[x])return LPX[x];const q=o=>o.w.normalize('NFD').replace(/\u0301/g,'').toLowerCase().replace(/ς/g,'σ'),r=new RegExp(x+'(?!\u0308)');
+  const w=LW.find(o=>q(o).search(r)===0)||LW.find(o=>r.test(q(o)));return w?w.e:'🔤'};
+const card=(id,badge,lb,rev,k,pic,title)=>`<button class="chap lcard${S.done[id]?' done':''}" id="ch${id}" data-ch="${id}"><span class="badge${lb?' lb':''}${rev?' rev':''}" style="--k:${k}"><span>${badge}</span></span><span class="pic2">${pic}</span><span class="t">${title}</span><span class="chk">${S.done[id]?'⭐':''}</span></button>`;
+const unitBox=(ui,ic,h,p,body)=>`<div class="unit kid" style="--c:var(${UCOL[ui%5]})"><div class="uhead"><span class="uic">${ic}</span><span><h3>${h}</h3><p>${p}</p></span></div><div class="path">${body}</div></div>`;
+const pbar=(d,n)=>`<div class="pbar" role="progressbar" aria-valuenow="${d}" aria-valuemax="${n}"><i style="width:${n?Math.round(d*100/n):0}%"></i></div>`;
+// a tapped card bounces and chimes, then the lesson opens
+const cardTaps=go=>stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>{if(b.classList.contains('tap'))return;b.classList.add('tap');tone([660,880],.07);setTimeout(()=>go(b.dataset.ch),230)});
+
 /* ---------- the language book map ---------- */
 const LUNITS=[
  {t:'Πού είναι ο Άρης;',e:'Where is Aris?',L:['α','π','τ','ο','ι','λ','ε']},
@@ -1867,8 +1905,9 @@ function openLangMap(ch){
   $('gtitle').textContent=tr('Το βιβλίο της Γλώσσας','My reading book');G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
   const all=[].concat(...LLESSONS.map(x=>x.ls)),done=all.filter(l=>S.done[l.id]).length;
   stage().innerHTML=`<p class="counter">${tr(`Γλώσσα Α΄ Δημοτικού · ⭐ ${done} από ${all.length} μαθήματα`,`Greek reading, Grade 1 · ⭐ ${done} of ${all.length} lessons`)}</p>
-   ${LLESSONS.map(({u,ui,ls})=>`<div class="unit"><h3>${tr('Ενότητα','Unit')} ${ui+1}</h3><p>${tr(u.t,u.e)}</p>${ls.map(l=>`<button class="chap" id="ch${l.id}" data-ch="${l.id}"><span class="badge lb${l.rev?' rev':''}" style="--k:${l.rev?'#5BAE6B':'#4A90C8'}"><span>${l.b}</span></span><span class="t">${tr(l.t[0],l.t[1])}</span><span class="chk">${S.done[l.id]?'⭐':''}</span></button>`).join('')}</div>`).join('')}`;
-  stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>launchLang(all.find(x=>x.id===b.dataset.ch)));
+   ${pbar(done,all.length)}
+   ${LLESSONS.map(({u,ui,ls})=>unitBox(ui,LUIC[ui],`${tr('Ενότητα','Unit')} ${ui+1}`,tr(u.t,u.e),ls.map(l=>card(l.id,l.b,1,l.rev,l.rev?'#5BAE6B':'#4A90C8',l.rev?'🏆':l.b==='✎'?GICON[l.mix[0][0]]:LPIC(l.b.split(' ')[1]),tr(l.t[0],l.t[1]))).join(''))).join('')}`;
+  cardTaps(id=>launchLang(all.find(x=>x.id===id)));
   markNext(ch,all.find(l=>!S.done[l.id]),l=>l.id);
 }
 
@@ -1988,8 +2027,9 @@ function openMap(ch){
   const all=[].concat(...UNITS.map(u=>u.c)),done=all.filter(c=>S.done[c[0]]).length;
   stage().innerHTML=`<p class="counter">${tr(`Μαθηματικά Α΄ Δημοτικού · ⭐ ${done} από ${all.length} κεφάλαια`,`Maths, Grade 1 · ⭐ ${done} of ${all.length} chapters`)}</p>
    <div class="legend">${Object.keys(CAT).map(k=>[k,CAT[k]]).map(([k,[n,c]])=>`<span><i class="${k==='r'?'rev':''}" style="--k:${c}"></i>${EN()?CATEN[k]:n}</span>`).join('')}</div>
-   ${UNITS.map((u,ui)=>`${ui===0?`<h2 class="sect">${tr('Α΄ Περίοδος','First period')}</h2>`:''}${u.per?`<h2 class="sect">${tr(u.per[0],u.per[1])}</h2>`:''}<div class="unit"><h3>${EN()?UNITEN[ui][0]:u.t}</h3><p>${EN()?UNITEN[ui][1]:u.s}</p>${u.c.map(c=>`<button class="chap" id="ch${c[0]}" data-ch="${c[0]}"><span class="badge${c[1]==='r'?' rev':''}" style="--k:${CAT[c[1]][1]}"><span>${c[0]}</span></span><span class="t">${chT(c)}</span><span class="chk">${S.done[c[0]]?'⭐':''}</span></button>`).join('')}</div>`).join('')}`;
-  stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>launchMath(all.find(x=>x[0]==b.dataset.ch)));
+   ${pbar(done,all.length)}
+   ${UNITS.map((u,ui)=>`${ui===0?`<h2 class="sect">${tr('Α΄ Περίοδος','First period')}</h2>`:''}${u.per?`<h2 class="sect">${tr(u.per[0],u.per[1])}</h2>`:''}${unitBox(ui,MUIC[ui],EN()?UNITEN[ui][0]:u.t,EN()?UNITEN[ui][1]:u.s,u.c.map(c=>card(c[0],c[0],0,c[1]==='r',CAT[c[1]][1],chPic(c),chT(c))).join(''))}`).join('')}`;
+  cardTaps(id=>launchMath(all.find(x=>x[0]==id)));
   markNext(ch,all.find(c=>!S.done[c[0]]),c=>c[0]);
 }
 /* ================= The workbooks (extra units; the books and games above stay as they are) ================= */
@@ -2068,10 +2108,10 @@ ROUNDS.tracel=tracelRound;ROUNDS.dict=dictRound;ROUNDS.sentb=sentbRound;
 /* the four workbook maps */
 const cmix=c=>Array.isArray(c[3])?c[3]:[[c[3],c[4]]];
 const langLessons=(mk,xmk,rmk)=>LUNITS.map((u,ui)=>{let set=[];LUNITS.slice(0,ui).forEach(v=>{set=set.concat(v.L||[])});const ls=[];
-  (u.L||[]).forEach(x=>{set=set.concat([x]);ls.push(mk(x,{set:set.slice(),nw:x}))});
+  (u.L||[]).forEach(x=>{set=set.concat([x]);ls.push(Object.assign({pic:LPIC(x)},mk(x,{set:set.slice(),nw:x})))});
   (u.X||[]).forEach(X=>{const l=xmk(X);if(l)ls.push(l)});
   const rv=rmk(u,{set:set.length?set.slice():ALL});if(rv)ls.push(rv);
-  return{h:tr('Ενότητα','Unit')+' '+(ui+1),p:tr(u.t,u.e),ls}});
+  return{ic:LUIC[ui],h:tr('Ενότητα','Unit')+' '+(ui+1),p:tr(u.t,u.e),ls}});
 const WB={
  wl:{t:['Τετράδιο Εργασιών Γλώσσας','Greek workbook'],n:['ασκήσεις','exercises'],units:()=>{let n=0;const id=()=>'WL'+(++n);
    return langLessons((x,lv)=>({id:id(),b:capL(x)+' '+x,t:x.length>1?[`Γράφω το ${x}`,`Writing ${x}`]:[`Γράφω το ${capL(x)} ${x}`,`Writing ${capL(x)} ${x}`],o:{write:1,mix:[['missw',lv],['dict',lv],['firstl',lv],['join',lv],['letter',lv],['spellw',lv],['dict',lv],['missw',lv]]}}),
@@ -2080,21 +2120,22 @@ const WB={
  wh:{t:['Το τετράδιο της πρώτης μου γραφής','My first writing book'],n:['σελίδες','pages'],units:()=>{let n=0;const id=()=>'WH'+(++n);
    return langLessons((x,lv)=>({id:id(),b:capL(x)+' '+x,t:x.length>1?[`Γράφω το ${x}`,`Writing ${x}`]:[`Γράφω το ${capL(x)} ${x}`,`Writing ${capL(x)} ${x}`],o:{mix:[['tracel',lv]]}}),
     ()=>null,(u)=>u.L?null:{id:id(),b:'✎',t:['Γράφω λέξεις και κεφαλαία','Writing words and capitals'],o:{mix:[['tracel',{set:ALL}]]}})}},
- wm:{t:['Τετράδιο Εργασιών Μαθηματικών','Maths workbook'],n:['κεφάλαια','chapters'],units:()=>UNITS.map((u,ui)=>({per:u.per,h:EN()?UNITEN[ui][0]:u.t,p:EN()?UNITEN[ui][1]:u.s,
-   ls:u.c.map(c=>({id:'W'+c[0],b:c[0],k:CAT[c[1]][1],rev:c[1]==='r',t:[chT(c),chT(c)],num:1,o:{write:1,mix:cmix(c)}}))}))},
+ wm:{t:['Τετράδιο Εργασιών Μαθηματικών','Maths workbook'],n:['κεφάλαια','chapters'],units:()=>UNITS.map((u,ui)=>({ic:MUIC[ui],per:u.per,h:EN()?UNITEN[ui][0]:u.t,p:EN()?UNITEN[ui][1]:u.s,
+   ls:u.c.map(c=>({pic:chPic(c),id:'W'+c[0],b:c[0],k:CAT[c[1]][1],rev:c[1]==='r',t:[chT(c),chT(c)],num:1,o:{write:1,mix:cmix(c)}}))}))},
  wp:{t:['Τετράδιο Μαθηματικών','Maths practice book'],n:['φύλλα','sheets'],units:()=>UNITS.map((u,ui)=>{const cs=u.c.filter(c=>c[1]!=='r'),h=Math.ceil(cs.length/2),mx=a=>[].concat(...a.map(cmix));
-   return{per:u.per,h:EN()?UNITEN[ui][0]:u.t,p:EN()?UNITEN[ui][1]:u.s,ls:[
-    {id:'P'+ui+'a',b:'1',k:'#4A90C8',t:[`Φύλλο εργασίας 1 · κεφ. ${cs[0][0]}–${cs[h-1][0]}`,`Worksheet 1 · ch. ${cs[0][0]}–${cs[h-1][0]}`],o:{mix:mx(cs.slice(0,h))}},
-    {id:'P'+ui+'b',b:'2',k:'#4A90C8',t:[`Φύλλο εργασίας 2 · κεφ. ${cs[h][0]}–${cs[cs.length-1][0]}`,`Worksheet 2 · ch. ${cs[h][0]}–${cs[cs.length-1][0]}`],o:{mix:mx(cs.slice(h))}},
-    {id:'P'+ui+'t',b:'✓',rev:1,k:'#5BAE6B',t:['Τεστ ενότητας (10 ερωτήσεις, γράφω την απάντηση)','Unit test (10 questions, write the answer)'],o:{mix:mx(cs),write:1,total:10}}]}})}};
+   return{ic:MUIC[ui],per:u.per,h:EN()?UNITEN[ui][0]:u.t,p:EN()?UNITEN[ui][1]:u.s,ls:[
+    {pic:'📝',id:'P'+ui+'a',b:'1',k:'#4A90C8',t:[`Φύλλο εργασίας 1 · κεφ. ${cs[0][0]}–${cs[h-1][0]}`,`Worksheet 1 · ch. ${cs[0][0]}–${cs[h-1][0]}`],o:{mix:mx(cs.slice(0,h))}},
+    {pic:'📝',id:'P'+ui+'b',b:'2',k:'#4A90C8',t:[`Φύλλο εργασίας 2 · κεφ. ${cs[h][0]}–${cs[cs.length-1][0]}`,`Worksheet 2 · ch. ${cs[h][0]}–${cs[cs.length-1][0]}`],o:{mix:mx(cs.slice(h))}},
+    {pic:'🏅',id:'P'+ui+'t',b:'✓',rev:1,k:'#5BAE6B',t:['Τεστ ενότητας (10 ερωτήσεις, γράφω την απάντηση)','Unit test (10 questions, write the answer)'],o:{mix:mx(cs),write:1,total:10}}]}})}};
 function openWB(key,ch){
   const B=WB[key],units=B.units(),all=[].concat(...units.map(u=>u.ls)),done=all.filter(l=>S.done[l.id]).length;
   $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;try{speechSynthesis.cancel()}catch(e){}
   $('gtitle').textContent=tr(B.t[0],B.t[1]);G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
   stage().innerHTML=`<p class="counter">${tr(B.t[0],B.t[1])} · ⭐ ${done} ${tr('από','of')} ${all.length} ${tr(B.n[0],B.n[1])}</p>
-   ${units.map((u,ui)=>`${key[1]==='m'||key[1]==='p'?(ui===0?`<h2 class="sect">${tr('Α΄ Περίοδος','First period')}</h2>`:'')+(u.per?`<h2 class="sect">${tr(u.per[0],u.per[1])}</h2>`:''):''}<div class="unit"><h3>${u.h}</h3><p>${u.p}</p>${u.ls.map(l=>`<button class="chap" id="ch${l.id}" data-ch="${l.id}"><span class="badge${l.num?'':' lb'}${l.rev?' rev':''}" style="--k:${l.k||(l.rev?'#5BAE6B':'#8E7CC3')}"><span>${l.b}</span></span><span class="t">${tr(l.t[0],l.t[1])}</span><span class="chk">${S.done[l.id]?'⭐':''}</span></button>`).join('')}</div>`).join('')}`;
+   ${pbar(done,all.length)}
+   ${units.map((u,ui)=>`${key[1]==='m'||key[1]==='p'?(ui===0?`<h2 class="sect">${tr('Α΄ Περίοδος','First period')}</h2>`:'')+(u.per?`<h2 class="sect">${tr(u.per[0],u.per[1])}</h2>`:''):''}${unitBox(ui,u.ic,u.h,u.p,u.ls.map(l=>card(l.id,l.b,!l.num,l.rev,l.k||(l.rev?'#5BAE6B':'#8E7CC3'),l.pic||(l.rev?'🏆':GICON[l.o.mix[0][0]]||'✍️'),tr(l.t[0],l.t[1]))).join(''))}`).join('')}`;
   const go=l=>{const o=Object.assign({ch:l.id,wb:key,tt:(l.num?l.b+'. ':'')+tr(l.t[0],l.t[1]),lang:key[1]==='l'||key[1]==='h'?1:0},l.o);start('mix',o)};
-  stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>go(all.find(x=>x.id===b.dataset.ch)));
+  cardTaps(id=>go(all.find(x=>x.id===id)));
   markNext(ch,all.find(l=>!S.done[l.id]),l=>l.id);
 }
 S.open=S.open||{};
