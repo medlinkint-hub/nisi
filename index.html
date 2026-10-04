@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='11';
+var APPV='12';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -353,6 +353,14 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .axis{width:0;border-left:3px dashed #E0604F;margin:0 6px}
 .scale{width:92vw;max-width:300px}
 .bill.b10{background:#F2A7A0}.bill.b20{background:#9EC3E6}.bill.b50{background:#F7C08A}
+.lett{font-family:Andika,sans-serif}
+.bigl{font-size:72px;font-family:Andika,sans-serif;min-width:0;padding:4px 30px}
+.pic.lett{font-family:Andika,sans-serif;font-weight:700}
+.seq.lett{font-family:Andika,sans-serif}
+.gapl{display:inline-block;min-width:34px;background:var(--t4);color:var(--tink);border-radius:8px;text-align:center;margin:0 2px}
+.fillw{display:inline-block;min-width:34px;background:var(--ok);color:#fff;border-radius:8px;text-align:center;margin:0 2px}
+.badge.lb{width:auto;min-width:38px;padding:0 6px;border-radius:19px;font-size:15px;white-space:nowrap}
+.badge.lb.rev{border-radius:7px;padding:0}
 /* older phones: no aspect-ratio (iOS < 15, Chrome < 88) */
 @supports not (aspect-ratio:1/1){
   .pic{min-height:100px}
@@ -386,6 +394,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
     <button class="pill vbtn" id="voiceBtn">🗣️ Φωνή</button>
     <p class="ver" id="ver"></p>
     <div class="games">
+      <button class="tile map" data-game="langmap"><div class="ico">📗</div><b>Το βιβλίο της Γλώσσας</b><span>Γράμματα, λέξεις, ιστορίες – με τη σειρά του βιβλίου</span></button>
       <button class="tile" data-game="read"><div class="ico">👀</div><b>Διαβάζω</b><span>Διάβασε τη λέξη, βρες την εικόνα</span></button>
       <button class="tile" data-game="spell"><div class="ico">✏️</div><b>Γράφω τη λέξη</b><span>Φτιάξε τη λέξη γράμμα γράμμα</span></button>
       <button class="tile" data-game="first"><div class="ico" style="font-family:Grandstander,Andika,sans-serif;font-weight:800">Αα</div><b>Το πρώτο γράμμα</b><span>Από ποιο γράμμα αρχίζει;</span></button>
@@ -632,7 +641,10 @@ const TEN={read:['Read','Read the word, find the picture'],spell:['Spell the wor
   complement:['Making 10','How many are missing?'],commute:['Swap the order','3 + 5 = 5 + 3'],tensones:['Tens and ones','34 = 3 tens and 4 ones'],sum3:['Three numbers','2 + 3 + 1'],
   clock:['The clock','What time is it?'],bridge:['Across ten (+)','8 + 5 = 10 + 3'],bridgeminus:['Across ten (−)','13 − 5 = 10 − 2'],twodig:['Two-digit numbers','23 + 4, 56 − 30'],
   inverse:['Undo it','5 + 3 = 8, 8 − 3 = 5'],calc:['Mental maths','Up to 20'],mult:['Multiplication','Equal groups'],share:['Sharing','Division'],measure:['Measuring','How many squares long?'],
-  symmetry:['Symmetry','Mirror pictures'],weight:['The scale','Heavier or lighter?'],money100:['Money to 100€','Notes and coins']};
+  symmetry:['Symmetry','Mirror pictures'],weight:['The scale','Heavier or lighter?'],money100:['Money to 100€','Notes and coins'],
+  langmap:['My reading book','Letters, words, stories – in book order'],letter:['Letters','Find the letter'],syl:['Syllables','Find the syllable'],join:['Join letters','π + α = πα'],readw:['Read words','Find the picture'],
+  listenw:['Listen and read','How is it written?'],missw:['Missing letter','Fill the gap'],spellw:['Write words','Letter by letter'],firstl:['First letter','Which letter does it start with?'],caps:['Capital letters','Big and small'],
+  accent:['The accent','Where does it go?'],sent:['Sentences','Read and find'],punct:['Punctuation','. ; !']};
 const STATIC=[['h1',"The Hoopoe's Island"],['.hero p','Games for reading, writing and numbers for 6-year-olds.'],['.sect','Maths – Grade 1'],['#again','Again'],['#toIsland','To the island'],['[data-game="first"] .ico','Aa']];
 function openVoices(){
   const t=S.lang,all=voicesFor(t),good=all.filter(v=>vscore(v,t)>-50),list=good.length?good:all,cur=voiceFor(t);
@@ -657,15 +669,16 @@ function applyLang(){
   $('ver').textContent=tr('έκδοση ','version ')+APPV;$('voiceBtn').textContent=tr('🗣️ Φωνή','🗣️ Voice');$('voiceBtn').hidden=!('speechSynthesis' in window);voiceNote();
 }
 $('langs').onclick=e=>{const b=e.target.closest('[data-lang]');if(!b||b.dataset.lang===S.lang)return;S.lang=b.dataset.lang;save();applyLang();speak(tr('Ελληνικά','English'))};
-const TITLES={complement:'Το συμπλήρωμα',commute:'Αλλάζω σειρά',tensones:'Δεκάδες και μονάδες',sum3:'Τρεις αριθμοί',clock:'Το ρολόι',bridge:'Υπέρβαση δεκάδας (+)',bridgeminus:'Υπέρβαση δεκάδας (−)',twodig:'Διψήφιοι αριθμοί',inverse:'Αντίστροφες πράξεις',calc:'Υπολογισμοί',mult:'Πολλαπλασιασμός',share:'Μοιράζω',measure:'Μετράω',symmetry:'Συμμετρία',weight:'Η ζυγαριά',money100:'Χρήματα μέχρι 100€',makecoins:'Φτιάχνω ποσά',equation:'Γράφω την πρόσθεση',scene:'Βρες πόσα',groups:'Ομάδες',beads3:'Χάντρες',fingers:'Δάχτυλα',frog:'Ο βάτραχος',order:'Σειρά',body:'Το σώμα μου',nest:'Φωλιές',baskets:'Καλάθια',stairs:'Αναλύω',down:'Κατεβαίνω',twos:'Ανά δύο',marbles:'Βόλοι',drum:'Ταμπουρίνο',match:'Φτάνουν;',forms:'Ίδιο πλήθος',abacus:'Αριθμητήριο',tally:'Γραμμούλες',words:'Λέξεις αριθμών',where:'Πού είναι;',shapes:'Σχήματα',sizes:'Μεγάλο – μικρό',compare:'Σύγκριση',split:'Το σπίτι των αριθμών',add:'Πρόσθεση',problems:'Προβλήματα',big:'Αριθμοί μέχρι το 50',ordinal:'Ποιος είναι πρώτος;',coins:'Τα ευρώ',lines:'Ενώνω τις τελείες',minus:'Αφαίρεση',sign:'+ ή −;',calendar:'Οι μέρες της εβδομάδας',dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
+const TITLES={letter:'Γράμματα',syl:'Συλλαβές',join:'Ενώνω γράμματα',readw:'Διαβάζω λέξεις',listenw:'Ακούω και διαβάζω',missw:'Ποιο γράμμα λείπει;',spellw:'Γράφω λέξεις',firstl:'Το πρώτο γράμμα',caps:'Κεφαλαία',accent:'Ο τόνος',sent:'Προτάσεις',punct:'Σημεία στίξης',complement:'Το συμπλήρωμα',commute:'Αλλάζω σειρά',tensones:'Δεκάδες και μονάδες',sum3:'Τρεις αριθμοί',clock:'Το ρολόι',bridge:'Υπέρβαση δεκάδας (+)',bridgeminus:'Υπέρβαση δεκάδας (−)',twodig:'Διψήφιοι αριθμοί',inverse:'Αντίστροφες πράξεις',calc:'Υπολογισμοί',mult:'Πολλαπλασιασμός',share:'Μοιράζω',measure:'Μετράω',symmetry:'Συμμετρία',weight:'Η ζυγαριά',money100:'Χρήματα μέχρι 100€',makecoins:'Φτιάχνω ποσά',equation:'Γράφω την πρόσθεση',scene:'Βρες πόσα',groups:'Ομάδες',beads3:'Χάντρες',fingers:'Δάχτυλα',frog:'Ο βάτραχος',order:'Σειρά',body:'Το σώμα μου',nest:'Φωλιές',baskets:'Καλάθια',stairs:'Αναλύω',down:'Κατεβαίνω',twos:'Ανά δύο',marbles:'Βόλοι',drum:'Ταμπουρίνο',match:'Φτάνουν;',forms:'Ίδιο πλήθος',abacus:'Αριθμητήριο',tally:'Γραμμούλες',words:'Λέξεις αριθμών',where:'Πού είναι;',shapes:'Σχήματα',sizes:'Μεγάλο – μικρό',compare:'Σύγκριση',split:'Το σπίτι των αριθμών',add:'Πρόσθεση',problems:'Προβλήματα',big:'Αριθμοί μέχρι το 50',ordinal:'Ποιος είναι πρώτος;',coins:'Τα ευρώ',lines:'Ενώνω τις τελείες',minus:'Αφαίρεση',sign:'+ ή −;',calendar:'Οι μέρες της εβδομάδας',dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
 let G=null,busy=false;
 document.querySelectorAll('.games').forEach(g=>g.onclick=e=>{const t=e.target.closest('[data-game]');if(t)start(t.dataset.game)});
-$('back').onclick=$('toIsland').onclick=()=>G&&G.o&&G.o.ch?openMap(G.o.ch):home();
+$('back').onclick=$('toIsland').onclick=()=>G&&G.o&&G.o.ch?(G.o.lang?openLangMap(G.o.ch):openMap(G.o.ch)):home();
 $('again').onclick=()=>start(G.name,G.o);
 function home(){$('finish').hidden=true;$('game').hidden=true;$('home').hidden=false;try{speechSynthesis.cancel()}catch(e){}}
 function start(name,o={}){
   if(name==='map')return openMap();
-  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;$('gtitle').textContent=o.ch?`${o.ch}. ${o.t}`:EN()?TEN[name][0]:TITLES[name];
+  if(name==='langmap')return openLangMap();
+  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;$('gtitle').textContent=o.ch?(o.lang?o.t:`${o.ch}. ${o.t}`):EN()?TEN[name][0]:TITLES[name];
   const l=o.l,digits=l===5?shuffle([1,2,3,4,5,1,2,3]):l===10?shuffle([6,7,8,9,6,7,8,9]):shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,8);
   G={name,o,round:0,total:8,earned:0,gr:!READ.includes(name),lvl:l,mix:o.mix?shuffle(o.mix):null,digits};busy=false;
   $('toIsland').textContent=o.ch?tr('Στο βιβλίο','To the book'):tr('Στο νησί','To the island');
@@ -1617,12 +1630,183 @@ function money100Round(){
   choose('.opts',target,money100Round,NW(target)+tr(' ευρώ',' euros'));ask(q);
 }
 
+/* ================= Γλώσσα Α΄ Δημοτικού: letters, syllables, words ================= */
+const say=t=>speak(t,'el');   // Greek content is always read in Greek
+const plain=w=>w.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/ς/g,'σ');
+const LNAME={α:'άλφα',β:'βήτα',γ:'γάμμα',δ:'δέλτα',ε:'έψιλον',ζ:'ζήτα',η:'ήτα',θ:'θήτα',ι:'γιώτα',κ:'κάπα',λ:'λάμδα',μ:'μι',ν:'νι',ξ:'ξι',ο:'όμικρον',π:'πι',ρ:'ρο',σ:'σίγμα',τ:'ταυ',υ:'ύψιλον',φ:'φι',χ:'χι',ψ:'ψι',ω:'ωμέγα',
+  ου:'ου, όπως λουλούδι',οι:'οι, όπως ρολόι',αι:'αι, όπως παιδί',ει:'ει, όπως κλειδί',τσ:'τσ, όπως τσάντα',γκ:'γκ, όπως μυρμήγκι',γγ:'γγ, όπως φεγγάρι',μπ:'μπ, όπως μπάλα',ντ:'ντ, όπως ντομάτα',τζ:'τζ, όπως γλειφιτζούρι',αυ:'αυ, όπως αυτί',ευ:'ευ, όπως Εύα'};
+const VOW=['α','ε','η','ι','ο','υ','ω','ου','αι','ει','οι'],DIG=['ου','οι','αι','ει','τσ','γκ','γγ','μπ','ντ','τζ','αυ','ευ'];
+const ALL=['α','π','τ','ο','ι','λ','ε','ν','σ','κ','ρ','μ','η','γ','δ','υ','ω','φ','β','χ','θ','ζ','ξ','ψ','ει','ου','οι','αι','τσ','γκ','γγ','μπ','ντ','τζ','αυ','ευ'];
+const capL=x=>x.charAt(0).toLocaleUpperCase('el')+x.slice(1);
+const LW=['γάτα 🐱','σκύλος 🐶','μήλο 🍎','ήλιος ☀️','ψάρι 🐟','πουλί 🐦','αυτοκίνητο 🚗','μπάλα ⚽','λουλούδι 🌼','δέντρο 🌳','σπίτι 🏠','αστέρι ⭐','μπανάνα 🍌','φεγγάρι 🌙','άλογο 🐴','τούρτα 🎂',
+ 'παπί 🦆','βάτραχος 🐸','αρκούδα 🐻','λιοντάρι 🦁','αυγό 🥚','γάλα 🥛','ψωμί 🍞','βιβλίο 📚','λεωφορείο 🚌','αεροπλάνο ✈️','ποδήλατο 🚲','βροχή 🌧️','σταφύλι 🍇','αγελάδα 🐄','ελέφαντας 🐘','μέλισσα 🐝',
+ 'τόπι 🏐','πίτα 🥧','νερό 💧','κότα 🐔','τρένο 🚂','κερί 🕯️','κάστρο 🏰','κεράσι 🍒','καρότο 🥕','νότα 🎵','πατάτα 🥔','ντομάτα 🍅','κάκτος 🌵','λεμόνι 🍋','μέλι 🍯','δάσος 🌲','μανιτάρι 🍄',
+ 'γαρίδα 🦐','δαχτυλίδι 💍','μολύβι ✏️','γλειφιτζούρι 🍭','χέρι ✋','φωτιά 🔥','χιόνι ❄️','φύλλο 🍃','φίδι 🐍','βάρκα ⛵','τυρί 🧀','ρολόι ⌚','θάλασσα 🌊','ψαλίδι ✂️','κλειδί 🔑','ζέβρα 🦓',
+ 'ξυπνητήρι ⏰','θερμόμετρο 🌡️','γουρούνι 🐷','κουτάλι 🥄','κουνέλι 🐰','μαϊμού 🐒','σκουλήκι 🐛','καρπούζι 🍉','παιδί 👧','τσάι 🍵','τσάντα 👜','αυτί 👂','μύτη 👃','χελώνα 🐢','ποντίκι 🐭',
+ 'πιγκουίνος 🐧','ομπρέλα ☂️','καπέλο 🎩','παπούτσι 👟','φόρεμα 👗','μπλούζα 👕','πορτοκάλι 🍊','αχλάδι 🍐','ανανάς 🍍','κολοκύθα 🎃','τηλέφωνο ☎️','κιθάρα 🎸','τύμπανο 🥁','πύραυλος 🚀',
+ 'σύννεφο ☁️','αστραπή ⚡','καράβι 🚢','ελικόπτερο 🚁','τρακτέρ 🚜','ταξί 🚕','ζωγραφιά 🎨','λύκος 🐺','αλεπού 🦊','πεταλούδα 🦋','μυρμήγκι 🐜','σαλιγκάρι 🐌','χταπόδι 🐙','δελφίνι 🐬','καβούρι 🦀','φάλαινα 🐳','κοχύλι 🐚']
+ .map(s=>{const[w,e]=s.split(' ');return{w,e}});
+// the letters of a word, digraphs that are taught as units, and whether a set of letters can read it
+const canRead=(w,set)=>{const p=plain(w);if(DIG.some(d=>p.includes(d)&&!set.includes(d)))return false;return[...p].every(c=>set.includes(c))};
+const lset=()=>(G.lvl&&G.lvl.set)||ALL,lnew=()=>(G.lvl&&G.lvl.nw)||pick(lset());
+const words=set=>LW.filter(x=>canRead(x.w,set));
+const sylls=set=>{const C=set.filter(x=>!VOW.includes(x)&&!['γγ','αυ','ευ'].includes(x)),V=set.filter(x=>VOW.includes(x));return[].concat(...C.map(c=>V.map(v=>c+v)))};
+const ALLSYL=sylls(ALL);
+const pick3=(ans,pool)=>shuffle([ans,...shuffle([...new Set(pool)].filter(x=>x!==ans)).slice(0,2)]);
+
+/* find the letter you hear */
+function letterRound(){
+  const set=lset(),t=Math.random()<.6?lnew():pick(set),up=G.round%2===1,q=up?tr('Ποιο είναι το μικρό;','Which is the small letter?'):tr('Άκου και βρες το γράμμα','Listen and find the letter');
+  stage().innerHTML=`<p class="prompt">${q}</p>${up?`<div class="target bigl">${capL(t)}</div>`:`<button class="hear" id="hear" aria-label="${tr('Άκου','Listen')}">🔊</button>`}
+   <div class="opts c3">${pick3(t,set.length>2?set:ALL).map(x=>`<button class="pic num lett" data-v="${x}">${x}</button>`).join('')}</div>`;
+  if(!up)$('hear').onclick=()=>say(LNAME[t]);
+  choose('.opts',t,letterRound,null,()=>say(LNAME[t]));setTimeout(()=>up?gr(q):say(LNAME[t]),300);
+}
+/* hear a syllable, find it */
+function sylRound(){
+  const set=lset(),nw=lnew(),own=sylls(set),mine=own.filter(s=>s.includes(nw)),t=pick(mine.length?mine:own.length?own:ALLSYL);
+  stage().innerHTML=`<p class="prompt">${tr('Άκου και βρες τη συλλαβή','Listen and find the syllable')}</p><button class="hear" id="hear" aria-label="${tr('Άκου','Listen')}">🔊</button>
+   <div class="opts c3">${pick3(t,own.length>2?own:ALLSYL).map(x=>`<button class="pic num lett" data-v="${x}">${x}</button>`).join('')}</div>`;
+  $('hear').onclick=()=>say(t);choose('.opts',t,sylRound,null,()=>say(t));setTimeout(()=>say(t),300);
+}
+/* join two letters into a syllable */
+function joinRound(){
+  const set=lset(),own=sylls(set),nw=lnew(),mine=own.filter(s=>s.includes(nw)),t=pick(mine.length?mine:own.length?own:ALLSYL);
+  const v=VOW.slice().sort((a,b)=>b.length-a.length).find(x=>t.endsWith(x)),c=t.slice(0,t.length-v.length);
+  stage().innerHTML=`<p class="prompt">${tr('Ενώνω τα γράμματα','Join the letters')}</p>
+   <div class="seq lett"><span>${c}</span><span>+</span><span>${v}</span><span>=</span><span class="gap" id="gapbox">?</span></div>
+   <div class="opts c3">${pick3(t,own.length>2?own:ALLSYL).map(x=>`<button class="pic num lett" data-v="${x}">${x}</button>`).join('')}</div>`;
+  choose('.opts',t,joinRound,null,()=>{fillGap(t)();say(t)});setTimeout(()=>say(t),300);
+}
+const pickWord=(set,nw)=>{const ws=words(set),mine=ws.filter(x=>plain(x.w).includes(nw));return pick(mine.length?mine:ws)};
+/* read the word, find the picture */
+function readwRound(){
+  const set=lset(),ws=words(set);if(ws.length<1)return sylRound();
+  const t=pickWord(set,lnew()),opts=[t,...shuffle(LW.filter(x=>x.e!==t.e)).slice(0,3)];
+  stage().innerHTML=`<p class="prompt">${tr('Διαβάζω τη λέξη','Read the word')}</p><div class="target lett">${t.w}</div>
+   <div class="opts c2">${shuffle(opts).map(x=>`<button class="pic" data-v="${x.e}">${x.e}</button>`).join('')}</div>`;
+  choose('.opts',t.e,readwRound,null,()=>say(t.w));
+}
+/* hear the word, find how it is written */
+function listenwRound(){
+  const set=lset(),ws=words(set);if(ws.length<3)return joinRound();
+  const t=pickWord(set,lnew()),opts=pick3(t.w,ws.map(x=>x.w));
+  stage().innerHTML=`<p class="prompt">${tr('Άκου τη λέξη και βρες πώς γράφεται','Listen and find how the word is written')}</p><button class="hear" id="hear" aria-label="${tr('Άκου','Listen')}">🔊</button>
+   <div class="opts c1">${opts.map(x=>`<button class="pic txt lett" data-v="${x}">${x}</button>`).join('')}</div>`;
+  $('hear').onclick=()=>say(t.w);choose('.opts',t.w,listenwRound,null,()=>say(t.w));setTimeout(()=>say(t.w),300);
+}
+/* which letter is missing? */
+function misswRound(){
+  const set=lset(),ws=words(set);if(ws.length<1)return letterRound();
+  const nw=lnew(),t=pickWord(set,nw),chars=[...t.w];let i=-1,len=1;
+  const p=plain(t.w),di=p.indexOf(nw);
+  if(nw.length===2&&di>=0){i=di;len=2}else{const idx=chars.map((c,k)=>k).filter(k=>plain(chars[k])===nw),un=idx.filter(k=>chars[k]===nw);i=un.length?pick(un):idx.length?pick(idx):rand(chars.length)}
+  const ans=chars.slice(i,i+len).join(''),pa=plain(ans),pool=(len===2?DIG:set.filter(x=>x.length===1)).filter(x=>x!==pa);
+  const opts=shuffle([ans,...shuffle(pool.length>=2?pool:ALL.filter(x=>x.length===len&&x!==pa)).slice(0,2)]);
+  stage().innerHTML=`<p class="prompt">${tr('Ποιο γράμμα λείπει;','Which letter is missing?')}</p><div class="big-e">${t.e}</div>
+   <div class="target lett">${chars.slice(0,i).join('')}<span class="gapl" id="gapbox">_</span>${chars.slice(i+len).join('')}</div>
+   <div class="opts c3">${opts.map(x=>`<button class="pic num lett" data-v="${x}">${x}</button>`).join('')}</div>`;
+  choose('.opts',ans,misswRound,null,()=>{$('gapbox').textContent=ans;$('gapbox').className='fillw';say(t.w)});setTimeout(()=>say(t.w),300);
+}
+/* build the word letter by letter */
+function spellwRound(){
+  const set=lset(),ws=words(set).filter(x=>[...x.w].length<=7);if(ws.length<1)return joinRound();
+  const t=pickWord(set,lnew()),word=[...t.w];let pos=0;
+  stage().innerHTML=`<button class="hear" id="hear" aria-label="${tr('Άκου τη λέξη','Hear the word')}">${t.e}</button>
+   <div class="slots" id="slots">${word.map(()=>'<span></span>').join('')}</div>
+   <div class="letters">${shuffle(word.map((c,i)=>({c,i}))).map(o=>`<button data-c="${o.c}">${o.c}</button>`).join('')}</div>`;
+  $('hear').onclick=()=>say(t.w);
+  const tap=b=>{if(busy||b.classList.contains('used'))return;
+    if(b.dataset.c===word[pos]){b.classList.add('used');$('slots').children[pos].textContent=b.dataset.c;pos++;tone([440+pos*40],.08);
+      if(pos===word.length){busy=true;say(t.w);win(spellwRound)}}
+    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope()}};
+  stage().querySelector('.letters').onclick=e=>{const b=e.target.closest('button');if(b)tap(b)};
+  G.solve=()=>{word.forEach((c,k)=>{const b=[...stage().querySelectorAll('.letters button:not(.used)')].find(x=>x.dataset.c===c);if(b)tap(b)})};
+  setTimeout(()=>say(t.w),300);
+}
+/* what is the first letter of the picture? */
+function firstlRound(){
+  const set=lset(),nw=lnew(),cand=LW.filter(x=>set.includes(plain(x.w)[0])),mine=cand.filter(x=>plain(x.w)[0]===nw),t=pick(mine.length?mine:cand.length?cand:LW),a=plain(t.w)[0];
+  stage().innerHTML=`<p class="prompt">${tr('Από ποιο γράμμα αρχίζει;','Which letter does it start with?')}</p><button class="big-e" id="hear" aria-label="${tr('Άκου τη λέξη','Hear the word')}">${t.e}</button>
+   <p class="word" id="reveal"></p><div class="opts c3">${pick3(a,(set.length>2?set:ALL).filter(x=>x.length===1)).map(x=>`<button class="pic num lett" data-v="${x}">${x}</button>`).join('')}</div>`;
+  $('hear').onclick=()=>say(t.w);choose('.opts',a,firstlRound,null,()=>{$('reveal').textContent=t.w;say(t.w)});setTimeout(()=>say(t.w),300);
+}
+/* capital and small letters */
+function capsRound(){
+  const L1=ALL.filter(x=>x.length===1),t=pick(L1),toSmall=Math.random()<.5;
+  const q=toSmall?tr('Βρες το μικρό γράμμα','Find the small letter'):tr('Βρες το κεφαλαίο γράμμα','Find the capital letter');
+  stage().innerHTML=`<p class="prompt">${q}</p><div class="target bigl">${toSmall?capL(t):t}</div>
+   <div class="opts c3">${pick3(t,L1).map(x=>`<button class="pic num lett" data-v="${x}">${toSmall?x:capL(x)}</button>`).join('')}</div>`;
+  choose('.opts',t,capsRound,null,()=>say(LNAME[t]));setTimeout(()=>gr(q),300);
+}
+/* where does the accent go? */
+const ACC={α:'ά',ε:'έ',η:'ή',ι:'ί',ο:'ό',υ:'ύ',ω:'ώ'};
+function accentRound(){
+  const t=pick(LW.filter(x=>[...plain(x.w)].filter(c=>ACC[c]).length>=2&&/[άέήίόύώ]/.test(x.w)&&!/(ου|αι|ει|οι|αυ|ευ)/.test(plain(x.w)))),base=[...plain(t.w)];
+  const pos=base.map((c,i)=>ACC[c]?i:-1).filter(i=>i>=0),variants=[...new Set(pos.map(i=>base.map((c,k)=>k===i?ACC[c]:c).join('').replace(/σ$/,'ς')))];
+  const right=t.w,opts=shuffle([right,...shuffle(variants.filter(v=>v!==right)).slice(0,2)]);
+  stage().innerHTML=`<p class="prompt">${tr('Πού μπαίνει ο τόνος;','Where does the accent go?')}</p><button class="big-e" id="hear" aria-label="${tr('Άκου τη λέξη','Hear the word')}">${t.e}</button>
+   <div class="opts c1">${opts.map(x=>`<button class="pic txt lett" data-v="${x}">${x}</button>`).join('')}</div>`;
+  $('hear').onclick=()=>say(t.w);choose('.opts',right,accentRound,null,()=>say(t.w));setTimeout(()=>say(t.w),300);
+}
+/* read a sentence, find the picture */
+const SENT=[['Ο σκύλος τρέχει.','🐶'],['Η μέλισσα πετάει.','🐝'],['Το ψάρι κολυμπάει.','🐟'],['Ο ήλιος λάμπει.','☀️'],['Βρέχει πολύ.','🌧️'],['Το τρένο τρέχει γρήγορα.','🚂'],
+  ['Η κότα κάνει αυγά.','🐔'],['Ο βάτραχος πηδάει.','🐸'],['Η βάρκα είναι στη θάλασσα.','⛵'],['Το φεγγάρι βγαίνει τη νύχτα.','🌙'],['Η αγελάδα δίνει γάλα.','🐄'],
+  ['Το κουνέλι τρώει.','🐰'],['Το αεροπλάνο πετάει ψηλά.','✈️'],['Το λουλούδι μυρίζει ωραία.','🌼'],['Το χιόνι είναι άσπρο.','❄️'],['Η φωτιά καίει.','🔥'],
+  ['Ο ελέφαντας είναι μεγάλος.','🐘'],['Η χελώνα περπατάει σιγά.','🐢'],['Το παιδί διαβάζει.','📚'],['Η μαμά φτιάχνει τούρτα.','🎂']];
+function sentRound(){
+  const[s,e]=pick(SENT),opts=[e,...shuffle(SENT.filter(x=>x[1]!==e)).slice(0,2).map(x=>x[1])];
+  stage().innerHTML=`<p class="prompt">${tr('Διαβάζω την πρόταση','Read the sentence')}</p><div class="story"><button class="hear sm" id="hear" aria-label="${tr('Άκου','Listen')}">🔊</button><p class="lett">${s}</p></div>
+   <div class="opts c3">${shuffle(opts).map(x=>`<button class="pic" data-v="${x}">${x}</button>`).join('')}</div>`;
+  $('hear').onclick=()=>say(s);choose('.opts',e,sentRound,null,()=>say(s));
+}
+/* full stop, question mark or exclamation mark? */
+const PUNCT=[['Πού είναι ο Άρης',';'],['Τι ωραία μέρα','!'],['Ο Άρης παίζει μπάλα','.'],['Πώς σε λένε',';'],['Η Λόλα έχει μια γάτα','.'],['Τι μεγάλο καράβι','!'],
+  ['Πού πάει η βάρκα',';'],['Βρέχει από το πρωί','.'],['Μπράβο σου','!'],['Τι ώρα είναι',';'],['Το κοχύλι είναι στην άμμο','.'],['Πόσα μήλα έχεις',';'],['Τι όμορφο λουλούδι','!'],['Ο σκύλος γαβγίζει','.']];
+function punctRound(){
+  const[s,p]=pick(PUNCT),lab={'.':tr('. τελεία','. full stop'),';':tr('; ερωτηματικό','; question mark'),'!':tr('! θαυμαστικό','! exclamation mark')};
+  stage().innerHTML=`<p class="prompt">${tr('Τι βάζω στο τέλος;','What goes at the end?')}</p><div class="story"><button class="hear sm" id="hear" aria-label="${tr('Άκου','Listen')}">🔊</button><p class="lett">${s}<span class="gapl" id="gapbox">_</span></p></div>
+   <div class="opts c1">${['.',';','!'].map(k=>`<button class="pic txt" data-v="${k}">${lab[k]}</button>`).join('')}</div>`;
+  $('hear').onclick=()=>say(s+p);choose('.opts',p,punctRound,null,()=>{$('gapbox').textContent=p;$('gapbox').className='fillw';say(s+p)});setTimeout(()=>say(s+p),300);
+}
+
+/* ---------- the language book map ---------- */
+const LUNITS=[
+ {t:'Πού είναι ο Άρης;',e:'Where is Aris?',L:['α','π','τ','ο','ι','λ','ε']},
+ {t:'Η παρέα',e:'The gang',L:['ν','σ','κ','ρ']},
+ {t:'Μια παράσταση στην πλατεία',e:'A show in the square',L:['μ','η','γ','δ']},
+ {t:'Το σύννεφο έφερε βροχή',e:'The cloud brought rain',L:['υ','ω','φ','β','χ']},
+ {t:'Σκανταλιές',e:'Mischief',L:['θ','ζ','ξ','ψ','ει']},
+ {t:'Το χαμένο κλειδί',e:'The lost key',L:['ου','οι','αι','τσ','γκ','γγ']},
+ {t:'Καράβια',e:'Boats',L:['μπ','ντ','τζ','αυ','ευ']},
+ {t:'Άνοιξη',e:'Spring',X:[['caps','Κεφαλαία και μικρά','Capital and small letters'],['readw','Διαβάζω λέξεις','Reading words'],['spellw','Γράφω λέξεις','Writing words']]},
+ {t:'Ο κόσμος των βιβλίων',e:'The world of books',X:[['accent','Ο τόνος','The accent'],['sent','Διαβάζω προτάσεις','Reading sentences']]},
+ {t:'Το κοχύλι',e:'The seashell',X:[['punct','Τελεία, ερωτηματικό, θαυμαστικό','Full stop, question and exclamation marks'],['sent','Διαβάζω και καταλαβαίνω','Reading and understanding']]}];
+const LACT=['letter','syl','join','readw','listenw','missw','spellw','firstl'];
+const LLESSONS=(()=>{const out=[];let set=[],n=0;LUNITS.forEach((u,ui)=>{const ls=[];
+  (u.L||[]).forEach(x=>{set=set.concat([x]);const lv={set:set.slice(),nw:x};n++;
+    ls.push({id:'L'+n,b:capL(x)+' '+x,t:[x.length>1?`Το ${x}`:`Το γράμμα ${capL(x)} ${x}`,x.length>1?`The sound ${x}`:`The letter ${capL(x)} ${x}`],mix:LACT.map(a=>[a,lv])})});
+  (u.X||[]).forEach(([a,el,en])=>{n++;ls.push({id:'L'+n,b:'✎',t:[el,en],mix:[[a,{set:ALL}],[a,{set:ALL}]]})});
+  n++;const rv={set:set.length?set.slice():ALL};
+  ls.push({id:'L'+n,rev:1,b:'★',t:['Επανάληψη','Revision'],mix:u.L?[['readw',rv],['missw',rv],['listenw',rv],['spellw',rv],['firstl',rv],['letter',rv]]:[['sent',{set:ALL}],['accent',{set:ALL}],['punct',{set:ALL}],['spellw',{set:ALL}],['caps',{set:ALL}]]});
+  out.push({u,ui,ls})});return out})();
+function openLangMap(ch){
+  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;try{speechSynthesis.cancel()}catch(e){}
+  $('gtitle').textContent=tr('Το βιβλίο της Γλώσσας','My reading book');G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
+  const all=[].concat(...LLESSONS.map(x=>x.ls)),done=all.filter(l=>S.done[l.id]).length;
+  stage().innerHTML=`<p class="counter">${tr(`Γλώσσα Α΄ Δημοτικού · ⭐ ${done} από ${all.length} μαθήματα`,`Greek reading, Grade 1 · ⭐ ${done} of ${all.length} lessons`)}</p>
+   ${LLESSONS.map(({u,ui,ls})=>`<div class="unit"><h3>${tr('Ενότητα','Unit')} ${ui+1}</h3><p>${tr(u.t,u.e)}</p>${ls.map(l=>`<button class="chap" id="ch${l.id}" data-ch="${l.id}"><span class="badge lb${l.rev?' rev':''}" style="--k:${l.rev?'#5BAE6B':'#4A90C8'}"><span>${l.b}</span></span><span class="t">${tr(l.t[0],l.t[1])}</span><span class="chk">${S.done[l.id]?'⭐':''}</span></button>`).join('')}</div>`).join('')}`;
+  stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>{const l=all.find(x=>x.id===b.dataset.ch);start('mix',{ch:l.id,t:tr(l.t[0],l.t[1]),mix:l.mix,lang:1})});
+  const el=ch&&$('ch'+ch);if(el)el.scrollIntoView({block:'center'});else scrollTo(0,0);
+}
+
 const ROUNDS={dice:diceRound,nline:lineRound,trace:traceRound,circle:circleRound,pattern:patternRound,read:readRound,spell:spellRound,first:firstRound,listen:listenRound,count:countRound,memory:memoryGame,learn:learnGame,
   where:whereRound,shapes:shapesRound,sizes:sizesRound,compare:compareRound,split:splitRound,add:addRound,minus:minusRound,sign:signRound,problems:problemRound,big:bigRound,ordinal:ordinalRound,coins:coinsRound,lines:linesRound,calendar:calendarRound,
   marbles:marblesRound,drum:drumRound,match:matchRound,forms:formsRound,abacus:abacusRound,words:wordsRound,tally:tallyRound,
   body:bodyRound,nest:nestRound,fingers:fingersRound,baskets:basketsRound,stairs:stairsRound,down:downRound,twos:twosRound,frog:frogRound,order:orderRound,
   scene:sceneRound,groups:groupsRound,makecoins:makecoinsRound,beads3:beads3Round,equation:equationRound,
-  complement:complementRound,commute:commuteRound,tensones:tensonesRound,sum3:sum3Round,clock:clockRound,bridge:bridgeRound,bridgeminus:bridgeMinusRound,twodig:twodigRound,inverse:inverseRound,calc:calcRound,mult:multRound,share:shareRound,measure:measureRound,symmetry:symmetryRound,weight:weightRound,money100:money100Round};
+  complement:complementRound,commute:commuteRound,tensones:tensonesRound,sum3:sum3Round,clock:clockRound,bridge:bridgeRound,bridgeminus:bridgeMinusRound,twodig:twodigRound,inverse:inverseRound,calc:calcRound,mult:multRound,share:shareRound,measure:measureRound,symmetry:symmetryRound,weight:weightRound,money100:money100Round,
+  letter:letterRound,syl:sylRound,join:joinRound,readw:readwRound,listenw:listenwRound,missw:misswRound,spellw:spellwRound,firstl:firstlRound,caps:capsRound,accent:accentRound,sent:sentRound,punct:punctRound};
 
 /* ---------- book map (Μαθηματικά Α΄ Δημοτικού, contents) ---------- */
 const CAT={n:['Αριθμοί','#5BAE6B'],o:['Πράξεις','#4A90C8'],g:['Γεωμετρία','#E0604F'],m:['Μετρήσεις','#F0A040'],p:['Προβλήματα','#8E7CC3'],r:['Επανάληψη','#5BAE6B']};
