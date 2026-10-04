@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='14';
+var APPV='15';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -392,6 +392,20 @@ details.more .games{padding-top:4px}
 }
 /* older phones: no gap in flexbox (iOS < 14.5) - set by a JS check */
 .nogap .bar>*,.nogap .hero>*,.nogap .row>*,.nogap .dice>*,.nogap .inorder>*,.nogap .vs>*,.nogap .trio>*,.nogap .chap>*{margin:0 6px}
+.wbs .tile.bkt:nth-child(1){--c:var(--t3)}.wbs .tile.bkt:nth-child(2){--c:var(--t1)}.wbs .tile.bkt:nth-child(3){--c:var(--t5)}.wbs .tile.bkt:nth-child(4){--c:var(--t2)}
+.wbh{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:22px;margin:4px 6px 8px}
+.kpad{display:flex;flex-direction:column;align-items:center;width:100%}
+.kout{min-width:130px;min-height:66px;margin-bottom:12px;padding:4px 18px;border:3px dashed var(--line);border-radius:18px;font-size:44px;font-weight:800;text-align:center;background:var(--card);line-height:1.3}
+.kout.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.kout.no{animation:shake .4s}
+.keys{display:grid;grid-template-columns:repeat(6,1fr);grid-gap:6px;gap:6px;width:100%;max-width:420px}
+.keys.kn{grid-template-columns:repeat(3,1fr);max-width:270px}
+.keys button{min-height:52px;border-radius:14px;background:var(--t4);color:var(--tink);border:3px solid #2E2A4F;font-size:28px;font-weight:700;margin:0}
+.keys button.kx{background:var(--t5)}.keys button.kok{background:var(--ok);color:#fff}
+.sline{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;min-height:60px;border-bottom:4px solid var(--line);padding:6px;max-width:440px;font-size:26px;font-weight:700}
+.wtiles{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:440px}
+.wtiles button{padding:8px 14px;border-radius:16px;background:var(--t4);color:var(--tink);border:3px solid #2E2A4F;font-size:26px;font-weight:700}
+.wtiles button.used{visibility:hidden}.wtiles button.no{animation:shake .4s}
 .nogap .dots>*,.nogap .slots>*,.nogap .letters>*,.nogap .sum>*,.nogap .sum .grp>*,.nogap .count-field>*,.nogap .nline>*,.nogap .objs>*,.nogap .seq>*,
 .nogap .board>*,.nogap .queue>*,.nogap .week>*,.nogap .legend>*,.nogap .blocks>*,.nogap .ones>*,.nogap .grpbtn>*{margin:3px}
 .nogap .stage>*,.nogap .stack>*,.nogap .learn-card>*{margin:8px 0}
@@ -418,6 +432,13 @@ details.more .games{padding-top:4px}
     <div class="games books">
       <button class="tile bkt" data-game="langmap"><div class="ico">📗</div><b>Το βιβλίο της Γλώσσας</b><span>Γράμματα, λέξεις, ιστορίες – με τη σειρά του βιβλίου</span></button>
       <button class="tile bkt" data-game="map"><div class="ico">📘</div><b>Το βιβλίο των Μαθηματικών</b><span>Όλα τα κεφάλαια, με τη σειρά του βιβλίου</span></button>
+    </div>
+    <p class="wbh" id="sumWB">Τα τετράδια</p>
+    <div class="games books wbs">
+      <button class="tile bkt" data-game="wb:wl"><div class="ico">📓</div><b>Τετράδιο Εργασιών Γλώσσας</b><span>Γράφω γράμματα, λέξεις, υπαγόρευση</span></button>
+      <button class="tile bkt" data-game="wb:wh"><div class="ico">✍️</div><b>Το τετράδιο της πρώτης μου γραφής</b><span>Γράφω με το δάχτυλο κάθε γράμμα</span></button>
+      <button class="tile bkt" data-game="wb:wm"><div class="ico">📒</div><b>Τετράδιο Εργασιών Μαθηματικών</b><span>Γράφω μόνος μου την απάντηση</span></button>
+      <button class="tile bkt" data-game="wb:wp"><div class="ico">📙</div><b>Τετράδιο Μαθηματικών</b><span>Φύλλα εργασίας και τεστ για κάθε ενότητα</span></button>
     </div>
     <details class="more" id="moreLang"><summary id="sumLang">Παιχνίδια ανάγνωσης</summary>
     <div class="games">
@@ -670,10 +691,11 @@ const TEN={read:['Read','Read the word, find the picture'],spell:['Spell the wor
   clock:['The clock','What time is it?'],bridge:['Across ten (+)','8 + 5 = 10 + 3'],bridgeminus:['Across ten (−)','13 − 5 = 10 − 2'],twodig:['Two-digit numbers','23 + 4, 56 − 30'],
   inverse:['Undo it','5 + 3 = 8, 8 − 3 = 5'],calc:['Mental maths','Up to 20'],mult:['Multiplication','Equal groups'],share:['Sharing','Division'],measure:['Measuring','How many squares long?'],
   symmetry:['Symmetry','Mirror pictures'],weight:['The scale','Heavier or lighter?'],money100:['Money to 100€','Notes and coins'],
+  'wb:wl':['Greek workbook','Write letters, words, dictation'],'wb:wh':['My first writing book','Write every letter with your finger'],'wb:wm':['Maths workbook','Write the answer yourself'],'wb:wp':['Maths practice book','Worksheets and a test for every unit'],
   langmap:['My reading book','Letters, words, stories – in book order'],letter:['Letters','Find the letter'],syl:['Syllables','Find the syllable'],join:['Join letters','π + α = πα'],readw:['Read words','Find the picture'],
   listenw:['Listen and read','How is it written?'],missw:['Missing letter','Fill the gap'],spellw:['Write words','Letter by letter'],firstl:['First letter','Which letter does it start with?'],caps:['Capital letters','Big and small'],
   accent:['The accent','Where does it go?'],sent:['Sentences','Read and find'],punct:['Punctuation','. ; !']};
-const STATIC=[['h1',"The Hoopoe's Island"],['.hero p','Games for reading, writing and numbers for 6-year-olds.'],['#sumLang','Reading games'],['#sumMath','Maths games'],['#again','Again'],['#toIsland','To the island'],['[data-game="first"] .ico','Aa']];
+const STATIC=[['h1',"The Hoopoe's Island"],['.hero p','Games for reading, writing and numbers for 6-year-olds.'],['#sumLang','Reading games'],['#sumWB','The workbooks'],['#sumMath','Maths games'],['#again','Again'],['#toIsland','To the island'],['[data-game="first"] .ico','Aa']];
 function openVoices(){
   const t=S.lang,all=voicesFor(t),good=all.filter(v=>vscore(v,t)>-50),list=good.length?good:all,cur=voiceFor(t);
   $('vtitle').textContent=tr('Διάλεξε φωνή','Choose a voice');
@@ -700,21 +722,22 @@ $('langs').onclick=e=>{const b=e.target.closest('[data-lang]');if(!b||b.dataset.
 const TITLES={letter:'Γράμματα',syl:'Συλλαβές',join:'Ενώνω γράμματα',readw:'Διαβάζω λέξεις',listenw:'Ακούω και διαβάζω',missw:'Ποιο γράμμα λείπει;',spellw:'Γράφω λέξεις',firstl:'Το πρώτο γράμμα',caps:'Κεφαλαία',accent:'Ο τόνος',sent:'Προτάσεις',punct:'Σημεία στίξης',complement:'Το συμπλήρωμα',commute:'Αλλάζω σειρά',tensones:'Δεκάδες και μονάδες',sum3:'Τρεις αριθμοί',clock:'Το ρολόι',bridge:'Υπέρβαση δεκάδας (+)',bridgeminus:'Υπέρβαση δεκάδας (−)',twodig:'Διψήφιοι αριθμοί',inverse:'Αντίστροφες πράξεις',calc:'Υπολογισμοί',mult:'Πολλαπλασιασμός',share:'Μοιράζω',measure:'Μετράω',symmetry:'Συμμετρία',weight:'Η ζυγαριά',money100:'Χρήματα μέχρι 100€',makecoins:'Φτιάχνω ποσά',equation:'Γράφω την πρόσθεση',scene:'Βρες πόσα',groups:'Ομάδες',beads3:'Χάντρες',fingers:'Δάχτυλα',frog:'Ο βάτραχος',order:'Σειρά',body:'Το σώμα μου',nest:'Φωλιές',baskets:'Καλάθια',stairs:'Αναλύω',down:'Κατεβαίνω',twos:'Ανά δύο',marbles:'Βόλοι',drum:'Ταμπουρίνο',match:'Φτάνουν;',forms:'Ίδιο πλήθος',abacus:'Αριθμητήριο',tally:'Γραμμούλες',words:'Λέξεις αριθμών',where:'Πού είναι;',shapes:'Σχήματα',sizes:'Μεγάλο – μικρό',compare:'Σύγκριση',split:'Το σπίτι των αριθμών',add:'Πρόσθεση',problems:'Προβλήματα',big:'Αριθμοί μέχρι το 50',ordinal:'Ποιος είναι πρώτος;',coins:'Τα ευρώ',lines:'Ενώνω τις τελείες',minus:'Αφαίρεση',sign:'+ ή −;',calendar:'Οι μέρες της εβδομάδας',dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
 let G=null,busy=false;
 document.querySelectorAll('.games').forEach(g=>g.onclick=e=>{const t=e.target.closest('[data-game]');if(t)start(t.dataset.game)});
-$('back').onclick=$('toIsland').onclick=()=>G&&G.o&&G.o.ch?(G.o.lang?openLangMap(G.o.ch):openMap(G.o.ch)):home();
+$('back').onclick=$('toIsland').onclick=()=>G&&G.o&&G.o.ch?(G.o.wb?openWB(G.o.wb,G.o.ch):G.o.lang?openLangMap(G.o.ch):openMap(G.o.ch)):home();
 $('again').onclick=()=>start(G.name,G.o);
 function home(){$('finish').hidden=true;$('game').hidden=true;$('home').hidden=false;try{speechSynthesis.cancel()}catch(e){}renderCont()}
 function start(name,o={}){
   if(name==='map')return openMap();
   if(name==='langmap')return openLangMap();
-  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;$('gtitle').textContent=o.ch?(o.lang?o.t:`${o.ch}. ${o.t}`):EN()?TEN[name][0]:TITLES[name];
+  if(name.indexOf('wb:')===0)return openWB(name.slice(3));
+  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;$('gtitle').textContent=o.tt?o.tt:o.ch?(o.lang?o.t:`${o.ch}. ${o.t}`):EN()?TEN[name][0]:TITLES[name];
   const l=o.l,digits=l===5?shuffle([1,2,3,4,5,1,2,3]):l===10?shuffle([6,7,8,9,6,7,8,9]):shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,8);
   lastSay=null;
-  G={name,o,round:0,total:8,earned:0,gr:!READ.includes(name),lvl:l,mix:o.mix?shuffle(o.mix):null,digits};busy=false;
+  G={name,cur:name,o,round:0,total:o.total||8,earned:0,gr:!READ.includes(name),lvl:l,mix:o.mix?shuffle(o.mix):null,digits};busy=false;
   $('toIsland').textContent=o.ch?tr('Στο βιβλίο','To the book'):tr('Στο νησί','To the island');
   (G.mix?mixRound:ROUNDS[name])();
   drawDots();scrollTo(0,0);
 }
-function mixRound(){const[f,l]=G.mix[G.round%G.mix.length];G.lvl=l;ROUNDS[f]()}
+function mixRound(){const[f,l]=G.mix[G.round%G.mix.length];G.lvl=l;G.cur=f;ROUNDS[f]()}
 function drawDots(){$('dots').innerHTML=G.name==='learn'?'':Array.from({length:G.total},(_,i)=>`<i class="${i<G.round?'done':''}"></i>`).join('')}
 function win(next){
   G.solve=null;G.round++;G.earned++;S.stars++;save();updateStars();drawDots();yay();
@@ -844,8 +867,10 @@ const die=n=>`<div class="die" aria-label="${n}">${[...Array(9)].map((_,i)=>`<i 
 const hintAfter=(box,match)=>{let wrong=0;return()=>{if(++wrong>=2){const c=[...box.querySelectorAll('[data-v],[data-n]')].find(match);if(c)c.classList.add('hint')}}};
 function pickNum(cls,choices,ans,onOk,next){
   const box=stage().querySelector(cls),miss=hintAfter(box,x=>+x.dataset.n===ans);
+  const ok=b=>{busy=true;b.classList.add('ok');gr(NW(ans));onOk&&onOk();win(next)};
   box.onclick=e=>{const b=e.target.closest('.pic');if(!b||busy)return;
-    if(+b.dataset.n===ans){busy=true;b.classList.add('ok');gr(NW(ans));onOk&&onOk();win(next)}else{bad(b);gr(AGAIN[S.lang]);miss()}};
+    if(+b.dataset.n===ans)ok(b);else{bad(b);gr(AGAIN[S.lang]);miss()}};
+  writeIn(box,ans,ok);
 }
 
 function diceRound(){
@@ -893,40 +918,46 @@ function patternRound(){
 
 function traceRound(){
   const d=G.lvl===6?rand(6):G.lvl===5?1+rand(5):G.lvl===10?6+rand(4):G.digits[G.round],item=['🐦','🍎','🌼','🐟','⭐'][Math.random()*5|0];
-  stage().innerHTML=`<p class="prompt">${tr('Γράφω τον αριθμό','Write the number')} ${d}</p>
-   <div class="seq small">${d?Array(d).fill(item).join(''):NW(0)}</div>
-   <div class="tracebox"><canvas id="guide"></canvas><canvas id="ink" aria-label="${tr('Γράψε με το δάχτυλο τον αριθμό','Write with your finger the number')} ${d}"></canvas></div>
-   <p class="counter" id="tmsg">${tr('Πέρασε με το δάχτυλο πάνω από τον αριθμό.','Trace over the number with your finger.')}</p>
+  traceIn(String(d),`${tr('Γράφω τον αριθμό','Write the number')} ${d}`,`<div class="seq small">${d?Array(d).fill(item).join(''):NW(0)}</div>`,
+    tr('Γράφω τον αριθμό ','Write the number ')+NW(d),()=>gr(NW(d)),traceRound,
+    [tr('Γράψε με το δάχτυλο τον αριθμό','Write with your finger the number')+' '+d,tr('Πέρασε με το δάχτυλο πάνω από τον αριθμό.','Trace over the number with your finger.'),tr('Πέρασε πάνω από όλο τον αριθμό.','Trace over the whole number.'),tr('Μείνε μέσα στον αριθμό.','Stay inside the number.')]);
+}
+// finger-tracing over a pale guide: digits, letters or short words
+function traceIn(d,prompt,extra,ask0,onDone,next,M){
+  stage().innerHTML=`<p class="prompt">${prompt}</p>${extra}
+   <div class="tracebox"><canvas id="guide"></canvas><canvas id="ink" aria-label="${M[0]}"></canvas></div>
+   <p class="counter" id="tmsg">${M[1]}</p>
    <div class="row"><button class="pill" id="clr">${tr('Σβήνω','Clear')}</button><button class="pill main" id="chk">${tr('Έτοιμο','Done')}</button></div>`;
   const box=stage().querySelector('.tracebox'),g=$('guide'),k=$('ink'),dpr=Math.min(2,window.devicePixelRatio||1);
   const W=Math.round(box.clientWidth*dpr);[g,k].forEach(c=>{c.width=c.height=W});
   const gc=g.getContext('2d'),kc=k.getContext('2d');
   const tol=document.createElement('canvas');tol.width=tol.height=W;const tc=tol.getContext('2d');
-  let mask,tmask;
+  let mask,tmask,sc=1;
   const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
   const drawGuide=()=>{
-    const font=`700 ${W*.82}px Andika, sans-serif`;
+    gc.font=`700 ${W*.82}px Andika, sans-serif`;const mw=gc.measureText(d).width;sc=mw>W*.9?W*.9/mw:1;
+    const font=`700 ${W*.82*sc}px Andika, sans-serif`;
     [gc,tc].forEach(c=>{c.clearRect(0,0,W,W);c.font=font;c.textAlign='center';c.textBaseline='middle'});
     gc.fillStyle=css('--guide');gc.fillText(d,W/2,W*.55);
-    tc.fillStyle=tc.strokeStyle='#000';tc.lineWidth=W*.09;tc.lineJoin='round';tc.fillText(d,W/2,W*.55);tc.strokeText(d,W/2,W*.55);
-    mask=gc.getImageData(0,0,W,W).data;tmask=tc.getImageData(0,0,W,W).data;
+    tc.fillStyle=tc.strokeStyle='#000';tc.lineWidth=W*.09*Math.max(sc,.4);tc.lineJoin='round';tc.fillText(d,W/2,W*.55);tc.strokeText(d,W/2,W*.55);
+    mask=gc.getImageData(0,0,W,W).data;tmask=tc.getImageData(0,0,W,W).data;kc.lineWidth=W*.075*Math.max(sc,.4);
   };
-  (document.fonts?document.fonts.load('700 100px Andika'):Promise.resolve()).then(drawGuide,drawGuide);
+  (document.fonts?document.fonts.load('700 100px Andika',d):Promise.resolve()).then(drawGuide,drawGuide);
   kc.lineCap=kc.lineJoin='round';kc.lineWidth=W*.075;kc.strokeStyle=css('--ink2');
   let down=false;
   const pt=e=>{const rc=k.getBoundingClientRect();return[(e.clientX-rc.left)*W/rc.width,(e.clientY-rc.top)*W/rc.height]};
   ptr(k,e=>{down=true;const[x,y]=pt(e);kc.beginPath();kc.moveTo(x,y);kc.lineTo(x+.1,y);kc.stroke()},
     e=>{if(!down)return;const[x,y]=pt(e);kc.lineTo(x,y);kc.stroke()},()=>{down=false});
-  $('clr').onclick=()=>{kc.clearRect(0,0,W,W);$('tmsg').textContent=tr('Πέρασε με το δάχτυλο πάνω από τον αριθμό.','Trace over the number with your finger.')};
+  $('clr').onclick=()=>{kc.clearRect(0,0,W,W);$('tmsg').textContent=M[1]};
   $('chk').onclick=()=>{
     if(busy||!mask)return;const ink=kc.getImageData(0,0,W,W).data;let gt=0,cov=0,it=0,out=0;
     for(let i=3;i<ink.length;i+=12){const gm=mask[i]>40,im=ink[i]>40;if(gm){gt++;if(im)cov++}if(im){it++;if(tmask[i]<40)out++}}
     const c=gt?cov/gt:0,o=it?out/it:1;
-    if(c>=.6&&o<=.25){busy=true;$('tmsg').textContent=tr('Τέλεια!','Perfect!');gr(NW(d));win(traceRound)}
-    else{nope();const m=c<.6?tr('Πέρασε πάνω από όλο τον αριθμό.','Trace over the whole number.'):tr('Μείνε μέσα στον αριθμό.','Stay inside the number.');$('tmsg').textContent=m;gr(m)}
+    if(c>=.6&&o<=.25){busy=true;$('tmsg').textContent=tr('Τέλεια!','Perfect!');onDone();win(next)}
+    else{nope();const m=c<.6?M[2]:M[3];$('tmsg').textContent=m;gr(m)}
   };
-  G.solve=()=>{busy=true;win(traceRound)};
-  setTimeout(()=>gr(tr('Γράφω τον αριθμό ','Write the number ')+NW(d)),300);
+  G.solve=()=>{busy=true;win(next)};
+  setTimeout(()=>gr(ask0),300);
 }
 
 /* ---------- 5. word book ---------- */
@@ -949,8 +980,10 @@ const NW=n=>{if(n===100)return tr('εκατό','one hundred');if(EN())return n<2
 const btns=(vals,cls='pic num',lab=v=>v)=>vals.map(v=>`<button class="${cls}" data-v="${v}">${lab(v)}</button>`).join('');
 function choose(sel,ans,next,say,onOk){
   const box=stage().querySelector(sel),miss=hintAfter(box,x=>x.dataset.v===String(ans));
+  const ok=b=>{busy=true;b.classList.add('ok');onOk&&onOk(b);if(say)gr(say);win(next)};
   box.onclick=e=>{const b=e.target.closest('[data-v]');if(!b||busy)return;
-    if(b.dataset.v===String(ans)){busy=true;b.classList.add('ok');onOk&&onOk(b);if(say)gr(say);win(next)}else{bad(b);gr(AGAIN[S.lang]);miss()}};
+    if(b.dataset.v===String(ans))ok(b);else{bad(b);gr(AGAIN[S.lang]);miss()}};
+  writeIn(box,ans,ok);
 }
 const fillGap=v=>()=>{const g=$('gapbox');g.textContent=v;g.className='fill'};
 const ask=q=>setTimeout(()=>gr(q),300);
@@ -1958,6 +1991,111 @@ function openMap(ch){
    ${UNITS.map((u,ui)=>`${ui===0?`<h2 class="sect">${tr('Α΄ Περίοδος','First period')}</h2>`:''}${u.per?`<h2 class="sect">${tr(u.per[0],u.per[1])}</h2>`:''}<div class="unit"><h3>${EN()?UNITEN[ui][0]:u.t}</h3><p>${EN()?UNITEN[ui][1]:u.s}</p>${u.c.map(c=>`<button class="chap" id="ch${c[0]}" data-ch="${c[0]}"><span class="badge${c[1]==='r'?' rev':''}" style="--k:${CAT[c[1]][1]}"><span>${c[0]}</span></span><span class="t">${chT(c)}</span><span class="chk">${S.done[c[0]]?'⭐':''}</span></button>`).join('')}</div>`).join('')}`;
   stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>launchMath(all.find(x=>x[0]==b.dataset.ch)));
   markNext(ch,all.find(c=>!S.done[c[0]]),c=>c[0]);
+}
+/* ================= The workbooks (extra units; the books and games above stay as they are) ================= */
+/* workbook mode: the child writes the answer on a keypad instead of picking it */
+const KEYW=['letter','syl','join','missw','firstl'],ABC='αβγδεζηθικλμνξοπρστυφχψω';
+function writeIn(box,ans,ok){
+  if(!(G&&G.o&&G.o.write)||!box)return;
+  const opts=[...box.querySelectorAll('[data-v],[data-n]')],vals=opts.map(b=>b.dataset.v!==undefined?b.dataset.v:b.dataset.n);
+  const num=vals.length>1&&vals.every(v=>/^\d{1,3}$/.test(v)),i=vals.indexOf(String(ans));
+  if(i<0||!(num||(KEYW.indexOf(G.cur)>=0&&opts.every(b=>b.classList.contains('lett')))))return;
+  const target=num?String(ans):plain(String(ans)),max=Math.min(num?3:6,target.length+(num?1:2));
+  let keys;
+  if(num)keys=['1','2','3','4','5','6','7','8','9','⌫','0','✓'];
+  else{const have=plain(lset().join('')+target);keys=[...ABC].filter(c=>have.indexOf(c)>=0).concat(['⌫','✓'])}
+  const wrap=document.createElement('div');wrap.className='kpad';
+  wrap.innerHTML=`<p class="counter">${num?tr('Γράψε την απάντηση','Write the answer'):tr('Γράψε με τα γράμματα','Write it with the letters')}</p><div class="kout lett" id="kout"></div>
+   <div class="keys${num?' kn':''}">${keys.map(k=>`<button data-k="${k}" class="${k==='✓'?'kok':k==='⌫'?'kx':''}" aria-label="${k==='✓'?tr('Έτοιμο','Done'):k==='⌫'?tr('Σβήνω','Delete'):k}">${k}</button>`).join('')}</div>`;
+  box.hidden=true;box.parentNode.insertBefore(wrap,box.nextSibling);
+  const out=wrap.querySelector('.kout');let typed='',wrong=0;const show=()=>{out.textContent=typed||' '};show();
+  wrap.onclick=e=>{const b=e.target.closest('[data-k]');if(!b||busy)return;const k=b.dataset.k;
+    if(k==='⌫'){typed=typed.slice(0,-1);show();return}
+    if(k!=='✓'){if(typed.length<max){typed+=k;show();tone([500],.05)}return}
+    if(!typed)return;
+    if(typed===target){out.classList.add('ok');ok(opts[i])}
+    else{out.classList.remove('no');void out.offsetWidth;out.classList.add('no');nope();typed='';show();
+      // after two tries the choices come back, so nobody gets stuck
+      if(++wrong>=2){wrap.parentNode.removeChild(wrap);box.hidden=false;gr(tr('Διάλεξε τη σωστή απάντηση','Choose the right answer'))}else gr(AGAIN[S.lang])}};
+  G.solve=()=>{typed=target;wrap.querySelector('[data-k="✓"]').click()};
+}
+
+/* trace letters and short words (Το τετράδιο της πρώτης μου γραφής) */
+function tracelRound(){
+  const set=lset(),nw=G.lvl&&G.lvl.nw,r=G.round;let t,e='',word=false;
+  if(nw&&r<3)t=nw;else if(nw&&r<5)t=capL(nw);
+  else if(!nw&&r%2===1)t=capL(pick(ALL.filter(x=>x.length===1)));
+  else{const ws=words(set).filter(x=>[...x.w].length<=5),mine=nw?ws.filter(x=>plain(x.w).indexOf(nw)>=0):ws,w=(mine.length?mine:ws).length?pick(mine.length?mine:ws):null;
+    if(w){t=w.w;e=w.e;word=true}else{const sy=sylls(set).filter(x=>!nw||x.indexOf(nw)>=0);t=sy.length?pick(sy):nw||pick(set)}}
+  const one=!word&&t.length<=2&&LNAME[t.toLowerCase()],sayIt=()=>say(one?LNAME[t.toLowerCase()]:t);
+  const what=word?tr('τη λέξη','the word'):one?tr('το γράμμα','the letter'):tr('τη συλλαβή','the syllable');
+  traceIn(t,`${tr('Γράφω','Write')} ${what} <span class="lett">${t}</span>`,e?`<div class="big-e">${e}</div>`:'',`${tr('Γράφω','Write')} ${what}`,sayIt,tracelRound,
+    [tr('Γράψε με το δάχτυλο','Write with your finger')+' '+t,tr(`Πέρασε με το δάχτυλο πάνω από ${what}.`,`Trace over ${what} with your finger.`),tr(`Πέρασε πάνω από όλο ${what}.`,`Trace over all of ${what}.`),tr('Μείνε μέσα στις γραμμές.','Stay inside the lines.')]);
+  setTimeout(sayIt,1600);
+}
+/* dictation: hear the word, write it (no picture to help) */
+function dictRound(){
+  const set=lset(),ws=words(set).filter(x=>[...x.w].length<=6);if(ws.length<1)return joinRound();
+  const t=pickWord(set,lnew()),word=[...t.w],extra=shuffle(set.filter(x=>x.length===1&&plain(t.w).indexOf(x)<0)).slice(0,3);let pos=0;
+  stage().innerHTML=`<p class="prompt">${tr('Υπαγόρευση: άκου και γράψε τη λέξη','Dictation: listen and write the word')}</p><button class="hear" id="hear" aria-label="${tr('Άκου τη λέξη','Hear the word')}">🔊</button>
+   <div class="slots" id="slots">${word.map(()=>'<span></span>').join('')}</div>
+   <div class="letters">${shuffle(word.concat(extra)).map(c=>`<button data-c="${c}">${c}</button>`).join('')}</div><p class="big-e" id="reveal"></p>`;
+  $('hear').onclick=()=>say(t.w);
+  const tap=b=>{if(busy||b.classList.contains('used'))return;
+    if(b.dataset.c===word[pos]){b.classList.add('used');$('slots').children[pos].textContent=b.dataset.c;pos++;tone([440+pos*40],.08);
+      if(pos===word.length){busy=true;$('reveal').textContent=t.e;say(t.w);win(dictRound)}}
+    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope()}};
+  stage().querySelector('.letters').onclick=e=>{const b=e.target.closest('button');if(b)tap(b)};
+  G.solve=()=>{word.forEach(c=>{const b=[...stage().querySelectorAll('.letters button:not(.used)')].find(x=>x.dataset.c===c);if(b)tap(b)})};
+  setTimeout(()=>say(t.w),300);
+}
+/* put the words in order to make the sentence */
+function sentbRound(){
+  const[s]=pick(SENT),ws=s.split(' ');let pos=0;
+  stage().innerHTML=`<p class="prompt">${tr('Βάζω τις λέξεις στη σωστή σειρά','Put the words in the right order')}</p><button class="hear" id="hear" aria-label="${tr('Άκου','Listen')}">🔊</button>
+   <div class="sline lett" id="sline"></div><div class="wtiles lett">${shuffle(ws.map((w,i)=>({w,i}))).map(o=>`<button data-i="${o.i}">${o.w}</button>`).join('')}</div>`;
+  $('hear').onclick=()=>say(s);
+  const tap=b=>{if(busy||b.classList.contains('used'))return;
+    if(ws[+b.dataset.i]===ws[pos]){b.classList.add('used');const x=document.createElement('span');x.textContent=ws[pos];$('sline').appendChild(x);pos++;tone([440+pos*40],.08);
+      if(pos===ws.length){busy=true;say(s);win(sentbRound)}}
+    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope()}};
+  stage().querySelector('.wtiles').onclick=e=>{const b=e.target.closest('button');if(b)tap(b)};
+  G.solve=()=>{ws.forEach(w=>{const b=[...stage().querySelectorAll('.wtiles button:not(.used)')].find(x=>x.textContent===w);if(b)tap(b)})};
+  setTimeout(()=>say(s),300);
+}
+ROUNDS.tracel=tracelRound;ROUNDS.dict=dictRound;ROUNDS.sentb=sentbRound;
+
+/* the four workbook maps */
+const cmix=c=>Array.isArray(c[3])?c[3]:[[c[3],c[4]]];
+const langLessons=(mk,xmk,rmk)=>LUNITS.map((u,ui)=>{let set=[];LUNITS.slice(0,ui).forEach(v=>{set=set.concat(v.L||[])});const ls=[];
+  (u.L||[]).forEach(x=>{set=set.concat([x]);ls.push(mk(x,{set:set.slice(),nw:x}))});
+  (u.X||[]).forEach(X=>{const l=xmk(X);if(l)ls.push(l)});
+  const rv=rmk(u,{set:set.length?set.slice():ALL});if(rv)ls.push(rv);
+  return{h:tr('Ενότητα','Unit')+' '+(ui+1),p:tr(u.t,u.e),ls}});
+const WB={
+ wl:{t:['Τετράδιο Εργασιών Γλώσσας','Greek workbook'],n:['ασκήσεις','exercises'],units:()=>{let n=0;const id=()=>'WL'+(++n);
+   return langLessons((x,lv)=>({id:id(),b:capL(x)+' '+x,t:x.length>1?[`Γράφω το ${x}`,`Writing ${x}`]:[`Γράφω το ${capL(x)} ${x}`,`Writing ${capL(x)} ${x}`],o:{write:1,mix:[['missw',lv],['dict',lv],['firstl',lv],['join',lv],['letter',lv],['spellw',lv],['dict',lv],['missw',lv]]}}),
+    ([a,el,en])=>({id:id(),b:'✎',t:[el,en],o:{write:1,mix:[[a,{set:ALL}],['dict',{set:ALL}],['sentb',{set:ALL}]]}}),
+    (u,rv)=>({id:id(),rev:1,b:'★',t:['Επανάληψη','Revision'],o:{write:1,mix:u.L?[['dict',rv],['missw',rv],['firstl',rv],['spellw',rv]]:[['sentb',{set:ALL}],['dict',{set:ALL}],['punct',{set:ALL}],['accent',{set:ALL}]]}}))}},
+ wh:{t:['Το τετράδιο της πρώτης μου γραφής','My first writing book'],n:['σελίδες','pages'],units:()=>{let n=0;const id=()=>'WH'+(++n);
+   return langLessons((x,lv)=>({id:id(),b:capL(x)+' '+x,t:x.length>1?[`Γράφω το ${x}`,`Writing ${x}`]:[`Γράφω το ${capL(x)} ${x}`,`Writing ${capL(x)} ${x}`],o:{mix:[['tracel',lv]]}}),
+    ()=>null,(u)=>u.L?null:{id:id(),b:'✎',t:['Γράφω λέξεις και κεφαλαία','Writing words and capitals'],o:{mix:[['tracel',{set:ALL}]]}})}},
+ wm:{t:['Τετράδιο Εργασιών Μαθηματικών','Maths workbook'],n:['κεφάλαια','chapters'],units:()=>UNITS.map((u,ui)=>({per:u.per,h:EN()?UNITEN[ui][0]:u.t,p:EN()?UNITEN[ui][1]:u.s,
+   ls:u.c.map(c=>({id:'W'+c[0],b:c[0],k:CAT[c[1]][1],rev:c[1]==='r',t:[chT(c),chT(c)],num:1,o:{write:1,mix:cmix(c)}}))}))},
+ wp:{t:['Τετράδιο Μαθηματικών','Maths practice book'],n:['φύλλα','sheets'],units:()=>UNITS.map((u,ui)=>{const cs=u.c.filter(c=>c[1]!=='r'),h=Math.ceil(cs.length/2),mx=a=>[].concat(...a.map(cmix));
+   return{per:u.per,h:EN()?UNITEN[ui][0]:u.t,p:EN()?UNITEN[ui][1]:u.s,ls:[
+    {id:'P'+ui+'a',b:'1',k:'#4A90C8',t:[`Φύλλο εργασίας 1 · κεφ. ${cs[0][0]}–${cs[h-1][0]}`,`Worksheet 1 · ch. ${cs[0][0]}–${cs[h-1][0]}`],o:{mix:mx(cs.slice(0,h))}},
+    {id:'P'+ui+'b',b:'2',k:'#4A90C8',t:[`Φύλλο εργασίας 2 · κεφ. ${cs[h][0]}–${cs[cs.length-1][0]}`,`Worksheet 2 · ch. ${cs[h][0]}–${cs[cs.length-1][0]}`],o:{mix:mx(cs.slice(h))}},
+    {id:'P'+ui+'t',b:'✓',rev:1,k:'#5BAE6B',t:['Τεστ ενότητας (10 ερωτήσεις, γράφω την απάντηση)','Unit test (10 questions, write the answer)'],o:{mix:mx(cs),write:1,total:10}}]}})}};
+function openWB(key,ch){
+  const B=WB[key],units=B.units(),all=[].concat(...units.map(u=>u.ls)),done=all.filter(l=>S.done[l.id]).length;
+  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;try{speechSynthesis.cancel()}catch(e){}
+  $('gtitle').textContent=tr(B.t[0],B.t[1]);G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
+  stage().innerHTML=`<p class="counter">${tr(B.t[0],B.t[1])} · ⭐ ${done} ${tr('από','of')} ${all.length} ${tr(B.n[0],B.n[1])}</p>
+   ${units.map((u,ui)=>`${key[1]==='m'||key[1]==='p'?(ui===0?`<h2 class="sect">${tr('Α΄ Περίοδος','First period')}</h2>`:'')+(u.per?`<h2 class="sect">${tr(u.per[0],u.per[1])}</h2>`:''):''}<div class="unit"><h3>${u.h}</h3><p>${u.p}</p>${u.ls.map(l=>`<button class="chap" id="ch${l.id}" data-ch="${l.id}"><span class="badge${l.num?'':' lb'}${l.rev?' rev':''}" style="--k:${l.k||(l.rev?'#5BAE6B':'#8E7CC3')}"><span>${l.b}</span></span><span class="t">${tr(l.t[0],l.t[1])}</span><span class="chk">${S.done[l.id]?'⭐':''}</span></button>`).join('')}</div>`).join('')}`;
+  const go=l=>{const o=Object.assign({ch:l.id,wb:key,tt:(l.num?l.b+'. ':'')+tr(l.t[0],l.t[1]),lang:key[1]==='l'||key[1]==='h'?1:0},l.o);start('mix',o)};
+  stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>go(all.find(x=>x.id===b.dataset.ch)));
+  markNext(ch,all.find(l=>!S.done[l.id]),l=>l.id);
 }
 S.open=S.open||{};
 ['moreLang','moreMath'].forEach(id=>{const d=$(id);d.open=S.open[id]!==false;d.addEventListener('toggle',()=>{S.open[id]=d.open;save()})});
