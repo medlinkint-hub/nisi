@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='12';
+var APPV='13';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -137,7 +137,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .finish .row{justify-content:center;flex-wrap:wrap}
 .burst{font-size:42px;letter-spacing:6px}
 
-.ver{position:absolute;right:16px;bottom:4px;margin:0;font-size:12px;color:var(--muted);opacity:.7}
+.ver{text-align:right;margin:0 0 8px;font-size:12px;color:var(--muted);opacity:.7}
 #home{position:relative}
 .vbtn{min-height:44px;padding:8px 16px;margin:0 0 12px;font-size:16px}
 .vbox{max-height:86vh;overflow-y:auto;text-align:left}
@@ -361,6 +361,27 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .fillw{display:inline-block;min-width:34px;background:var(--ok);color:#fff;border-radius:8px;text-align:center;margin:0 2px}
 .badge.lb{width:auto;min-width:38px;padding:0 6px;border-radius:19px;font-size:15px;white-space:nowrap}
 .badge.lb.rev{border-radius:7px;padding:0}
+.games.books{grid-template-columns:1fr 1fr;padding-bottom:14px}
+.tile.bkt{min-height:150px;--c:var(--t4);border-radius:30px 40px 28px 44px}
+.tile.bkt+.tile.bkt{--c:var(--t2);border-radius:40px 28px 44px 30px}
+.tile.bkt .ico{font-size:52px}
+details.more{margin:0 0 12px;background:var(--card);background:color-mix(in srgb,var(--card) 60%,transparent);border:2px solid var(--line);border-radius:22px;padding:4px 12px}
+details.more summary{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:22px;padding:12px 4px;cursor:pointer;list-style:none;min-height:48px}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::after{content:' ▾'}
+details.more[open] summary::after{content:' ▴'}
+details.more .games{padding-top:4px}
+.cont{display:flex;flex-direction:column;gap:8px;margin:0 0 12px}
+.cont:empty{display:none}
+.cont button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border:3px solid var(--line);border-radius:20px;padding:10px 14px;min-height:60px}
+.cont button b{font-family:Grandstander,Andika,sans-serif;font-size:18px}
+.cont button span{font-size:15px;color:var(--muted);display:block}
+.cont .go{margin-left:auto;font-size:26px}
+.chap.next{background:rgba(255,224,138,.5);background:color-mix(in srgb,var(--t4) 55%,transparent);border-radius:14px}
+.chap.next .chk::after{content:'▶';color:var(--ink)}
+.opt.hint,.pic.hint,.inorder .pic.hint{animation:hint 1s ease-in-out 3;box-shadow:0 0 0 5px var(--ok)}
+@keyframes hint{50%{transform:scale(1.08)}}
+.iconbtn.rep{margin-left:-4px}
 /* older phones: no aspect-ratio (iOS < 15, Chrome < 88) */
 @supports not (aspect-ratio:1/1){
   .pic{min-height:100px}
@@ -393,8 +414,13 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
     <p class="note" id="voiceNote"></p>
     <button class="pill vbtn" id="voiceBtn">🗣️ Φωνή</button>
     <p class="ver" id="ver"></p>
+    <div class="cont" id="cont"></div>
+    <div class="games books">
+      <button class="tile bkt" data-game="langmap"><div class="ico">📗</div><b>Το βιβλίο της Γλώσσας</b><span>Γράμματα, λέξεις, ιστορίες – με τη σειρά του βιβλίου</span></button>
+      <button class="tile bkt" data-game="map"><div class="ico">📘</div><b>Το βιβλίο των Μαθηματικών</b><span>Όλα τα κεφάλαια, με τη σειρά του βιβλίου</span></button>
+    </div>
+    <details class="more" id="moreLang"><summary id="sumLang">Παιχνίδια ανάγνωσης</summary>
     <div class="games">
-      <button class="tile map" data-game="langmap"><div class="ico">📗</div><b>Το βιβλίο της Γλώσσας</b><span>Γράμματα, λέξεις, ιστορίες – με τη σειρά του βιβλίου</span></button>
       <button class="tile" data-game="read"><div class="ico">👀</div><b>Διαβάζω</b><span>Διάβασε τη λέξη, βρες την εικόνα</span></button>
       <button class="tile" data-game="spell"><div class="ico">✏️</div><b>Γράφω τη λέξη</b><span>Φτιάξε τη λέξη γράμμα γράμμα</span></button>
       <button class="tile" data-game="first"><div class="ico" style="font-family:Grandstander,Andika,sans-serif;font-weight:800">Αα</div><b>Το πρώτο γράμμα</b><span>Από ποιο γράμμα αρχίζει;</span></button>
@@ -402,10 +428,9 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
       <button class="tile" data-game="listen"><div class="ico">👂</div><b>Ακούω</b><span>Άκου τη λέξη, βρες την εικόνα</span></button>
       <button class="tile" data-game="memory"><div class="ico">🃏</div><b>Ζευγάρια</b><span>Ταίριαξε εικόνες και λέξεις</span></button>
       <button class="tile" data-game="learn"><div class="ico">📖</div><b>Το βιβλίο των λέξεων</b><span>Κοίτα, πάτησε, άκου</span></button>
-    </div>
-    <h2 class="sect">Μαθηματικά Α΄ Δημοτικού</h2>
+    </div></details>
+    <details class="more" id="moreMath"><summary id="sumMath">Παιχνίδια Μαθηματικών</summary>
     <div class="games">
-      <button class="tile map" data-game="map"><div class="ico">📘</div><b>Το βιβλίο μου</b><span>Όλα τα κεφάλαια, με τη σειρά του βιβλίου</span></button>
       <button class="tile" data-game="where"><div class="ico">📍</div><b>Πού είναι;</b><span>Πάνω, κάτω, δεξιά, αριστερά</span></button>
       <button class="tile" data-game="shapes"><div class="ico">🔺</div><b>Σχήματα</b><span>Κύκλος, τετράγωνο, τρίγωνο</span></button>
       <button class="tile" data-game="compare"><div class="ico">⚖️</div><b>Σύγκριση</b><span>Περισσότερα, λιγότερα, &gt; &lt; =</span></button>
@@ -440,7 +465,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
       <button class="tile" data-game="minus"><div class="ico">➖</div><b>Αφαίρεση</b><span>Πόσα μένουν;</span></button>
       <button class="tile" data-game="sign"><div class="ico">❔</div><b>+ ή −;</b><span>Βρες το σωστό σύμβολο</span></button>
       <button class="tile" data-game="calendar"><div class="ico">📅</div><b>Οι μέρες</b><span>Δευτέρα, Τρίτη, Τετάρτη…</span></button>
-    </div>
+    </div></details>
   </section>
 
   <!-- GAME -->
@@ -448,6 +473,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
     <div class="bar">
       <button class="iconbtn" id="back" aria-label="Πίσω στο νησί">🏝️</button>
       <h2 class="gtitle" id="gtitle"></h2>
+      <button class="iconbtn rep" id="rep" aria-label="Άκου ξανά">🔊</button>
       <div class="stars" id="starCount2">⭐ 0</div>
     </div>
     <div class="dots" id="dots" aria-hidden="true"></div>
@@ -586,8 +612,10 @@ function voiceNote(){
   if(!('speechSynthesis' in window)){n.textContent=tr('Αυτός ο browser δεν μπορεί να διαβάσει τις λέξεις φωναχτά. Οι λέξεις φαίνονται κανονικά στην οθόνη.','This browser cannot read the words aloud. The words still show on the screen.');return}
   n.textContent=voices.length&&!voiceFor(S.lang)?tr('Δεν υπάρχει ελληνική φωνή σε αυτή τη συσκευή. Πρόσθεσέ τη από τις ρυθμίσεις μετατροπής κειμένου σε ομιλία.','There is no English voice on this device. Add one in the text-to-speech settings.'):'';
 }
+let lastSay=null;
 function speak(text,lang){
   if(!('speechSynthesis' in window))return;
+  if(!busy&&text&&text.trim()&&!Object.values(PRAISE).concat(Object.values(AGAIN)).includes(text))lastSay=[text,lang];
   try{const say=()=>{try{const u=new SpeechSynthesisUtterance(text);const t=lang||L().tts,v=voiceFor(t);
       if(v)u.voice=v;u.lang=v?v.lang:t;u.rate=t==='el'?.92:.9;u.pitch=1;speechSynthesis.speak(u)}catch(e){}};
     // Android Chrome can drop an utterance queued right after cancel(), so wait a moment
@@ -630,7 +658,7 @@ updateStars();
 const READ=['read','spell','first','listen','count','memory','learn'];
 const TEN={read:['Read','Read the word, find the picture'],spell:['Spell the word','Build the word letter by letter'],first:['The first letter','Which letter does it start with?'],
   count:['Count and add','Count and put together'],listen:['Listen','Hear the word, find the picture'],memory:['Pairs','Match pictures and words'],learn:['Word book','Look, tap, listen'],
-  map:['My book','All the chapters, in book order'],where:['Where is it?','Above, below, left, right'],shapes:['Shapes','Circle, square, triangle'],compare:['Compare','More, fewer, > < ='],
+  map:['My maths book','All the chapters, in book order'],where:['Where is it?','Above, below, left, right'],shapes:['Shapes','Circle, square, triangle'],compare:['Compare','More, fewer, > < ='],
   sizes:['Big – small','Tall, short, long'],dice:['Dice','How many dots?'],trace:['Write the numbers','Write with your finger'],circle:['Count and circle','Find the right number'],
   nline:['Number line','Which number is missing?'],split:['Number house','5 is 2 and 3'],add:['Addition','How many altogether?'],problems:['Word problems','Read and solve'],
   big:['Numbers to 50','Tens and ones'],ordinal:['Who is first?','First, second, third'],coins:['Euros','Count the money'],lines:['Join the dots','Draw lines 1, 2, 3'],
@@ -645,7 +673,7 @@ const TEN={read:['Read','Read the word, find the picture'],spell:['Spell the wor
   langmap:['My reading book','Letters, words, stories – in book order'],letter:['Letters','Find the letter'],syl:['Syllables','Find the syllable'],join:['Join letters','π + α = πα'],readw:['Read words','Find the picture'],
   listenw:['Listen and read','How is it written?'],missw:['Missing letter','Fill the gap'],spellw:['Write words','Letter by letter'],firstl:['First letter','Which letter does it start with?'],caps:['Capital letters','Big and small'],
   accent:['The accent','Where does it go?'],sent:['Sentences','Read and find'],punct:['Punctuation','. ; !']};
-const STATIC=[['h1',"The Hoopoe's Island"],['.hero p','Games for reading, writing and numbers for 6-year-olds.'],['.sect','Maths – Grade 1'],['#again','Again'],['#toIsland','To the island'],['[data-game="first"] .ico','Aa']];
+const STATIC=[['h1',"The Hoopoe's Island"],['.hero p','Games for reading, writing and numbers for 6-year-olds.'],['#sumLang','Reading games'],['#sumMath','Maths games'],['#again','Again'],['#toIsland','To the island'],['[data-game="first"] .ico','Aa']];
 function openVoices(){
   const t=S.lang,all=voicesFor(t),good=all.filter(v=>vscore(v,t)>-50),list=good.length?good:all,cur=voiceFor(t);
   $('vtitle').textContent=tr('Διάλεξε φωνή','Choose a voice');
@@ -666,7 +694,7 @@ function applyLang(){
   STATIC.forEach(([q,t])=>sw(document.querySelector(q),t));
   document.querySelectorAll('.tile').forEach(t=>{const x=TEN[t.dataset.game];if(x){sw(t.querySelector('b'),x[0]);sw(t.querySelector('span'),x[1])}});
   $('back').setAttribute('aria-label',tr('Πίσω στο νησί','Back to the island'));
-  $('ver').textContent=tr('έκδοση ','version ')+APPV;$('voiceBtn').textContent=tr('🗣️ Φωνή','🗣️ Voice');$('voiceBtn').hidden=!('speechSynthesis' in window);voiceNote();
+  $('ver').textContent=tr('έκδοση ','version ')+APPV;$('rep').setAttribute('aria-label',tr('Άκου ξανά','Hear it again'));renderCont();$('voiceBtn').textContent=tr('🗣️ Φωνή','🗣️ Voice');$('voiceBtn').hidden=!('speechSynthesis' in window);voiceNote();
 }
 $('langs').onclick=e=>{const b=e.target.closest('[data-lang]');if(!b||b.dataset.lang===S.lang)return;S.lang=b.dataset.lang;save();applyLang();speak(tr('Ελληνικά','English'))};
 const TITLES={letter:'Γράμματα',syl:'Συλλαβές',join:'Ενώνω γράμματα',readw:'Διαβάζω λέξεις',listenw:'Ακούω και διαβάζω',missw:'Ποιο γράμμα λείπει;',spellw:'Γράφω λέξεις',firstl:'Το πρώτο γράμμα',caps:'Κεφαλαία',accent:'Ο τόνος',sent:'Προτάσεις',punct:'Σημεία στίξης',complement:'Το συμπλήρωμα',commute:'Αλλάζω σειρά',tensones:'Δεκάδες και μονάδες',sum3:'Τρεις αριθμοί',clock:'Το ρολόι',bridge:'Υπέρβαση δεκάδας (+)',bridgeminus:'Υπέρβαση δεκάδας (−)',twodig:'Διψήφιοι αριθμοί',inverse:'Αντίστροφες πράξεις',calc:'Υπολογισμοί',mult:'Πολλαπλασιασμός',share:'Μοιράζω',measure:'Μετράω',symmetry:'Συμμετρία',weight:'Η ζυγαριά',money100:'Χρήματα μέχρι 100€',makecoins:'Φτιάχνω ποσά',equation:'Γράφω την πρόσθεση',scene:'Βρες πόσα',groups:'Ομάδες',beads3:'Χάντρες',fingers:'Δάχτυλα',frog:'Ο βάτραχος',order:'Σειρά',body:'Το σώμα μου',nest:'Φωλιές',baskets:'Καλάθια',stairs:'Αναλύω',down:'Κατεβαίνω',twos:'Ανά δύο',marbles:'Βόλοι',drum:'Ταμπουρίνο',match:'Φτάνουν;',forms:'Ίδιο πλήθος',abacus:'Αριθμητήριο',tally:'Γραμμούλες',words:'Λέξεις αριθμών',where:'Πού είναι;',shapes:'Σχήματα',sizes:'Μεγάλο – μικρό',compare:'Σύγκριση',split:'Το σπίτι των αριθμών',add:'Πρόσθεση',problems:'Προβλήματα',big:'Αριθμοί μέχρι το 50',ordinal:'Ποιος είναι πρώτος;',coins:'Τα ευρώ',lines:'Ενώνω τις τελείες',minus:'Αφαίρεση',sign:'+ ή −;',calendar:'Οι μέρες της εβδομάδας',dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
@@ -674,12 +702,13 @@ let G=null,busy=false;
 document.querySelectorAll('.games').forEach(g=>g.onclick=e=>{const t=e.target.closest('[data-game]');if(t)start(t.dataset.game)});
 $('back').onclick=$('toIsland').onclick=()=>G&&G.o&&G.o.ch?(G.o.lang?openLangMap(G.o.ch):openMap(G.o.ch)):home();
 $('again').onclick=()=>start(G.name,G.o);
-function home(){$('finish').hidden=true;$('game').hidden=true;$('home').hidden=false;try{speechSynthesis.cancel()}catch(e){}}
+function home(){$('finish').hidden=true;$('game').hidden=true;$('home').hidden=false;try{speechSynthesis.cancel()}catch(e){}renderCont()}
 function start(name,o={}){
   if(name==='map')return openMap();
   if(name==='langmap')return openLangMap();
   $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;$('gtitle').textContent=o.ch?(o.lang?o.t:`${o.ch}. ${o.t}`):EN()?TEN[name][0]:TITLES[name];
   const l=o.l,digits=l===5?shuffle([1,2,3,4,5,1,2,3]):l===10?shuffle([6,7,8,9,6,7,8,9]):shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,8);
+  lastSay=null;
   G={name,o,round:0,total:8,earned:0,gr:!READ.includes(name),lvl:l,mix:o.mix?shuffle(o.mix):null,digits};busy=false;
   $('toIsland').textContent=o.ch?tr('Στο βιβλίο','To the book'):tr('Στο νησί','To the island');
   (G.mix?mixRound:ROUNDS[name])();
@@ -811,9 +840,12 @@ const bad=b=>{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');
 const near=(n,lo,hi,k=3)=>{const c=new Set([n]);let guard=0;while(c.size<k&&guard++<50){const v=n+[-2,-1,1,2][Math.random()*4|0];if(v>=lo&&v<=hi)c.add(v)}return shuffle([...c])};
 const PIPS={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
 const die=n=>`<div class="die" aria-label="${n}">${[...Array(9)].map((_,i)=>`<i class="${PIPS[n].includes(i)?'on':''}"></i>`).join('')}</div>`;
+// after two wrong tries the right answer gently pulses, so a child never gets stuck
+const hintAfter=(box,match)=>{let wrong=0;return()=>{if(++wrong>=2){const c=[...box.querySelectorAll('[data-v],[data-n]')].find(match);if(c)c.classList.add('hint')}}};
 function pickNum(cls,choices,ans,onOk,next){
-  stage().querySelector(cls).onclick=e=>{const b=e.target.closest('.pic');if(!b||busy)return;
-    if(+b.dataset.n===ans){busy=true;b.classList.add('ok');gr(NW(ans));onOk&&onOk();win(next)}else{bad(b);gr(AGAIN[S.lang])}};
+  const box=stage().querySelector(cls),miss=hintAfter(box,x=>+x.dataset.n===ans);
+  box.onclick=e=>{const b=e.target.closest('.pic');if(!b||busy)return;
+    if(+b.dataset.n===ans){busy=true;b.classList.add('ok');gr(NW(ans));onOk&&onOk();win(next)}else{bad(b);gr(AGAIN[S.lang]);miss()}};
 }
 
 function diceRound(){
@@ -916,8 +948,9 @@ const NUMEN=['zero','one','two','three','four','five','six','seven','eight','nin
 const NW=n=>{if(n===100)return tr('εκατό','one hundred');if(EN())return n<20?NUMEN[n]:['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'][n/10|0]+(n%10?'-'+NUMEN[n%10]:'');if(n<13)return GR[n];const t=n/10|0,u=n%10;return t===1?'δεκα'+GR[u]:['','δέκα','είκοσι','τριάντα','σαράντα','πενήντα','εξήντα','εβδομήντα','ογδόντα','ενενήντα'][t]+(u?' '+GR[u]:'')};
 const btns=(vals,cls='pic num',lab=v=>v)=>vals.map(v=>`<button class="${cls}" data-v="${v}">${lab(v)}</button>`).join('');
 function choose(sel,ans,next,say,onOk){
-  stage().querySelector(sel).onclick=e=>{const b=e.target.closest('[data-v]');if(!b||busy)return;
-    if(b.dataset.v===String(ans)){busy=true;b.classList.add('ok');onOk&&onOk(b);if(say)gr(say);win(next)}else{bad(b);gr(AGAIN[S.lang])}};
+  const box=stage().querySelector(sel),miss=hintAfter(box,x=>x.dataset.v===String(ans));
+  box.onclick=e=>{const b=e.target.closest('[data-v]');if(!b||busy)return;
+    if(b.dataset.v===String(ans)){busy=true;b.classList.add('ok');onOk&&onOk(b);if(say)gr(say);win(next)}else{bad(b);gr(AGAIN[S.lang]);miss()}};
 }
 const fillGap=v=>()=>{const g=$('gapbox');g.textContent=v;g.className='fill'};
 const ask=q=>setTimeout(()=>gr(q),300);
@@ -1796,8 +1829,8 @@ function openLangMap(ch){
   const all=[].concat(...LLESSONS.map(x=>x.ls)),done=all.filter(l=>S.done[l.id]).length;
   stage().innerHTML=`<p class="counter">${tr(`Γλώσσα Α΄ Δημοτικού · ⭐ ${done} από ${all.length} μαθήματα`,`Greek reading, Grade 1 · ⭐ ${done} of ${all.length} lessons`)}</p>
    ${LLESSONS.map(({u,ui,ls})=>`<div class="unit"><h3>${tr('Ενότητα','Unit')} ${ui+1}</h3><p>${tr(u.t,u.e)}</p>${ls.map(l=>`<button class="chap" id="ch${l.id}" data-ch="${l.id}"><span class="badge lb${l.rev?' rev':''}" style="--k:${l.rev?'#5BAE6B':'#4A90C8'}"><span>${l.b}</span></span><span class="t">${tr(l.t[0],l.t[1])}</span><span class="chk">${S.done[l.id]?'⭐':''}</span></button>`).join('')}</div>`).join('')}`;
-  stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>{const l=all.find(x=>x.id===b.dataset.ch);start('mix',{ch:l.id,t:tr(l.t[0],l.t[1]),mix:l.mix,lang:1})});
-  const el=ch&&$('ch'+ch);if(el)el.scrollIntoView({block:'center'});else scrollTo(0,0);
+  stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>launchLang(all.find(x=>x.id===b.dataset.ch)));
+  markNext(ch,all.find(l=>!S.done[l.id]),l=>l.id);
 }
 
 const ROUNDS={dice:diceRound,nline:lineRound,trace:traceRound,circle:circleRound,pattern:patternRound,read:readRound,spell:spellRound,first:firstRound,listen:listenRound,count:countRound,memory:memoryGame,learn:learnGame,
@@ -1898,17 +1931,31 @@ const CHEN={1:'Orientation in space',2:'Geometric shapes',3:'Comparing and estim
   52:'The numbers up to 70',53:'Introduction to multiplication',54:'Measuring sizes',55:'Adding and subtracting two-digit numbers (I)',56:'Introduction to symmetry',57:'Revision',
   58:'The numbers up to 100 – Money',59:'Multiplication and division',60:'Weight',61:'Drawing shapes – puzzles – tiling',62:'Problems',63:'Revision'};
 const chT=c=>EN()?CHEN[c[0]]:c[2];
+const mathAll=()=>[].concat(...UNITS.map(u=>u.c)),langAll=()=>[].concat(...LLESSONS.map(x=>x.ls));
+const launchMath=c=>{const mix=Array.isArray(c[3])?c[3]:null;start(mix?'mix':c[3],{ch:c[0],t:chT(c),l:c[4],mix})};
+const launchLang=l=>start('mix',{ch:l.id,t:tr(l.t[0],l.t[1]),mix:l.mix,lang:1});
+// highlight the next unfinished lesson and scroll to it (or back to the one just played)
+function markNext(ch,nx,id){const n=nx&&$('ch'+id(nx));if(n)n.classList.add('next');const el=(ch&&$('ch'+ch))||n;if(el)el.scrollIntoView({block:'center'});else scrollTo(0,0)}
+// "carry on" buttons on the home screen
+function renderCont(){
+  const l=langAll().find(x=>!S.done[x.id]),m=mathAll().find(c=>!S.done[c[0]]);
+  $('cont').innerHTML=(l?`<button id="contL">📗<span><b>${tr('Συνέχισε: Γλώσσα','Carry on: Reading')}</b><span>${tr(l.t[0],l.t[1])}</span></span><span class="go">▶</span></button>`:'')+
+    (m?`<button id="contM">📘<span><b>${tr('Συνέχισε: Μαθηματικά','Carry on: Maths')}</b><span>${m[0]}. ${chT(m)}</span></span><span class="go">▶</span></button>`:'');
+  if(l)$('contL').onclick=()=>launchLang(l);if(m)$('contM').onclick=()=>launchMath(m);
+}
 function openMap(ch){
   $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;try{speechSynthesis.cancel()}catch(e){}
-  $('gtitle').textContent=tr('Το βιβλίο μου','My book');G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
+  $('gtitle').textContent=tr('Το βιβλίο των Μαθηματικών','My maths book');G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
   const all=[].concat(...UNITS.map(u=>u.c)),done=all.filter(c=>S.done[c[0]]).length;
   stage().innerHTML=`<p class="counter">${tr(`Μαθηματικά Α΄ Δημοτικού · ⭐ ${done} από ${all.length} κεφάλαια`,`Maths, Grade 1 · ⭐ ${done} of ${all.length} chapters`)}</p>
    <div class="legend">${Object.keys(CAT).map(k=>[k,CAT[k]]).map(([k,[n,c]])=>`<span><i class="${k==='r'?'rev':''}" style="--k:${c}"></i>${EN()?CATEN[k]:n}</span>`).join('')}</div>
    ${UNITS.map((u,ui)=>`${ui===0?`<h2 class="sect">${tr('Α΄ Περίοδος','First period')}</h2>`:''}${u.per?`<h2 class="sect">${tr(u.per[0],u.per[1])}</h2>`:''}<div class="unit"><h3>${EN()?UNITEN[ui][0]:u.t}</h3><p>${EN()?UNITEN[ui][1]:u.s}</p>${u.c.map(c=>`<button class="chap" id="ch${c[0]}" data-ch="${c[0]}"><span class="badge${c[1]==='r'?' rev':''}" style="--k:${CAT[c[1]][1]}"><span>${c[0]}</span></span><span class="t">${chT(c)}</span><span class="chk">${S.done[c[0]]?'⭐':''}</span></button>`).join('')}</div>`).join('')}`;
-  stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>{const c=all.find(x=>x[0]==b.dataset.ch),mix=Array.isArray(c[3])?c[3]:null;
-    start(mix?'mix':c[3],{ch:c[0],t:chT(c),l:c[4],mix})});
-  const el=ch&&$('ch'+ch);if(el)el.scrollIntoView({block:'center'});else scrollTo(0,0);
+  stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>launchMath(all.find(x=>x[0]==b.dataset.ch)));
+  markNext(ch,all.find(c=>!S.done[c[0]]),c=>c[0]);
 }
+S.open=S.open||{};
+['moreLang','moreMath'].forEach(id=>{const d=$(id);d.open=!!S.open[id];d.addEventListener('toggle',()=>{S.open[id]=d.open;save()})});
+$('rep').onclick=()=>{if(lastSay)speak(lastSay[0],lastSay[1])};
 applyLang();
 if('serviceWorker' in navigator){
   const hadCtl=!!navigator.serviceWorker.controller;let reloaded=false;
