@@ -1,4 +1,4 @@
-const V='nisi-v23',A='nisi-audio';
+const V='nisi-v24',A='nisi-audio';
 const CORE=['./','index.html','manifest.json','icon-192.png','icon-512.png'];
 // cache:'reload' skips the browser's HTTP cache so a new version never stores an old copy
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE.map(u=>new Request(u,{cache:'reload'})))));self.skipWaiting()});
