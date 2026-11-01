@@ -1936,9 +1936,9 @@ function sentRound(){
 let PUNCT=[['Πού είναι ο Άρης',';'],['Τι ωραία μέρα','!'],['Ο Άρης παίζει μπάλα','.'],['Πώς σε λένε',';'],['Η Λόλα έχει μια γάτα','.'],['Τι μεγάλο καράβι','!'],
   ['Πού πάει η βάρκα',';'],['Βρέχει από το πρωί','.'],['Μπράβο σου','!'],['Τι ώρα είναι',';'],['Το κοχύλι είναι στην άμμο','.'],['Πόσα μήλα έχεις',';'],['Τι όμορφο λουλούδι','!'],['Ο σκύλος γαβγίζει','.']];
 function punctRound(){
-  const[s,p]=pick(PUNCT),lab={'.':tr('. τελεία','. full stop'),';':tr('; ερωτηματικό','; question mark'),'!':tr('! θαυμαστικό','! exclamation mark')};
+  const[s,p]=pick(PUNCT),Q=EN()?'?':';',lab={'.':tr('. τελεία','. full stop'),[Q]:tr('; ερωτηματικό','? question mark'),'!':tr('! θαυμαστικό','! exclamation mark')};   // the Greek question mark is ;
   stage().innerHTML=`<p class="prompt">${tr('Τι βάζω στο τέλος;','What goes at the end?')}</p><div class="story"><button class="hear sm" id="hear" aria-label="${tr('Άκου','Listen')}">🔊</button><p class="lett">${s}<span class="gapl" id="gapbox">_</span></p></div>
-   <div class="opts c1">${['.',';','!'].map(k=>`<button class="pic txt" data-v="${k}">${lab[k]}</button>`).join('')}</div>`;
+   <div class="opts c1">${['.',Q,'!'].map(k=>`<button class="pic txt" data-v="${k}">${lab[k]}</button>`).join('')}</div>`;
   $('hear').onclick=()=>say(s+p);choose('.opts',p,punctRound,null,()=>{$('gapbox').textContent=p;$('gapbox').className='fillw';say(s+p)});setTimeout(()=>say(s+p),300);
 }
 
@@ -2449,6 +2449,8 @@ function openKids(){
 function renderWho(){const k=KPROF.list.find(x=>x.id===KPROF.cur)||KPROF.list[0];$('who').textContent=k.a+' '+(k.n?tr('Γεια σου, ','Hi, ')+k.n+'!':kidName(k))}
 $('who').onclick=openKids;renderWho();
 setTimeout(checkMedals,1500);
+// ask the browser to keep the saved progress (stars, stickers, lessons) instead of clearing it when space runs low
+try{if(navigator.storage&&navigator.storage.persist)Promise.resolve(navigator.storage.persisted?navigator.storage.persisted():false).then(p=>{if(!p)navigator.storage.persist()}).catch(()=>{})}catch(e){}
 /* ================= English reading content: used whenever the app is in English ================= */
 const ELD={LNAME,VOW,DIG,ALL,LW,SENT,PUNCT,LUNITS,ABC,LUIC,NOSYL};
 const END={
