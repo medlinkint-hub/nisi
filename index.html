@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='18';
+var APPV='19';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -786,7 +786,7 @@ const TEN={read:['Read','Read the word, find the picture'],spell:['Spell the wor
   clock:['The clock','What time is it?'],bridge:['Across ten (+)','8 + 5 = 10 + 3'],bridgeminus:['Across ten (−)','13 − 5 = 10 − 2'],twodig:['Two-digit numbers','23 + 4, 56 − 30'],
   inverse:['Undo it','5 + 3 = 8, 8 − 3 = 5'],calc:['Mental maths','Up to 20'],mult:['Multiplication','Equal groups'],share:['Sharing','Division'],measure:['Measuring','How many squares long?'],
   symmetry:['Symmetry','Mirror pictures'],weight:['The scale','Heavier or lighter?'],money100:['Money to 100€','Notes and coins'],
-  'wb:wl':['Greek workbook','Write letters, words, dictation'],'wb:wh':['My first writing book','Write every letter with your finger'],'wb:wm':['Maths workbook','Write the answer yourself'],'wb:wp':['Maths practice book','Worksheets and a test for every unit'],
+  'wb:wl':['Reading workbook','Write letters, words, dictation'],'wb:wh':['My first writing book','Write every letter with your finger'],'wb:wm':['Maths workbook','Write the answer yourself'],'wb:wp':['Maths practice book','Worksheets and a test for every unit'],
   island:['My island','Decorate it with your ⭐'],treasure:['My treasure','Stickers and medals'],parents:['For parents',"Your child's progress"],
   langmap:['My reading book','Letters, words, stories – in book order'],letter:['Letters','Find the letter'],syl:['Syllables','Find the syllable'],join:['Join letters','π + α = πα'],readw:['Read words','Find the picture'],
   listenw:['Listen and read','How is it written?'],missw:['Missing letter','Fill the gap'],spellw:['Write words','Letter by letter'],firstl:['First letter','Which letter does it start with?'],caps:['Capital letters','Big and small'],
@@ -806,6 +806,7 @@ $('vclose').onclick=()=>{$('vpanel').hidden=true};
 $('vlist').onclick=e=>{const b=e.target.closest('[data-uri]');if(!b)return;S.voice=S.voice||{};S.voice[S.lang]=b.dataset.uri;save();
   $('vlist').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));speak(tr('Γεια σου! Πάμε να παίξουμε!','Hi there! Let’s play!'))};
 function applyLang(){
+  setLangData();renderWho();
   const en=EN();document.documentElement.lang=S.lang;document.title=en?"The Hoopoe's Island":'Το νησί του Τσαλαπετεινού';
   document.querySelectorAll('#langs .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.lang===S.lang));
   const sw=(el,txt)=>{if(!el)return;if(el.dataset.el===undefined)el.dataset.el=el.textContent;el.textContent=en?txt:el.dataset.el};
@@ -1800,14 +1801,14 @@ function money100Round(){
 }
 
 /* ================= Γλώσσα Α΄ Δημοτικού: letters, syllables, words ================= */
-const say=t=>speak(t,'el');   // Greek content is always read in Greek
+const say=t=>speak(t,EN()?'en':'el');   // reading content is read in the app's language
 const plain=w=>w.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/ς/g,'σ');
-const LNAME={α:'άλφα',β:'βήτα',γ:'γάμμα',δ:'δέλτα',ε:'έψιλον',ζ:'ζήτα',η:'ήτα',θ:'θήτα',ι:'γιώτα',κ:'κάπα',λ:'λάμδα',μ:'μι',ν:'νι',ξ:'ξι',ο:'όμικρον',π:'πι',ρ:'ρο',σ:'σίγμα',τ:'ταυ',υ:'ύψιλον',φ:'φι',χ:'χι',ψ:'ψι',ω:'ωμέγα',
+let LNAME={α:'άλφα',β:'βήτα',γ:'γάμμα',δ:'δέλτα',ε:'έψιλον',ζ:'ζήτα',η:'ήτα',θ:'θήτα',ι:'γιώτα',κ:'κάπα',λ:'λάμδα',μ:'μι',ν:'νι',ξ:'ξι',ο:'όμικρον',π:'πι',ρ:'ρο',σ:'σίγμα',τ:'ταυ',υ:'ύψιλον',φ:'φι',χ:'χι',ψ:'ψι',ω:'ωμέγα',
   ου:'ου, όπως λουλούδι',οι:'οι, όπως ρολόι',αι:'αι, όπως παιδί',ει:'ει, όπως κλειδί',τσ:'τσ, όπως τσάντα',γκ:'γκ, όπως μυρμήγκι',γγ:'γγ, όπως φεγγάρι',μπ:'μπ, όπως μπάλα',ντ:'ντ, όπως ντομάτα',τζ:'τζ, όπως γλειφιτζούρι',αυ:'αυ, όπως αυτί',ευ:'ευ, όπως Εύα'};
-const VOW=['α','ε','η','ι','ο','υ','ω','ου','αι','ει','οι'],DIG=['ου','οι','αι','ει','τσ','γκ','γγ','μπ','ντ','τζ','αυ','ευ'];
-const ALL=['α','π','τ','ο','ι','λ','ε','ν','σ','κ','ρ','μ','η','γ','δ','υ','ω','φ','β','χ','θ','ζ','ξ','ψ','ει','ου','οι','αι','τσ','γκ','γγ','μπ','ντ','τζ','αυ','ευ'];
+let VOW=['α','ε','η','ι','ο','υ','ω','ου','αι','ει','οι'],DIG=['ου','οι','αι','ει','τσ','γκ','γγ','μπ','ντ','τζ','αυ','ευ'];
+let ALL=['α','π','τ','ο','ι','λ','ε','ν','σ','κ','ρ','μ','η','γ','δ','υ','ω','φ','β','χ','θ','ζ','ξ','ψ','ει','ου','οι','αι','τσ','γκ','γγ','μπ','ντ','τζ','αυ','ευ'];
 const capL=x=>x.charAt(0).toLocaleUpperCase('el')+x.slice(1);
-const LW=['γάτα 🐱','σκύλος 🐶','μήλο 🍎','ήλιος ☀️','ψάρι 🐟','πουλί 🐦','αυτοκίνητο 🚗','μπάλα ⚽','λουλούδι 🌼','δέντρο 🌳','σπίτι 🏠','αστέρι ⭐','μπανάνα 🍌','φεγγάρι 🌙','άλογο 🐴','τούρτα 🎂',
+let LW=['γάτα 🐱','σκύλος 🐶','μήλο 🍎','ήλιος ☀️','ψάρι 🐟','πουλί 🐦','αυτοκίνητο 🚗','μπάλα ⚽','λουλούδι 🌼','δέντρο 🌳','σπίτι 🏠','αστέρι ⭐','μπανάνα 🍌','φεγγάρι 🌙','άλογο 🐴','τούρτα 🎂',
  'παπί 🦆','βάτραχος 🐸','αρκούδα 🐻','λιοντάρι 🦁','αυγό 🥚','γάλα 🥛','ψωμί 🍞','βιβλίο 📚','λεωφορείο 🚌','αεροπλάνο ✈️','ποδήλατο 🚲','βροχή 🌧️','σταφύλι 🍇','αγελάδα 🐄','ελέφαντας 🐘','μέλισσα 🐝',
  'τόπι 🏐','πίτα 🥧','νερό 💧','κότα 🐔','τρένο 🚂','κερί 🕯️','κάστρο 🏰','κεράσι 🍒','καρότο 🥕','νότα 🎵','πατάτα 🥔','ντομάτα 🍅','κάκτος 🌵','λεμόνι 🍋','μέλι 🍯','δάσος 🌲','μανιτάρι 🍄',
  'γαρίδα 🦐','δαχτυλίδι 💍','μολύβι ✏️','γλειφιτζούρι 🍭','χέρι ✋','φωτιά 🔥','χιόνι ❄️','φύλλο 🍃','φίδι 🐍','βάρκα ⛵','τυρί 🧀','ρολόι ⌚','θάλασσα 🌊','ψαλίδι ✂️','κλειδί 🔑','ζέβρα 🦓',
@@ -1816,11 +1817,13 @@ const LW=['γάτα 🐱','σκύλος 🐶','μήλο 🍎','ήλιος ☀️
  'σύννεφο ☁️','αστραπή ⚡','καράβι 🚢','ελικόπτερο 🚁','τρακτέρ 🚜','ταξί 🚕','ζωγραφιά 🎨','λύκος 🐺','αλεπού 🦊','πεταλούδα 🦋','μυρμήγκι 🐜','σαλιγκάρι 🐌','χταπόδι 🐙','δελφίνι 🐬','καβούρι 🦀','φάλαινα 🐳','κοχύλι 🐚']
  .map(s=>{const[w,e]=s.split(' ');return{w,e}});
 // the letters of a word, digraphs that are taught as units, and whether a set of letters can read it
-const canRead=(w,set)=>{const p=plain(w);if(DIG.some(d=>p.includes(d)&&!set.includes(d)))return false;return[...p].every(c=>set.includes(c))};
+const canRead=(w,set)=>{let p=plain(w);if(DIG.some(d=>p.includes(d)&&!set.includes(d)))return false;
+  set.filter(d=>d.length>1).forEach(d=>{p=p.split(d).join('')});return[...p].every(c=>set.includes(c))};
 const lset=()=>(G.lvl&&G.lvl.set)||ALL,lnew=()=>(G.lvl&&G.lvl.nw)||pick(lset());
 const words=set=>LW.filter(x=>canRead(x.w,set));
-const sylls=set=>{const C=set.filter(x=>!VOW.includes(x)&&!['γγ','αυ','ευ'].includes(x)),V=set.filter(x=>VOW.includes(x));return[].concat(...C.map(c=>V.map(v=>c+v)))};
-const ALLSYL=sylls(ALL);
+let NOSYL=['γγ','αυ','ευ'];
+const sylls=set=>{const C=set.filter(x=>!VOW.includes(x)&&!NOSYL.includes(x)),V=set.filter(x=>VOW.includes(x));return[].concat(...C.map(c=>V.map(v=>c+v)))};
+let ALLSYL=sylls(ALL);
 const pick3=(ans,pool)=>shuffle([ans,...shuffle([...new Set(pool)].filter(x=>x!==ans)).slice(0,2)]);
 
 /* find the letter you hear */
@@ -1919,7 +1922,7 @@ function accentRound(){
   $('hear').onclick=()=>say(t.w);choose('.opts',right,accentRound,null,()=>say(t.w));setTimeout(()=>say(t.w),300);
 }
 /* read a sentence, find the picture */
-const SENT=[['Ο σκύλος τρέχει.','🐶'],['Η μέλισσα πετάει.','🐝'],['Το ψάρι κολυμπάει.','🐟'],['Ο ήλιος λάμπει.','☀️'],['Βρέχει πολύ.','🌧️'],['Το τρένο τρέχει γρήγορα.','🚂'],
+let SENT=[['Ο σκύλος τρέχει.','🐶'],['Η μέλισσα πετάει.','🐝'],['Το ψάρι κολυμπάει.','🐟'],['Ο ήλιος λάμπει.','☀️'],['Βρέχει πολύ.','🌧️'],['Το τρένο τρέχει γρήγορα.','🚂'],
   ['Η κότα κάνει αυγά.','🐔'],['Ο βάτραχος πηδάει.','🐸'],['Η βάρκα είναι στη θάλασσα.','⛵'],['Το φεγγάρι βγαίνει τη νύχτα.','🌙'],['Η αγελάδα δίνει γάλα.','🐄'],
   ['Το κουνέλι τρώει.','🐰'],['Το αεροπλάνο πετάει ψηλά.','✈️'],['Το λουλούδι μυρίζει ωραία.','🌼'],['Το χιόνι είναι άσπρο.','❄️'],['Η φωτιά καίει.','🔥'],
   ['Ο ελέφαντας είναι μεγάλος.','🐘'],['Η χελώνα περπατάει σιγά.','🐢'],['Το παιδί διαβάζει.','📚'],['Η μαμά φτιάχνει τούρτα.','🎂']];
@@ -1930,7 +1933,7 @@ function sentRound(){
   $('hear').onclick=()=>say(s);choose('.opts',e,sentRound,null,()=>say(s));
 }
 /* full stop, question mark or exclamation mark? */
-const PUNCT=[['Πού είναι ο Άρης',';'],['Τι ωραία μέρα','!'],['Ο Άρης παίζει μπάλα','.'],['Πώς σε λένε',';'],['Η Λόλα έχει μια γάτα','.'],['Τι μεγάλο καράβι','!'],
+let PUNCT=[['Πού είναι ο Άρης',';'],['Τι ωραία μέρα','!'],['Ο Άρης παίζει μπάλα','.'],['Πώς σε λένε',';'],['Η Λόλα έχει μια γάτα','.'],['Τι μεγάλο καράβι','!'],
   ['Πού πάει η βάρκα',';'],['Βρέχει από το πρωί','.'],['Μπράβο σου','!'],['Τι ώρα είναι',';'],['Το κοχύλι είναι στην άμμο','.'],['Πόσα μήλα έχεις',';'],['Τι όμορφο λουλούδι','!'],['Ο σκύλος γαβγίζει','.']];
 function punctRound(){
   const[s,p]=pick(PUNCT),lab={'.':tr('. τελεία','. full stop'),';':tr('; ερωτηματικό','; question mark'),'!':tr('! θαυμαστικό','! exclamation mark')};
@@ -1941,7 +1944,7 @@ function punctRound(){
 
 /* ---------- picture cards for the book maps ---------- */
 const UCOL=['--t4','--t2','--t3','--t1','--t5'];
-const LUIC=['🔍','👫','🎭','🌧️','😜','🔑','⛵','🌸','📚','🐚'],MUIC=['🔺','✋','💶','➖','🔟','🕒','🧩','✖️','💯'];
+let LUIC=['🔍','👫','🎭','🌧️','😜','🔑','⛵','🌸','📚','🐚'],MUIC=['🔺','✋','💶','➖','🔟','🕒','🧩','✖️','💯'];
 const GICON={body:'🧍',nest:'🐣',baskets:'🧺',stairs:'📶',down:'⬇️',twos:'👟',words:'🔤',complement:'🔟',commute:'🔁',sum3:'➕',bridge:'🌉',bridgeminus:'🌉',twodig:'🔢',inverse:'↔️',calc:'🧮',share:'🍰',measure:'📏',symmetry:'🦋',money100:'💶',scene:'🐬',groups:'🐝',beads3:'📿',
   caps:'🔠',readw:'📖',spellw:'✏️',accent:'🗣️',sent:'💬',punct:'❗',letter:'🔤',syl:'🔤',join:'🔗',listenw:'👂',missw:'❓',firstl:'🅰️',dict:'👂',sentb:'💬',tracel:'✍️'};
 const CATIC={n:'🔢',o:'➕',g:'🔺',m:'📏',p:'🧩',r:'🏆'};
@@ -1949,7 +1952,7 @@ const gIcon=g=>{const t=document.querySelector(`#home [data-game="${g}"] .ico`);
 const chPic=c=>c[1]==='r'?'🏆':(cmix(c).map(m=>gIcon(m[0])).find(x=>x)||CATIC[c[1]]);
 // a picture word for a letter: one that starts with it, else one that contains it (ϊ in μαϊμού is not αι)
 const LPX={ι:'⛵',υ:'😴',φ:'🍓',ευ:'🙏'};   // ιστιοφόρο, ύπνος, φράουλα, ευχαριστώ
-const LPIC=x=>{if(LPX[x])return LPX[x];const q=o=>o.w.normalize('NFD').replace(/\u0301/g,'').toLowerCase().replace(/ς/g,'σ'),r=new RegExp(x+'(?!\u0308)');
+const LPIC=x=>{if(!EN()&&LPX[x])return LPX[x];const q=o=>o.w.normalize('NFD').replace(/\u0301/g,'').toLowerCase().replace(/ς/g,'σ'),r=new RegExp(x+'(?!\u0308)');
   const w=LW.find(o=>q(o).search(r)===0)||LW.find(o=>r.test(q(o)));return w?w.e:'🔤'};
 const card=(id,badge,lb,rev,k,pic,title)=>`<button class="chap lcard${S.done[id]?' done':''}" id="ch${id}" data-ch="${id}"><span class="badge${lb?' lb':''}${rev?' rev':''}" style="--k:${k}"><span>${badge}</span></span><span class="pic2">${pic}</span><span class="t">${title}</span><span class="chk">${S.done[id]?'⭐':''}</span></button>`;
 const unitBox=(ui,ic,h,p,body)=>`<div class="unit kidu" style="--c:var(${UCOL[ui%5]})"><div class="uhead"><span class="uic">${ic}</span><span><h3>${h}</h3><p>${p}</p></span></div><div class="path">${body}</div></div>`;
@@ -1958,7 +1961,7 @@ const pbar=(d,n)=>`<div class="pbar" role="progressbar" aria-valuenow="${d}" ari
 const cardTaps=go=>stage().querySelectorAll('.chap').forEach(b=>b.onclick=()=>{if(b.classList.contains('tap'))return;b.classList.add('tap');tone([660,880],.07);setTimeout(()=>go(b.dataset.ch),230)});
 
 /* ---------- the language book map ---------- */
-const LUNITS=[
+let LUNITS=[
  {t:'Πού είναι ο Άρης;',e:'Where is Aris?',L:['α','π','τ','ο','ι','λ','ε']},
  {t:'Η παρέα',e:'The gang',L:['ν','σ','κ','ρ']},
  {t:'Μια παράσταση στην πλατεία',e:'A show in the square',L:['μ','η','γ','δ']},
@@ -1970,18 +1973,20 @@ const LUNITS=[
  {t:'Ο κόσμος των βιβλίων',e:'The world of books',X:[['accent','Ο τόνος','The accent'],['sent','Διαβάζω προτάσεις','Reading sentences']]},
  {t:'Το κοχύλι',e:'The seashell',X:[['punct','Τελεία, ερωτηματικό, θαυμαστικό','Full stop, question and exclamation marks'],['sent','Διαβάζω και καταλαβαίνω','Reading and understanding']]}];
 const LACT=['letter','syl','join','readw','listenw','missw','spellw','firstl'];
-const LLESSONS=(()=>{const out=[];let set=[],n=0;LUNITS.forEach((u,ui)=>{const ls=[];
+// the lessons of the reading book, built from the current language's units (English lessons get their own ids)
+function buildLessons(){const P=EN()?'E':'L',out=[];let set=[],n=0;LUNITS.forEach((u,ui)=>{const ls=[];
   (u.L||[]).forEach(x=>{set=set.concat([x]);const lv={set:set.slice(),nw:x};n++;
-    ls.push({id:'L'+n,b:capL(x)+' '+x,t:[x.length>1?`Το ${x}`:`Το γράμμα ${capL(x)} ${x}`,x.length>1?`The sound ${x}`:`The letter ${capL(x)} ${x}`],mix:LACT.map(a=>[a,lv])})});
-  (u.X||[]).forEach(([a,el,en])=>{n++;ls.push({id:'L'+n,b:'✎',t:[el,en],mix:[[a,{set:ALL}],[a,{set:ALL}]]})});
+    ls.push({id:P+n,b:capL(x)+' '+x,t:[x.length>1?`Το ${x}`:`Το γράμμα ${capL(x)} ${x}`,x.length>1?`The sound ${x}`:`The letter ${capL(x)} ${x}`],mix:LACT.map(a=>[a,lv])})});
+  (u.X||[]).forEach(([a,el,en])=>{n++;ls.push({id:P+n,b:'✎',t:[el,en],mix:[[a,{set:ALL}],[a,{set:ALL}]]})});
   n++;const rv={set:set.length?set.slice():ALL};
-  ls.push({id:'L'+n,rev:1,b:'★',t:['Επανάληψη','Revision'],mix:u.L?[['readw',rv],['missw',rv],['listenw',rv],['spellw',rv],['firstl',rv],['letter',rv]]:[['sent',{set:ALL}],['accent',{set:ALL}],['punct',{set:ALL}],['spellw',{set:ALL}],['caps',{set:ALL}]]});
-  out.push({u,ui,ls})});return out})();
+  ls.push({id:P+n,rev:1,b:'★',t:['Επανάληψη','Revision'],mix:u.L?[['readw',rv],['missw',rv],['listenw',rv],['spellw',rv],['firstl',rv],['letter',rv]]:[['sent',{set:ALL}],['accent',{set:ALL}],['punct',{set:ALL}],['spellw',{set:ALL}],['caps',{set:ALL}]]});
+  out.push({u,ui,ls})});return out}
+let LLESSONS=buildLessons();
 function openLangMap(ch){
   $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;try{speechSynthesis.cancel()}catch(e){}
   $('gtitle').textContent=tr('Το βιβλίο της Γλώσσας','My reading book');G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
   const all=[].concat(...LLESSONS.map(x=>x.ls)),done=all.filter(l=>S.done[l.id]).length;
-  stage().innerHTML=`<p class="counter">${tr(`Γλώσσα Α΄ Δημοτικού · ⭐ ${done} από ${all.length} μαθήματα`,`Greek reading, Grade 1 · ⭐ ${done} of ${all.length} lessons`)}</p>
+  stage().innerHTML=`<p class="counter">${tr(`Γλώσσα Α΄ Δημοτικού · ⭐ ${done} από ${all.length} μαθήματα`,`Reading, Grade 1 · ⭐ ${done} of ${all.length} lessons`)}</p>
    ${pbar(done,all.length)}
    ${LLESSONS.map(({u,ui,ls})=>unitBox(ui,LUIC[ui],`${tr('Ενότητα','Unit')} ${ui+1}`,tr(u.t,u.e),ls.map(l=>card(l.id,l.b,1,l.rev,l.rev?'#5BAE6B':'#4A90C8',l.rev?'🏆':l.b==='✎'?GICON[l.mix[0][0]]:LPIC(l.b.split(' ')[1]),tr(l.t[0],l.t[1]))).join(''))).join('')}`;
   cardTaps(id=>launchLang(all.find(x=>x.id===id)));
@@ -2111,7 +2116,7 @@ function openMap(ch){
 }
 /* ================= The workbooks (extra units; the books and games above stay as they are) ================= */
 /* workbook mode: the child writes the answer on a keypad instead of picking it */
-const KEYW=['letter','syl','join','missw','firstl'],ABC='αβγδεζηθικλμνξοπρστυφχψω';
+const KEYW=['letter','syl','join','missw','firstl','lastl'];let ABC='αβγδεζηθικλμνξοπρστυφχψω';
 function writeIn(box,ans,ok){
   if(!(G&&G.o&&G.o.write)||!box)return;
   const opts=[...box.querySelectorAll('[data-v],[data-n]')],vals=opts.map(b=>b.dataset.v!==undefined?b.dataset.v:b.dataset.n);
@@ -2190,11 +2195,11 @@ const langLessons=(mk,xmk,rmk)=>LUNITS.map((u,ui)=>{let set=[];LUNITS.slice(0,ui
   const rv=rmk(u,{set:set.length?set.slice():ALL});if(rv)ls.push(rv);
   return{ic:LUIC[ui],h:tr('Ενότητα','Unit')+' '+(ui+1),p:tr(u.t,u.e),ls}});
 const WB={
- wl:{t:['Τετράδιο Εργασιών Γλώσσας','Greek workbook'],n:['ασκήσεις','exercises'],units:()=>{let n=0;const id=()=>'WL'+(++n);
+ wl:{t:['Τετράδιο Εργασιών Γλώσσας','Reading workbook'],n:['ασκήσεις','exercises'],units:()=>{let n=0;const id=()=>(EN()?'WLE':'WL')+(++n);
    return langLessons((x,lv)=>({id:id(),b:capL(x)+' '+x,t:x.length>1?[`Γράφω το ${x}`,`Writing ${x}`]:[`Γράφω το ${capL(x)} ${x}`,`Writing ${capL(x)} ${x}`],o:{write:1,mix:[['missw',lv],['dict',lv],['firstl',lv],['join',lv],['letter',lv],['spellw',lv],['dict',lv],['missw',lv]]}}),
     ([a,el,en])=>({id:id(),b:'✎',t:[el,en],o:{write:1,mix:[[a,{set:ALL}],['dict',{set:ALL}],['sentb',{set:ALL}]]}}),
     (u,rv)=>({id:id(),rev:1,b:'★',t:['Επανάληψη','Revision'],o:{write:1,mix:u.L?[['dict',rv],['missw',rv],['firstl',rv],['spellw',rv]]:[['sentb',{set:ALL}],['dict',{set:ALL}],['punct',{set:ALL}],['accent',{set:ALL}]]}}))}},
- wh:{t:['Το τετράδιο της πρώτης μου γραφής','My first writing book'],n:['σελίδες','pages'],units:()=>{let n=0;const id=()=>'WH'+(++n);
+ wh:{t:['Το τετράδιο της πρώτης μου γραφής','My first writing book'],n:['σελίδες','pages'],units:()=>{let n=0;const id=()=>(EN()?'WHE':'WH')+(++n);
    return langLessons((x,lv)=>({id:id(),b:capL(x)+' '+x,t:x.length>1?[`Γράφω το ${x}`,`Writing ${x}`]:[`Γράφω το ${capL(x)} ${x}`,`Writing ${capL(x)} ${x}`],o:{mix:[['tracel',lv]]}}),
     ()=>null,(u)=>u.L?null:{id:id(),b:'✎',t:['Γράφω λέξεις και κεφαλαία','Writing words and capitals'],o:{mix:[['tracel',{set:ALL}]]}})}},
  wm:{t:['Τετράδιο Εργασιών Μαθηματικών','Maths workbook'],n:['κεφάλαια','chapters'],units:()=>UNITS.map((u,ui)=>({ic:MUIC[ui],per:u.per,h:EN()?UNITEN[ui][0]:u.t,p:EN()?UNITEN[ui][1]:u.s,
@@ -2379,11 +2384,13 @@ stage().addEventListener('click',e=>{
   if(/^\d{1,3}$/.test(txt))gr(NW(+txt));
   else if(/^[Ͱ-Ͽἀ-῿]{1,2}$/.test(txt)&&LNAME[txt.toLowerCase()])say(LNAME[txt.toLowerCase()]);
   else if(/[Ͱ-Ͽἀ-῿]/.test(txt)&&txt.length<60)say(txt.replace(/_/g,''));
+  else if(EN()&&/^[a-z]{1,2}$/i.test(txt)&&LNAME[txt.toLowerCase()])say(LNAME[txt.toLowerCase()]);
+  else if(EN()&&/[a-z]/i.test(txt)&&txt.length<60)say(txt.replace(/_/g,''));
 });
 
 /* 10. for parents (with a grown-up question first) */
 const LANGG=['letter','syl','join','readw','listenw','missw','spellw','firstl','caps','accent','sent','punct','dict','sentb','tracel','read','spell','first','listen','memory','learn'];
-const XT={dict:['Υπαγόρευση','Dictation'],sentb:['Φτιάχνω προτάσεις','Building sentences'],tracel:['Γράφω γράμματα','Writing letters'],mix:['Μαθήματα','Lessons']};
+const XT={lastl:['Το τελευταίο γράμμα','The last letter'],dict:['Υπαγόρευση','Dictation'],sentb:['Φτιάχνω προτάσεις','Building sentences'],tracel:['Γράφω γράμματα','Writing letters'],mix:['Μαθήματα','Lessons']};
 const gName=c=>XT[c]?tr(XT[c][0],XT[c][1]):EN()?(TEN[c]?TEN[c][0]:c):(TITLES[c]||c);
 function openParents(ok){
   page(tr('Για γονείς','For parents'));
@@ -2407,8 +2414,8 @@ function openParents(ok){
    <div class="pcard"><h3>${tr('Εδώ δυσκολεύεται','Finds these harder')}</h3>${hard.length?`<ul>${hard.map(k=>`<li>${gName(k)}: ${pct(S.gs[k])}% ${tr('σωστά','right')}</li>`).join('')}</ul>`:`<p>${tr('Χρειάζεται λίγο ακόμα παιχνίδι για να φανεί.','A little more play is needed to tell.')}</p>`}
      ${conf.length?`<h3>${tr('Μπερδεύει','Mixes up')}</h3><ul>${conf.map(k=>{const[a,b]=k.split('→');return`<li>${tr(`το <b>${a}</b> με το <b>${b}</b>`,`<b>${a}</b> with <b>${b}</b>`)} (${S.conf[k]} ${S.conf[k]===1?tr('φορά','time'):tr('φορές','times')})</li>`}).join('')}</ul>`:''}</div>
    <div class="pcard"><h3>${tr('Πρόοδος','Progress')}</h3><ul>
-     <li>📗 ${tr('Βιβλίο Γλώσσας','Reading book')}: ${cnt(/^L\d/)}/${langAll().length}</li><li>📘 ${tr('Βιβλίο Μαθηματικών','Maths book')}: ${mathAll().filter(c=>S.done[c[0]]).length}/${mathAll().length}</li>
-     <li>📓 ${tr('Τετράδιο Γλώσσας','Greek workbook')}: ${cnt(/^WL/)}</li><li>✍️ ${tr('Τετράδιο γραφής','Writing book')}: ${cnt(/^WH/)}</li><li>📒 ${tr('Τετράδιο Μαθηματικών','Maths workbook')}: ${cnt(/^W\d/)}</li><li>📙 ${tr('Φύλλα εργασίας','Worksheets')}: ${cnt(/^P/)}</li></ul></div>
+     <li>📗 ${tr('Βιβλίο Γλώσσας','Reading book')}: ${langAll().filter(l=>S.done[l.id]).length}/${langAll().length}</li><li>📘 ${tr('Βιβλίο Μαθηματικών','Maths book')}: ${mathAll().filter(c=>S.done[c[0]]).length}/${mathAll().length}</li>
+     <li>📓 ${tr('Τετράδιο Γλώσσας','Reading workbook')}: ${cnt(/^WL/)}</li><li>✍️ ${tr('Τετράδιο γραφής','Writing book')}: ${cnt(/^WH/)}</li><li>📒 ${tr('Τετράδιο Μαθηματικών','Maths workbook')}: ${cnt(/^W\d/)}</li><li>📙 ${tr('Φύλλα εργασίας','Worksheets')}: ${cnt(/^P/)}</li></ul></div>
    <div class="row"><button class="pill" id="kidsBtn">👧👦 ${tr('Παιδιά','Children')}</button><button class="pill" id="resetKid">🗑️ ${tr('Μηδενισμός προόδου','Reset progress')}</button></div>`;
   $('kidsBtn').onclick=openKids;
   $('resetKid').onclick=()=>{if(!confirm(tr('Να σβηστεί όλη η πρόοδος αυτού του παιδιού;','Erase all of this child\'s progress?')))return;const l=S.lang;S={lang:l,stars:0};save();location.reload()};
@@ -2442,6 +2449,44 @@ function openKids(){
 function renderWho(){const k=KPROF.list.find(x=>x.id===KPROF.cur)||KPROF.list[0];$('who').textContent=k.a+' '+(k.n?tr('Γεια σου, ','Hi, ')+k.n+'!':kidName(k))}
 $('who').onclick=openKids;renderWho();
 setTimeout(checkMedals,1500);
+/* ================= English reading content: used whenever the app is in English ================= */
+const ELD={LNAME,VOW,DIG,ALL,LW,SENT,PUNCT,LUNITS,ABC,LUIC,NOSYL};
+const END={
+ LNAME:Object.assign({},...'abcdefghijklmnopqrstuvwxyz'.split('').map(c=>({[c]:c.toUpperCase()})),{qu:'qu, as in queen',ch:'ch, as in chick',sh:'sh, as in ship',th:'th, as in bath',ng:'ng, as in ring',
+   ai:'ai, as in rain',ee:'ee, as in tree',oa:'oa, as in boat',ie:'ie, as in pie',oo:'oo, as in moon',ar:'ar, as in car',or:'or, as in fork',er:'er, as in tiger',ou:'ou, as in house',oi:'oi, as in oil'}),
+ VOW:['a','e','i','o','u','ai','ee','oa','ie','oo','ar','or','er','ou','oi'],
+ DIG:['qu','ch','sh','th','ng','ai','ee','oa','ie','oo','ar','or','er','ou','oi'],
+ ALL:['s','a','t','i','p','n','c','k','e','h','r','m','d','g','o','u','l','f','b','j','z','w','v','y','x','qu','ch','sh','th','ng','ai','ee','oa','ie','oo','ar','or','er','ou','oi'],
+ LW:['ant 🐜','pan 🍳','pin 📌','tap 🚰','tin 🥫','cat 🐱','hat 🎩','bat 🦇','bed 🛏️','hen 🐔','rat 🐀','red 🔴','map 🗺️','man 👨','ten 🔟','pen 🖊️','net 🥅','dog 🐶','sun ☀️','bus 🚌','mug ☕',
+  'pig 🐷','egg 🥚','frog 🐸','drum 🥁','duck 🦆','sock 🧦','clock 🕰️','bag 👜','bell 🔔','nut 🥜','tent ⛺','lamp 💡','gift 🎁','hand ✋','robot 🤖','parrot 🦜','rabbit 🐰','lemon 🍋','melon 🍈',
+  'apple 🍎','banana 🍌','tomato 🍅','pencil ✏️','camel 🐪','bird 🐦','milk 🥛','cake 🎂','lion 🦁','snake 🐍','turtle 🐢','octopus 🐙','crab 🦀','umbrella ☂️','rocket 🚀','nose 👃','bread 🍞',
+  'grapes 🍇','ball ⚽','fox 🦊','box 📦','jet ✈️','van 🚐','web 🕸️','zebra 🦓','yellow 💛','wolf 🐺','owl 🦉','cow 🐄','key 🔑','whale 🐳','pizza 🍕','monkey 🐒','ship 🚢','fish 🐟','shell 🐚',
+  'chick 🐤','queen 👸','bath 🛁','ring 💍','king 🤴','chips 🍟','penguin 🐧','rain 🌧️','snail 🐌','train 🚂','tree 🌳','bee 🐝','sheep 🐑','feet 🦶','goat 🐐','boat ⛵','coat 🧥','tie 👔','pie 🥧',
+  'moon 🌙','book 📚','cheese 🧀','rainbow 🌈','car 🚗','star ⭐','fork 🍴','corn 🌽','horn 📯','tiger 🐯','house 🏠','mouse 🐭','cloud ☁️','oil 🛢️','shark 🦈','carrot 🥕','bear 🐻','ear 👂','horse 🐴',
+  'water 💧','butterfly 🦋','guitar 🎸','flower 🌼','letter ✉️','cherry 🍒','heart ❤️'].map(s=>{const[w,e]=s.split(' ');return{w,e}}),
+ SENT:[['The dog can run.','🐶'],['The cat is on the mat.','🐱'],['A fish can swim.','🐟'],['The sun is hot.','☀️'],['It is raining.','🌧️'],['The train is fast.','🚂'],['The hen has an egg.','🐔'],
+  ['The frog can jump.','🐸'],['The boat is on the sea.','⛵'],['The moon comes out at night.','🌙'],['The cow gives us milk.','🐄'],['The rabbit eats a carrot.','🐰'],['The plane flies high.','✈️'],
+  ['The flower smells nice.','🌼'],['The snow is white.','❄️'],['The fire is hot.','🔥'],['The elephant is big.','🐘'],['The turtle is slow.','🐢'],['The girl reads a book.','📚'],['Mum makes a cake.','🎂']],
+ PUNCT:[['Where is my hat','?'],['What a big ship','!'],['The cat sits on the mat','.'],['What is your name','?'],['I have a red ball','.'],['Look at the rainbow','!'],['Where is the boat going','?'],
+  ['It is raining today','.'],['Well done','!'],['What time is it','?'],['The shell is on the sand','.'],['How many apples do you have','?'],['What a pretty flower','!'],['The dog runs in the park','.']],
+ LUNITS:[{t:'Sam the ant',e:'Sam the ant',L:['s','a','t','i','p','n']},{t:'The red hen',e:'The red hen',L:['c','k','e','h','r','m','d']},{t:'Go, frog, go!',e:'Go, frog, go!',L:['g','o','u','l','f','b']},
+  {t:'Jump, zebra!',e:'Jump, zebra!',L:['j','z','w','v','y','x']},{t:'The ship and the fish',e:'The ship and the fish',L:['qu','ch','sh','th','ng']},{t:'Rain on the train',e:'Rain on the train',L:['ai','ee','oa','ie','oo']},
+  {t:'Stars in the dark',e:'Stars in the dark',L:['ar','or','er','ou','oi']},
+  {t:'Spring',e:'Spring',X:[['caps','Capital and small letters','Capital and small letters'],['readw','Reading words','Reading words'],['spellw','Writing words','Writing words']]},
+  {t:'The world of books',e:'The world of books',X:[['lastl','The last letter','The last letter'],['sent','Reading sentences','Reading sentences']]},
+  {t:'The seashell',e:'The seashell',X:[['punct','Full stop, question and exclamation marks','Full stop, question and exclamation marks'],['sent','Reading and understanding','Reading and understanding']]}],
+ ABC:'abcdefghijklmnopqrstuvwxyz',LUIC:['🐜','🐔','🐸','🦓','🐟','🚂','⭐','🌸','📚','🐚'],NOSYL:['ng','x']};
+function setLangData(){const d=EN()?END:ELD;LNAME=d.LNAME;VOW=d.VOW;DIG=d.DIG;ALL=d.ALL;LW=d.LW;SENT=d.SENT;PUNCT=d.PUNCT;LUNITS=d.LUNITS;ABC=d.ABC;LUIC=d.LUIC;NOSYL=d.NOSYL;
+  ALLSYL=sylls(ALL);LLESSONS=buildLessons();const f=document.querySelector('#home [data-game="first"] .ico');if(f)f.textContent=EN()?'Aa':'Αα'}
+/* which letter does the word end with? (English takes this place of the Greek accent lesson) */
+function lastlRound(){
+  const set=lset(),L1=set.filter(x=>x.length===1),cand=LW.filter(x=>L1.indexOf(plain(x.w).slice(-1))>=0&&canRead(x.w,set)),t=pick(cand.length?cand:LW),a=plain(t.w).slice(-1);
+  stage().innerHTML=`<p class="prompt">${tr('Με ποιο γράμμα τελειώνει;','Which letter does it end with?')}</p><button class="big-e" id="hear" aria-label="${tr('Άκου τη λέξη','Hear the word')}">${t.e}</button>
+   <p class="word" id="reveal"></p><div class="opts c3">${pick3(a,(L1.length>2?L1:ALL.filter(x=>x.length===1))).map(x=>`<button class="pic num lett" data-v="${x}">${x}</button>`).join('')}</div>`;
+  $('hear').onclick=()=>say(t.w);choose('.opts',a,lastlRound,null,()=>{$('reveal').textContent=t.w;say(t.w)});setTimeout(()=>say(t.w),300);
+}
+ROUNDS.lastl=lastlRound;GICON.lastl='🔚';
+{const acc=ROUNDS.accent;ROUNDS.accent=()=>(EN()?lastlRound:acc)()}
 S.open=S.open||{};
 ['moreLang','moreMath'].forEach(id=>{const d=$(id);d.open=S.open[id]!==false;d.addEventListener('toggle',()=>{S.open[id]=d.open;save()})});
 $('rep').onclick=()=>{if(lastSay)speak(lastSay[0],lastSay[1])};
