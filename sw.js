@@ -1,8 +1,8 @@
-const V='nisi-v20';
+const V='nisi-v21',A='nisi-audio';
 const CORE=['./','index.html','manifest.json','icon-192.png','icon-512.png'];
 // cache:'reload' skips the browser's HTTP cache so a new version never stores an old copy
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE.map(u=>new Request(u,{cache:'reload'})))));self.skipWaiting()});
-self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V&&x!==A).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 const put=(req,r)=>{if(r&&(r.ok||r.type==='opaque')){const c=r.clone();caches.open(V).then(x=>x.put(req,c))}return r};
 self.addEventListener('fetch',e=>{
   const req=e.request;
@@ -10,6 +10,11 @@ self.addEventListener('fetch',e=>{
   // the page itself: network first (revalidated) so updates arrive at once, cached copy when offline
   if(req.mode==='navigate'||/\/([\w-]+\.html)?$/.test(new URL(req.url).pathname)){
     e.respondWith(fetch(req.url,{cache:'no-cache'}).then(r=>put(req,r)).catch(()=>caches.match(req,{ignoreSearch:true}).then(h=>h||caches.match('index.html'))));
+    return;
+  }
+  // recorded voice clips never change: keep them in their own cache that survives app updates
+  if(/\/audio\/[a-z]+\/[0-9a-f]+\.mp3$/.test(new URL(req.url).pathname)){
+    e.respondWith(caches.open(A).then(c=>c.match(req).then(hit=>hit||fetch(req).then(r=>{if(r.ok)c.put(req,r.clone());return r}))));
     return;
   }
   e.respondWith(caches.match(req,{ignoreSearch:true}).then(hit=>{

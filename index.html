@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='20';
+var APPV='21';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -736,9 +736,30 @@ function voiceNote(){
   n.textContent=voices.length&&!voiceFor(S.lang)?tr('Δεν υπάρχει ελληνική φωνή σε αυτή τη συσκευή. Πρόσθεσέ τη από τις ρυθμίσεις μετατροπής κειμένου σε ομιλία.','There is no English voice on this device. Add one in the text-to-speech settings.'):'';
 }
 let lastSay=null;
+const VOX={el:'006f3cfd 0086dc85 0107c8e7 01136661 015c1761 0198a606 01dc99f2 0245b82e 02c6523e 0354aa72 03d01347 042eea16 044f4b41 04522b82 048e2436 04a30cca 04b826c1 04d4a819 052c80f0 061d7dfe 06611042 0662f438 06b9d063 06f57f19 0705a512 073af465 073f8781 07f653ee 083dc6d7 087350c5 08a41106 08b9d389 08f0a506 090e4a34 090fe3d7 091a3f34 0927e21a 0928e735 09781952 0a05e457 0a1b3916 0a280509 0a3222a0 0a5c693a 0a6544a6 0a746198 0a83c414 0a92d233 0ab9d6af 0b13761f 0b27e540 0b77dca6 0bb1b158 0bcb9e56 0c1b3c3c 0c24515d 0c28082f 0c3225c6 0c3c7750 0c47f51b 0c865d5b 0c9a67da 0d137945 0d27e866 0d6c393f 0d6ca57e 0da1f0fb 0daaf841 0e1b3f62 0e280b55 0e2fae83 0e39cc1a 0e51311a 0e9fcdfc 0f580581 0fa5c3a0 0fa6cd43 0fd3714c 0ffd3181 0fff2a6c 10b4a092 10b9e021 11137f91 11244686 1127eeb2 1156f90c 1187084f 121b45ae 1239d266 12469e59 12601a97 12ae0160 12b9e347 130430cf 131382b7 1315fd20 13187789 1318d3a4 134a9ae9 138c2595 141b48d4 1432325e 1439d58c 143c83e8 14442716 1446a17f 144d85f1 14c95f45 15187aaf 1580e8e1 162fbb1b 16323584 16442a3c 164b2cf2 16846e34 1684dafb 175f7d80 1816f55e 1864b9cc 18ce190c 19160692 191880fb 19190acc 1927fb4a 192b7765 19484d92 19596ad6 19a5850c 19a9501b 19e5b76a 1a2fc167 1a39defe 1a3c8d5a 1a443088 1a46aaf1 1a4efe0d 1a7972f0 1a8ecee6 1a8eee9e 1b1609b8 1b188421 1b52b1a0 1b6b8840 1b7363ec 1b859d85 1bc5cb12 1bf311c5 1c283377 1c39e224 1c46ae17 1c994f07 1cb913cd 1ce85b94 1d0cf96f 1d160cde 1d188747 1d1db852 1d721ffb 1d7c3239 1d873191 1dd553ca 1e33ee37 1e4436d4 1e46b13d 1e548639 1ef5b934 1f17cc17 1f341898 20586692 20e315db 210dad97 2116132a 212082e3 21855ac1 21d17185 21e701df 21f2e5c4 23abf0bc 24652df1 259ea471 25ea1a5b 25fe1607 2604674a 260dc646 2681d908 26bda118 27c27892 27cd3ea6 28172679 281f28c2 2895f8ad 2947b475 294852a8 2965abe4 29feab30 2a1f65a5 2a400d20 2a568390 2a731d06 2a8c9886 2b14becd 2c3c07bc 2c4efec4 2c7906c9 2cef974f 2cf22171 2d101c83 2d88787b 2d8f6f16 2e024ff8 2e2817d0 2e346ae3 2ebe8df2 2f298ca6 2f9483cf 2fbd2073 2fca2d58 3022038f 3032d0b7 30400673 3042faa1 308216d9 3098b9cf 30a2cf5d 30ba3f25 313c6c18 318c2f73 319cb747 31cec102 3227b8cd 32709d38 32ef32d4 331025f5 334ee4c5 339d1e35 339f771b 340ae192 35060b84 35dfa4e7 35e302ff 36251e58 36e20981 3725f807 37e2b3cd 381fda02 383f7cf9 387d0eca 388a26a1 38b79140 392b8640 39bc6d79 39e58790 3acf4549 3af53e94 3b10328d 3bf04c14 3c175283 3c60560b 3c7019bc 3c72d992 3ca833e9 3dbaa512 3dbdabcb 3dca4f1e 3e42ff1d 3e440d2e 3e4e33bd 3eabf781 3f3f663b 3f7ee790 3fe15233 3ff0d006 400f6c02 40318d51 403e69aa 40584743 40803c15 40b437e1 40f2845f 41642648 4190b710 41b97a4b 42264cdd 42615b89 429f9b10 42bf89d8 42f61112 42f6f5da 43002607 4387ffb5 43950319 43fd6235 44d8484c 44e223a7 450578ef 45523f91 455b9479 45a08116 45d94e08 466570e5 4667dab3 4675f6c3 46ba5e41 46ce7330 47184a8f 47e8a3d0 47e8b82f 480bf730 483fa318 484f3d1e 4861643a 4925334f 49398a8f 49861c0a 49edc016 4a68e317 4b0e01a4 4b28671f 4b5ec50b 4ba7f2ab 4bafa8a6 4c30e647 4c51074a 4c893e8a 4c93606e 4cfb0a29 4cfd0d6d 4d091955 4d85e0e9 4e4f256a 4f22b2bc 4f2bb9b2 4fa9d9e2 4fcc2bbd 4fd4359c 5022bbe6 503fbdc0 5048be76 50cf2ae8 51148b1d 51918cce 51db76f0 527950cb 5312f244 533c1587 534cc4fc 53776d31 5378440e 53ae256f 53f09478 54375ae9 5487c313 554e878d 5554d32a 55c7a27d 55df79bb 55eeeb36 560a2e06 566c7892 5764a865 57ae2bbb 57f5f38d 57f87f89 58746eb5 587a8e4c 58816390 58ad1be9 58b7ceec 58cf06aa 58efb4d5 59533b67 597ece1b 59848ab8 59b79e1f 5a076490 5a2f0175 5ace2e7e 5b04ce77 5c067fb8 5c28eb10 5c356ec5 5ca12ef4 5cdf02fd 5e08d40d 5e799537 5eb9a9c9 5eda03f6 5f14be21 5f355047 5f5709dc 5fae3853 6060adcf 60da657f 61169600 61422751 61747cc4 617ae4f6 61b06f13 623f8ec8 62c1de1d 633976f5 6342b642 6361cac8 63759e20 63796f4f 63ae3e9f 64032f61 6414c903 6440597f 64459594 6456dc2f 645c9b0d 64675ce1 646e1535 64c4213d 6507f42d 6537e8d9 65bbbd29 65ed4b3c 66041701 66fe0c5b 6739dba4 6742bc8e 67ae44eb 67d5ed06 6853b325 68c1ecc3 6999cd94 69baadae 6a02da40 6abdd785 6b404871 6bde224c 6c02ef95 6cc49f2f 6d4c5432 6dae4e5d 6deb5b5d 6e2cd91a 6e695f90 6e8b9d7c 6ecc51b6 6ed36757 6f03d0e8 6f573847 6fad8942 6fda0c56 6feb0eb6 6fee41cf 706c93df 7088802e 709c385d 70b39667 70d9ca27 70ffe10b 71500650 717e1c35 71e3036a 7202dc5a 721a0a7e 73d06500 73d60f8a 74597591 747c2087 74a90393 74d92381 74f8b226 751033c0 753b25a4 75964734 75e8100d 7693c251 76f5d648 772cb8f6 776fe260 78083604 78b0d1e3 78ba62c5 78cb8d76 799dd4c1 79a708f4 79a8938e 79dff09c 7a27c803 7a3bbe40 7a960e8c 7aa200f8 7ac47059 7b3f72d3 7bc96363 7bf0d370 7c13f22b 7c372361 7c98d56d 7c9b9380 7cfc60a2 7d0e9065 7d19f2d5 7d1aff35 7d23b8be 7d3d5136 7d4d5e03 7d8cd30e 7e78066b 7f3626be 7f7af84b 7f7c4d4a 7f990f91 7ff0d9bc 80a001c4 80e2b8d4 81d9f4ec 81f0dce2 8234991d 825844e2 82ead0c9 8326eaa5 83633f8d 83f0e008 83f47240 8439aedf 8539b573 8564a65c 8599b0f8 85b8d8b7 85c2909b 85f2a7bb 86340130 86376ddf 865b27c4 86bb8ca2 86f61463 874bae28 87717ff9 87b94b86 87c8511a 87ddc712 881275e7 881e1449 8849700c 8895cd6d 8905dd86 8928125b 8948515e 89520fb5 89778429 89c7acfe 89cf65d7 89f0e97a 89f1be99 8a287da8 8a34077c 8a8651f4 8b0ffe43 8b6834ae 8bf551a8 8c1dbbdd 8c301c8e 8c340aa2 8c735323 8c97cd3f 8cbc9b5a 8cc04bc1 8d04817e 8d05e3d2 8d0d8700 8d100169 8d2ac83b 8d4bc923 8d649dec 8d835e97 8df82f8a 8e00a6d8 8e04181d 8e221910 8e340dc8 8e8ba1b4 8ed03776 8ed82157 8ee085d9 8ee30042 8ee94977 8fb1b61d 8fd5191d 8fe81d48 90e421cd 9105ea1e 911007b5 91179298 91aa9ab4 91eda1ec 92381180 9269af64 926c1d90 927f7167 92fa8e39 9305ed44 930d9072 9434173a 9488a5f8 9587d65e 95e62799 95ef8d17 96031cee 968c2cde 968f8649 96de0251 9723bf8f 97403b49 97513e91 9760f003 97677b92 9780363b 97b2d89b 9861da2b 98e93c82 990d99e4 9910144d 9971b7fa 99849237 99877327 99dbca73 9a222bf4 9a8efe5c 9b00075c 9b1135c4 9b21a240 9b3e4a08 9b638784 9b77684f 9c134897 9c18c095 9c222f1a 9c593097 9cbe30b2 9cd58613 9cfe8299 9d365623 9dfba7ab 9e147cb6 9e223240 9e275b05 9e38545c 9e3bca26 9e699bc7 9ec833eb 9ef48812 9f0dc8e7 9f1e5268 9f41fa0c 9f8d441b 9f8da48e 9f8ddfec 9fab53d7 9ffa0d46 a03e5a3a a068e1a3 a09f3bf7 a1181a02 a11d060b a1a8848e a2276151 a2738d43 a2aead55 a2b932f7 a318be71 a3cea28f a3d40ca0 a40295ad a449e0f8 a4a66441 a517ca5f a52134c5 a5a476bf a60e6f93 a62f828c a753d22a a75e54ef a89cad9c a8d6a610 a917d0ab a9211a1a a9c3ceac a9fa2c55 aa0f3ea5 aa224524 aa3bdd0a aaa42d28 aac40fe5 aae5b0cb ac02a0b0 ac290fcd ac7b4cb4 ac8c6cea ad3b4301 ada224d2 adfbe51a aec6a34c aec813f1 aecb34db aee765ca aefe8293 af366c98 af42aa94 afeccbe1 b0820403 b0b2a518 b0f9ff3e b1323db2 b19f5a35 b2048ea5 b26542a5 b2d6e69c b317359d b319bc09 b33619b3 b352aed0 b3bd355e b3c1f8c7 b3e35dca b3fef8d1 b57f65d0 b596d8eb b59c1598 b5a785a3 b5df4ba8 b5ef4ab4 b5f66143 b62d5c0c b6596097 b67c78c0 b6881e53 b77eb60a b7922993 b7bf93ce b7f72bc3 b84d104b b87f9479 b88fed24 b8a70607 b8d0a66a b980f91c b98b03a7 b9952829 b9ee64e6 bb0d3a75 bb593588 bbbdc80f bbeeaf8b bc211bb5 bc3490df bc3cf746 bcc5f61b bcd77d90 bd062f62 bd4678d2 be1f38ab be746061 bf361679 c01518a6 c0b0d2e2 c10635ae c2462069 c272bf07 c290f67b c396a0e6 c3df6d37 c3e4d99f c3ea758f c3fb7aba c49292ed c4e5831d c559e3f3 c57e2074 c5899e64 c5d81d5a c617c95b c631b794 c6e2143a c7242e07 c79deb40 c86a241f c87b02cb c8dd602c c8ec9d04 c900c667 c91588a2 c942fee6 c947f22e c953d768 c99b0ed7 c9a6b87f c9c68742 c9c6a98b ca86949c cb67ac9a cb995bda cbab3532 cbbe9d4e cc48694f ccdffdab cd09aa1e cd1dd8bf cd5f71bc ce1a982c ce5809cb ced1379e cef11c21 cf355b86 d021ed76 d049b0d8 d09612f7 d0d90d2b d0e1f64e d0fc4a39 d1292f7b d143183e d19d605e d1cf2e97 d1f4706e d289ec53 d2e62fd3 d30d2ed8 d311da0a d35b15de d399635d d4339ba1 d43b02da d46cea8d d4efadb9 d51136db d5366f47 d58f8f01 d5c75fe9 d61369bf d66814e0 d668eeab d68af112 d6c7c017 d6db8f43 d7a90edc d7b07881 d7e4332f d7f916c7 d88b3d29 d8b85a67 d8deb82c d8ee9ebf d9ea2417 da6c78a7 da6e2048 da865f31 da9d4d70 db2d64a4 dbf6130c dc20c053 dc71b4ce dc7ddd59 dccfc8fa dd107f59 ddc56b79 de1af3d2 de20821c de2f62f3 de4cd789 de8691a5 defc5bc3 defcbe82 df186a69 dfb658be e0043d6b e017f4e2 e034b373 e06141ad e0f9d9f5 e20c5106 e214d281 e234f163 e2898c67 e3295ed3 e40efe02 e4162698 e4210866 e47a50b3 e4ad1b0d e518ac6b e5418aad e5d87a00 e5fb218f e60089b1 e62441e5 e6a574e2 e6d99662 e6de2dfd e7154cee e785850d e7f8eda9 e8ace868 e910923d e94190f9 e94fbc68 e95232d6 e959abc4 e9b04cf4 eb39b911 eb8e50cd ebb57e00 ebc0cf41 ebd333be ec2eaf63 ec74ee38 ec9e1f4e ecd3dd79 ecd47f39 ecf41206 ed024874 ed3a160c ed41fc80 ed49deb7 ed6e5d19 ee177d4d ee57bf3e ee6df17b ef7871d0 efc4d381 efe3439d f00c4518 f0423815 f054e0a5 f0829138 f09e47e4 f0c57137 f0e0dd4f f0fe344d f1039ab0 f15cc3b5 f1740d85 f174ebe2 f18940d9 f1924710 f19911f6 f1ac94e4 f1ad3cf3 f25349ee f2af576e f32e4877 f34205f2 f3567513 f3c90a4f f4570e14 f46b9400 f511c206 f51830f4 f57bbd1d f5940724 f5a1b0ba f5a369d5 f5b0d2bd f5d27d8a f63c8b95 f647cbdb f662620a f68b357f f6dfab05 f7031179 f73ce379 f7d35d7a f822b47c f847c711 f86e97b3 f87e3db5 f88a71a2 f89a2f50 f8a83a73 f8bf1e9f f8f14c6c f8fef1b3 f914c523 f9352e87 f94fd19d f96dc45f f991f07d f9e9d491 fa30f12f fa44bdac fa88b61f fa9c0f8e faae8872 fad49ffe fb42128a fbb623f3 fc5a6490 fc976581 fcd1a03f fd0e3750 fd0fd0f3 fd3bd003 fd9d791a fd9fd804 fe46703c fece0c23 fece64e0 ff013f68 ffae31f4',en:'01a53a61 0226c18f 02a5dc01 03d5b964 05025085 06af7783 0795c005 07cc2b2a 093725a0 0a687c4d 0cf73236 0cfb455b 0d523ad5 0d866d3e 0e68b936 0e6f5bde 0efcd3de 0f2fcb06 107b6ed9 10bc2abf 10f55c54 11793c11 11f3f860 124aec70 1291a2d9 138ee7a6 1392b5d9 13a6dbe8 13a759ce 13d1b077 147a9971 16266f55 1691c263 1862d303 18c92441 18df0f8e 1a59a311 1ab091a8 1ac6a97e 1b9ae0bb 1bd42e1e 1d62aab1 1dcabed0 1e50bd5c 1e7c6603 1ed85046 1efe616a 1f73ce42 2080727e 210f2d79 213e90fa 21ca3828 22cc50dc 22d8ac98 24255f09 24965480 2498454b 24b19507 25050ff3 2522ecd7 25433192 264463df 265c1c4b 27a03d7f 28217089 290d8cdb 2936a816 29d2f506 2a159310 2a84324a 2af6bb26 2b22c2be 2b3f4c48 2ba08a4b 2ce2e494 2de3424c 2efc387f 2f203143 2f69f5a5 2fe44613 30cb3740 30e8fb0e 32189726 32575755 348f1364 35140d29 3583acfe 35a5de4b 35a9a398 36a1f47c 3763bc33 38037266 3832a411 38650300 38f2447c 39731197 399ae10d 3a0e9988 3a3084d5 3cda6183 3db97160 3db9b915 3e58c421 3f1edbd9 400e8c2d 4181914f 419b78ec 4210c78f 421236fc 4227ea6e 429a5cc6 42bbfac5 43430b20 444fd0c8 44cfae8c 459fa86f 45a010ec 461db070 46e8a312 46ebb096 47dbff49 484e4bf2 4937fa8c 4b079323 4b670048 4bc27954 4bd59f35 4c2e4abe 4c3d091d 4e340337 4f34d900 4ff20dee 504fb36f 50878ce4 50ae46ec 51e8f144 52eb9210 531264a1 53656a93 53da20d0 543d6723 54dd5a36 54ea21d1 55cdb970 56985307 580354cb 592318c4 597d11c6 59f14731 5a6833f5 5ace4b7c 5b8d891d 5bc578fb 5c50c72c 5ca787e2 5ca9d1fe 5e04d243 5f3ce10e 5f7786b2 5f831cc6 5ffd31cd 60ceebb4 61674716 6243c2ea 631e8ca2 63374a36 63b75f31 6466d3ae 66095a2f 665eb609 67481cb1 676d13fd 68222c26 6a164f08 6a27a34b 6a40feb5 6a650998 6b3efd82 6b8b6b13 6b91d120 6bd9cbcf 6bf0ef3b 6c3c18fb 6ca8f47a 6ec8a0ea 70d07746 711465b4 7244a79f 72b87bd2 72e25d5c 7499948f 77c2ea79 78789660 78bb9249 78e32de5 79660dc4 79f50b82 7ae6a24c 7ae80937 7bfc5002 7c0977ab 7c2528f2 7cf5a4e3 7d023db3 7d372407 7d5a6613 7ea09fac 7f7c9ec6 80ac3858 81526445 82306882 8285bff0 832d842b 83b77796 84ec28f1 857468a1 8583378f 888603c3 888e7aa2 89a3b5d3 8a41a3cb 8a524c53 8a7324ef 8aea8859 8b6fe763 8b75f7f1 8bca10b2 8d67232f 8d7fc734 8e135d42 8f290672 8ff53680 90294b13 90fce084 913a1587 918d404a 929f1500 9447aa33 94d8dcdc 9625faa2 96379abd 966464cd 97a76a65 97b1cf83 995f6242 99983cb2 9a3d033a 9b013274 9b65e7fc 9c704928 9c761e94 9ca30363 9cdcd714 9dd306c4 9ed22a0b 9f287de5 9f47d27e a07897e8 a1c035a3 a20c85a8 a2135c7c a229f353 a2519e11 a3017c30 a34abb4e a4c6ff66 a508739d a57e9c10 a6029d80 a6241092 a7a99249 a7dd02f5 a7f37bb1 a7fc5a40 a83fb162 a846fc96 a8e9fb1f a99bf253 a9ca4fab aa6f5389 aa82e01d aac32bd9 aaf74aa2 abb86cdc ac56f17f ad1ebfef ad27df35 ad590142 ad6642c2 ae8fcf26 aeb44395 aefbaea3 af63ea57 afad8963 afd6602d afd98518 aff5e25b b2566f1f b28be039 b341b2a8 b3618b70 b36d5436 b3d93c3a b4b61246 b4f44024 b557f86b b5aa17c7 b6da28ad b70870a6 b788bc0d b8b0c100 ba2719ef ba27cccd ba510341 bb1fc4f8 bb323378 bd01f454 bd82b746 be1c10cd be248829 c00bf080 c04a14a1 c04ad195 c04d6fe5 c0e213da c10bf213 c1948a38 c19795e1 c19b5233 c23c7b3e c2862d90 c290cef3 c2d82181 c2fe65aa c3024397 c338713b c356e5c5 c4224a16 c445a108 c4b8803a c4f785d6 c50c5a62 c52c6838 c60bf9f2 c627facd c6588adb c8647fe5 c8e31957 c8ecb372 c90bfeab ca3007ab caad28b7 cad77172 cc2bbc77 cc361aff cd573950 ce1430df cf4b4794 cffed385 d0f065f9 d0f61a32 d13b2f71 d17cf9fc d30c0e69 d3d5dc27 d45e5253 d4fa8470 d50c118f d5d44a6e d60c1322 d8595d78 d8961513 d8d56822 d8da943d d9300645 da38f4af db37ac5c db670299 dbaf3df6 dc0c1c94 dcb146bd dcb746fb dd0c1e27 dd2af97f dd85cee0 df0c214d e028501d e06cf739 e1c8ef8c e21ee631 e42d8650 e4a1402c e4ce97fb e5554be5 e5f12404 e63aefef e668bd09 e6f12b76 e78534d9 e8239b77 e9026e8b e92df9e1 e986d91c e9fb2c00 eb3aef40 ecaee45f edd7d347 ef406218 efde7704 f06543e7 f0b1c617 f0e7bfc7 f267a061 f270b0b8 f3a169a1 f3e57c6c f4b5ba46 f5352bb4 f60b0181 f651c4a1 f6be5034 f729dba9 f78ddc50 f828d322 f8e3ec72 f8e542f4 f9380661 f95791a0 f98590b1 f9f3f357 fbe51e6f fc436d8d fc775b05 fcfb6908 fd98f498 fe18fbb0 fe4ce234 ff24b6ca ff5e0f4e'};/*VOXEND*/
+/* natural recorded voice: phrases recorded once by a real-sounding voice (audio/<lang>/<hash>.mp3);
+   anything not recorded falls back to the phone's own voice */
+const vhash=t=>{let h=0x811c9dc5;for(let i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0}return('0000000'+h.toString(16)).slice(-8)};
+let VSET=null,vtok=0,vsrc=null;
+const vset=t=>{VSET=VSET||{};if(!VSET[t]){VSET[t]={};(VOX[t]||'').split(' ').forEach(k=>{if(k)VSET[t][k]=1})}return VSET[t]};
+const natOn=()=>S.nat!==0;
+const natHas=(text,t)=>natOn()&&!!(window.fetch&&(window.AudioContext||window.webkitAudioContext))&&!!vset(t)[vhash(text.trim())];
+function hush(){vtok++;try{if(vsrc){vsrc.stop();vsrc=null}}catch(e){}try{speechSynthesis.cancel()}catch(e){}}
+function natPlay(text,t,fallback){
+  const my=++vtok;try{if(vsrc){vsrc.stop();vsrc=null}}catch(e){}try{if(speechSynthesis.speaking||speechSynthesis.pending)speechSynthesis.cancel()}catch(e){}
+  fetch('audio/'+t+'/'+vhash(text.trim())+'.mp3').then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}).then(buf=>new Promise((ok,no)=>{audio();const p=ac.decodeAudioData(buf,ok,no);if(p&&p.catch)p.catch(no)}))
+    .then(b=>{if(my!==vtok)return;const s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);s.start(0);vsrc=s;s.onended=()=>{if(vsrc===s)vsrc=null}})
+    .catch(()=>{if(my===vtok)fallback()});
+}
 function speak(text,lang){
-  if(!('speechSynthesis' in window))return;
   if(!busy&&text&&text.trim()&&!Object.values(PRAISE).concat(Object.values(AGAIN)).includes(text))lastSay=[text,lang];
+  const tl=lang||L().tts;
+  if(text&&text.trim()&&natHas(text,tl)){natPlay(text,tl,()=>ttsSpeak(text,lang));return}
+  ttsSpeak(text,lang);
+}
+function ttsSpeak(text,lang){
+  if(!('speechSynthesis' in window))return;
+  try{vtok++;if(vsrc){vsrc.stop();vsrc=null}}catch(e){}
   try{const say=()=>{try{const u=new SpeechSynthesisUtterance(text);const t=lang||L().tts,v=voiceFor(t);
       if(v)u.voice=v;u.lang=v?v.lang:t;u.rate=t==='el'?.92:.9;u.pitch=1;speechSynthesis.speak(u)}catch(e){}};
     // Android Chrome can drop an utterance queued right after cancel(), so wait a moment
@@ -828,7 +849,7 @@ let G=null,busy=false;
 document.querySelectorAll('.games').forEach(g=>g.onclick=e=>{const t=e.target.closest('[data-game]');if(t)start(t.dataset.game)});
 $('back').onclick=$('toIsland').onclick=()=>G&&G.o&&G.o.ch?(G.o.wb?openWB(G.o.wb,G.o.ch):G.o.lang?openLangMap(G.o.ch):openMap(G.o.ch)):home();
 $('again').onclick=()=>start(G.name,G.o);
-function home(){$('finish').hidden=true;$('game').hidden=true;$('home').hidden=false;try{speechSynthesis.cancel()}catch(e){}renderCont()}
+function home(){$('finish').hidden=true;$('game').hidden=true;$('home').hidden=false;hush();renderCont()}
 function start(name,o={}){
   if(name==='map')return openMap();
   if(name==='langmap')return openLangMap();
@@ -1081,7 +1102,8 @@ function learnGame(){
 const rand=k=>Math.random()*k|0;
 const pick=a=>a[rand(a.length)];
 const NUMEN=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
-const NW=n=>{if(n===100)return tr('εκατό','one hundred');if(EN())return n<20?NUMEN[n]:['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'][n/10|0]+(n%10?'-'+NUMEN[n%10]:'');if(n<13)return GR[n];const t=n/10|0,u=n%10;return t===1?'δεκα'+GR[u]:['','δέκα','είκοσι','τριάντα','σαράντα','πενήντα','εξήντα','εβδομήντα','ογδόντα','ενενήντα'][t]+(u?' '+GR[u]:'')};
+const NWF=n=>EN()?NW(n):(({1:'μία',3:'τρεις',4:'τέσσερις'})[n]||NW(n));
+const NW=n=>{if(n===100)return tr('εκατό','one hundred');if(n>100&&n<1000){const h=n/100|0,r=n%100;return (EN()?NUMEN[h]+' hundred':(h===1?'εκατόν':['','','διακόσια','τριακόσια','τετρακόσια','πεντακόσια','εξακόσια','επτακόσια','οκτακόσια','εννιακόσια'][h]))+(r?(EN()?' and ':' ')+NW(r):'')}if(EN())return n<20?NUMEN[n]:['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'][n/10|0]+(n%10?'-'+NUMEN[n%10]:'');if(n<13)return GR[n];const t=n/10|0,u=n%10;return t===1?'δεκα'+GR[u]:['','δέκα','είκοσι','τριάντα','σαράντα','πενήντα','εξήντα','εβδομήντα','ογδόντα','ενενήντα'][t]+(u?' '+GR[u]:'')};
 const btns=(vals,cls='pic num',lab=v=>v)=>vals.map(v=>`<button class="${cls}" data-v="${v}">${lab(v)}</button>`).join('');
 function choose(sel,ans,next,say,onOk){
   const box=stage().querySelector(sel),miss=hintAfter(box,x=>x.dataset.v===String(ans));
@@ -1188,7 +1210,7 @@ function minusRound(){
    <div class="seq"><span>${n}</span><span>−</span><span>${b}</span><span>=</span><span class="gap" id="gapbox">?</span></div>
    <div class="opts c3">${btns(near(r,0,10))}</div>`;
   choose('.opts',r,minusRound,`${NW(n)} ${tr('μείον','minus')} ${NW(b)} ${tr('ίσον','equals')} ${NW(r)}`,fillGap(r));
-  ask(tr(`Έχω ${NW(n)}. Φεύγουν ${NW(b)}. Πόσα μένουν;`,`I have ${NW(n)}. ${NW(b)} go away. How many are left?`));
+  ask(tr(`Έχω ${NW(n)}. ${b===1?'Φεύγει ένα':'Φεύγουν '+NW(b)}. Πόσα μένουν;`,`I have ${NW(n)}. ${NW(b).charAt(0).toUpperCase()+NW(b).slice(1)} ${b===1?'goes':'go'} away. How many are left?`));
 }
 
 /* ch.29 + or − */
@@ -1662,7 +1684,7 @@ function tensonesRound(){
   else if(kind===1){q=tr(`Πόσες δεκάδες έχει το ${n};`,`How many tens are in ${n}?`);ans=t;html=`<div class="fshow"><span class="fdig">${n}</span></div>`;opts=optsAround(t,1,10,[1,-1,2])}
   else{q=tr(`Πόσες μονάδες έχει το ${n};`,`How many ones are in ${n}?`);ans=u;html=`<div class="fshow"><span class="fdig">${n}</span></div>`;opts=optsAround(u,0,9,[1,-1,t-u])}
   stage().innerHTML=`<p class="prompt">${q}</p>${html}<div class="opts c3">${btns(opts)}</div>`;
-  choose('.opts',ans,tensonesRound,tr(`${NW(n)}: ${dek} και ${mon}`,`${NW(n)}: ${dek} and ${mon}`));ask(q.replace(/\d+/g,d=>NW(+d)));
+  choose('.opts',ans,tensonesRound,tr(`${NW(n)}: ${dek} και ${mon}`,`${NW(n)}: ${dek} and ${mon}`));ask(q.replace(/\d+(?= (δεκάδ|μονάδ|φορές))/g,d=>NWF(+d)).replace(/\d+/g,d=>NW(+d)));
 }
 
 /* ch.35: sums with many terms */
@@ -1747,8 +1769,8 @@ function multRound(){
   stage().innerHTML=`<p class="prompt">${q}</p><div class="plates">${[...Array(g)].map(()=>grp(k,e)).join('')}</div>
    <div class="seq">${[...Array(g)].map(()=>`<span>${k}</span>`).join('<span>+</span>')}<span>=</span><span class="gap" id="gapbox">?</span></div>
    <p class="counter">${g} × ${k}</p><div class="opts c3">${btns(optsAround(n,2,25,[k,-k,1,-1]))}</div>`;
-  choose('.opts',n,multRound,tr(`${NW(g)} φορές το ${NW(k)} κάνουν ${NW(n)}`,`${NW(g)} times ${NW(k)} makes ${NW(n)}`),fillGap(n));
-  ask(q.replace(/\d+/g,d=>NW(+d)));
+  choose('.opts',n,multRound,tr(`${NWF(g)} φορές το ${NW(k)} κάνουν ${NW(n)}`,`${NW(g)} times ${NW(k)} makes ${NW(n)}`),fillGap(n));
+  ask(q.replace(/\d+(?= φορές)/g,d=>NWF(+d)).replace(/\d+/g,d=>NW(+d)));
 }
 
 /* ch.59: sharing equally (division) */
@@ -1990,7 +2012,7 @@ function buildLessons(){const P=EN()?'E':'L',out=[];let set=[],n=0;LUNITS.forEac
   out.push({u,ui,ls})});return out}
 let LLESSONS=buildLessons();
 function openLangMap(ch){
-  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;try{speechSynthesis.cancel()}catch(e){}
+  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;hush()
   $('gtitle').textContent=tr('Το βιβλίο της Γλώσσας','My reading book');G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
   const all=[].concat(...LLESSONS.map(x=>x.ls)),done=all.filter(l=>S.done[l.id]).length;
   stage().innerHTML=`<p class="counter">${tr(`Γλώσσα Α΄ Δημοτικού · ⭐ ${done} από ${all.length} μαθήματα`,`Reading, Grade 1 · ⭐ ${done} of ${all.length} lessons`)}</p>
@@ -2111,7 +2133,7 @@ function renderCont(){
   if(l)$('contL').onclick=()=>launchLang(l);if(m)$('contM').onclick=()=>launchMath(m);
 }
 function openMap(ch){
-  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;try{speechSynthesis.cancel()}catch(e){}
+  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;hush()
   $('gtitle').textContent=tr('Το βιβλίο των Μαθηματικών','My maths book');G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
   const all=[].concat(...UNITS.map(u=>u.c)),done=all.filter(c=>S.done[c[0]]).length;
   stage().innerHTML=`<p class="counter">${tr(`Μαθηματικά Α΄ Δημοτικού · ⭐ ${done} από ${all.length} κεφάλαια`,`Maths, Grade 1 · ⭐ ${done} of ${all.length} chapters`)}</p>
@@ -2218,7 +2240,7 @@ const WB={
     {pic:'🏅',id:'P'+ui+'t',b:'✓',rev:1,k:'#5BAE6B',t:['Τεστ ενότητας (10 ερωτήσεις, γράφω την απάντηση)','Unit test (10 questions, write the answer)'],o:{mix:mx(cs),write:1,total:10}}]}})}};
 function openWB(key,ch){
   const B=WB[key],units=B.units(),all=[].concat(...units.map(u=>u.ls)),done=all.filter(l=>S.done[l.id]).length;
-  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;try{speechSynthesis.cancel()}catch(e){}
+  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;hush()
   $('gtitle').textContent=tr(B.t[0],B.t[1]);G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
   stage().innerHTML=`<p class="counter">${tr(B.t[0],B.t[1])} · ⭐ ${done} ${tr('από','of')} ${all.length} ${tr(B.n[0],B.n[1])}</p>
    ${pbar(done,all.length)}
@@ -2318,7 +2340,7 @@ function checkMedals(){const nw=MEDALS.filter(m=>!S.medals[m[0]]&&m[6]());nw.for
   const m=nw[0];toast(`🏅 ${tr('Νέο μετάλλιο','New medal')}: ${m[1]} ${tr(m[2],m[3])}`);fireworks();tone([523,659,784,1046],.12)}
 
 /* page shell for the extra screens */
-function page(title){$('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;try{speechSynthesis.cancel()}catch(e){}
+function page(title){$('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;hush()
   $('gtitle').textContent=title;G={name:'page',o:{},round:0,total:0,earned:0};busy=false;drawDots();scrollTo(0,0)}
 
 /* 5. my island: buy with stars, drag to arrange */
@@ -2426,8 +2448,15 @@ function openParents(ok){
    <div class="pcard"><h3>${tr('Πρόοδος','Progress')}</h3><ul>
      <li>📗 ${tr('Βιβλίο Γλώσσας','Reading book')}: ${langAll().filter(l=>S.done[l.id]).length}/${langAll().length}</li><li>📘 ${tr('Βιβλίο Μαθηματικών','Maths book')}: ${mathAll().filter(c=>S.done[c[0]]).length}/${mathAll().length}</li>
      <li>📓 ${tr('Τετράδιο Γλώσσας','Reading workbook')}: ${cnt(/^WL/)}</li><li>✍️ ${tr('Τετράδιο γραφής','Writing book')}: ${cnt(/^WH/)}</li><li>📒 ${tr('Τετράδιο Μαθηματικών','Maths workbook')}: ${cnt(/^W\d/)}</li><li>📙 ${tr('Φύλλα εργασίας','Worksheets')}: ${cnt(/^P/)}</li></ul></div>
-   <div class="row"><button class="pill" id="kidsBtn">👧👦 ${tr('Παιδιά','Children')}</button><button class="pill main" id="bkBtn">💾 ${tr('Αποθήκευση προόδου','Save progress')}</button><button class="pill" id="resetKid">🗑️ ${tr('Μηδενισμός προόδου','Reset progress')}</button></div>`;
+   <div class="row"><button class="pill" id="kidsBtn">👧👦 ${tr('Παιδιά','Children')}</button><button class="pill main" id="bkBtn">💾 ${tr('Αποθήκευση προόδου','Save progress')}</button><button class="pill" id="resetKid">🗑️ ${tr('Μηδενισμός προόδου','Reset progress')}</button></div>
+   <div class="pcard"><h3>🔊 ${tr('Φυσική φωνή','Natural voice')}</h3><p>${tr('Οι λέξεις και οι οδηγίες ακούγονται με ηχογραφημένη ανθρώπινη φωνή. Ό,τι δεν είναι ηχογραφημένο το διαβάζει η φωνή της συσκευής.','Words and instructions are played with a recorded human-sounding voice. Anything not recorded is read by the device voice.')}</p>
+     <div class="row"><button class="pill${natOn()?' main':''}" id="natBtn">${natOn()?tr('✅ Ενεργή','✅ On'):tr('⬜ Ανενεργή','⬜ Off')}</button><button class="pill" id="natDl">📥 ${tr('Λήψη για χρήση χωρίς ίντερνετ','Download for offline use')}</button></div><p class="counter" id="natMsg"></p></div>`;
   $('kidsBtn').onclick=openKids;$('bkBtn').onclick=openBackup;
+  $('natBtn').onclick=()=>{S.nat=natOn()?0:1;save();openParents(1)};
+  $('natDl').onclick=()=>{const t=L().tts,ks=Object.keys(vset(t));if(!ks.length||!window.fetch)return;let i=0,d=0,f=0;$('natDl').disabled=true;
+    const next=()=>{if(i>=ks.length){if(d+f>=ks.length){$('natMsg').textContent=f?tr('Έτοιμο, με ','Done, with ')+f+tr(' σφάλματα. Δοκιμάστε ξανά.',' errors. Try again.'):tr('✅ Έτοιμο! Η φωνή δουλεύει και χωρίς ίντερνετ.','✅ Done! The voice now works offline too.');$('natDl').disabled=false}return}
+      const k=ks[i++];fetch('audio/'+t+'/'+k+'.mp3').then(r=>{if(!r.ok)throw 0;return r.blob()}).then(()=>d++,()=>f++).then(()=>{if($('natMsg'))$('natMsg').textContent=Math.round((d+f)*100/ks.length)+'%';next()})};
+    for(let j=0;j<6;j++)next()};
   $('resetKid').onclick=()=>{if(!confirm(tr('Να σβηστεί όλη η πρόοδος αυτού του παιδιού;','Erase all of this child\'s progress?')))return;const l=S.lang;S={lang:l,stars:0};save();location.reload()};
 }
 setInterval(()=>{if(document.visibilityState!=='hidden'&&!$('game').hidden&&G&&G.name!=='map'&&G.name!=='page'){today().t+=15;save()}},15000);
