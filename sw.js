@@ -1,4 +1,4 @@
-const V='nisi-v24',A='nisi-audio';
+const V='nisi-v25',A='nisi-voice';
 const CORE=['./','index.html','manifest.json','icon-192.png','icon-512.png'];
 // cache:'reload' skips the browser's HTTP cache so a new version never stores an old copy
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE.map(u=>new Request(u,{cache:'reload'})))));self.skipWaiting()});
@@ -13,7 +13,7 @@ self.addEventListener('fetch',e=>{
     return;
   }
   // recorded voice clips never change: keep them in their own cache that survives app updates
-  if(/\/audio\/[a-z]+\/[0-9a-f]+\.mp3$/.test(new URL(req.url).pathname)){
+  if(/\/voice\/[a-z]+\/[0-9a-f]+\.mp3$/.test(new URL(req.url).pathname)){
     e.respondWith(caches.open(A).then(c=>c.match(req).then(hit=>hit||fetch(req).then(r=>{if(r.ok)c.put(req,r.clone());return r}))));
     return;
   }
