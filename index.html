@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='25';
+var APPV='26';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -98,8 +98,10 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .prompt{font-family:Grandstander,Andika,sans-serif;font-size:26px;font-weight:800;margin:0;text-align:center;min-height:36px}
 .word{font-size:34px;font-size:clamp(34px,9vw,52px);font-weight:700;margin:0;text-align:center;min-height:1.3em}
 .opts{display:grid;gap:14px;width:100%;max-width:460px}
-.opts.c2{grid-template-columns:repeat(2,1fr)}
-.opts.c3{grid-template-columns:repeat(3,1fr)}
+.opts.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.opts.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.opts>*{min-width:0}
+.opts .pic.lett{font-size:min(44px,10vw);overflow-wrap:anywhere}
 .pic{aspect-ratio:1;background:var(--card);border:3px solid var(--line);border-radius:30px;font-size:52px;font-size:clamp(52px,15vw,84px);display:grid;place-items:center;transition:transform .15s}
 .pic:active{transform:scale(.95)}
 .pic.ok{background:var(--ok);border-color:var(--ok)}
@@ -112,7 +114,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .shadow{font-size:110px;font-size:clamp(110px,32vw,170px);line-height:1;filter:brightness(0);opacity:.75}
 :root[data-theme=dark] .shadow{filter:brightness(0) invert(1)}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]) .shadow{filter:brightness(0) invert(1)}}
-.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:440px}
+.mem{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;width:100%;max-width:440px}
 @media (min-width:560px){.mem{grid-template-columns:repeat(4,1fr)}}
 .card{aspect-ratio:3/4;border-radius:18px;border:3px solid #2E2A4F;background:var(--t3);color:var(--tink);font-size:16px;font-weight:700;display:grid;place-items:center;padding:6px;text-align:center;word-break:break-word}
 .card .face{display:none}
@@ -315,6 +317,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .board.scene{font-size:30px;gap:6px 8px;max-width:440px}
 .tray{min-height:76px;min-width:240px}
 .tray .tc{padding:0;border-radius:50%}
+.cpick{flex-wrap:wrap;justify-content:center;gap:10px}
 .cpick .opt{padding:6px 10px}
 .bstring{display:flex;align-items:center;gap:3px;background:linear-gradient(transparent 47%,#C0784F 47% 53%,transparent 53%);padding:6px 10px}
 .bstring b{font:800 28px Grandstander,Andika,sans-serif;margin-right:10px;background:var(--card);border:2px solid var(--line);border-radius:10px;padding:2px 10px}
@@ -337,7 +340,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .plates{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .plates .grp{font-size:26px;border-radius:50%;padding:12px;background:var(--card);border:3px solid var(--line);min-width:84px;display:flex;flex-wrap:wrap;justify-content:center;max-width:120px}
 .plates .kid{border-radius:20px;font-size:30px;display:block;text-align:center}
-.plates .kid span{font-size:18px}
+.plates .kid span{font-size:18px;overflow-wrap:anywhere;word-break:break-all}
 .prompt.sm{font-size:22px}
 .measure{display:flex;flex-direction:column;gap:8px;background:var(--card);border:3px solid var(--line);border-radius:20px;padding:14px}
 .ruler{display:flex}
@@ -911,7 +914,7 @@ function listenRound(){
 }
 
 /* ---------- 2. count & add ---------- */
-const grp=(n,e)=>`<div class="grp">${Array(n).fill(e).join('')}</div>`;
+const grp=(n,e)=>`<div class="grp">${Array(n).fill(`<span>${e}</span>`).join('')}</div>`;
 function countRound(){
   const item=WORDS[Math.random()*WORDS.length|0],add=G.round%2===1;
   let n,html;
@@ -1163,7 +1166,7 @@ function sizesRound(){
   else if(kind===1){const h=shuffle([2,3,4,5,6,7,8]).slice(0,3).sort((a,b)=>a-b),c=pick(COLS);q=big?tr('Ποιος πύργος είναι ο πιο ψηλός;','Which tower is the tallest?'):tr('Ποιος πύργος είναι ο πιο κοντός;','Which tower is the shortest?');
     html=`<div class="trio">${rank.map((r,i)=>`<button class="opt tower" data-v="${i}">${'<i style="background:'+c+'"></i>'.repeat(h[r])}</button>`).join('')}</div>`}
   else if(kind===3){q=big?tr('Ποια συρταριέρα είναι η πιο πλατιά;','Which chest of drawers is the widest?'):tr('Ποια συρταριέρα είναι η πιο στενή;','Which chest of drawers is the narrowest?');
-    html=`<div class="trio">${rank.map((r,i)=>`<button class="opt" data-v="${i}"><span class="drawer" style="width:${[34,60,92][r]}px"></span></button>`).join('')}</div>`}
+    html=`<div class="trio">${rank.map((r,i)=>`<button class="opt" data-v="${i}"><span class="drawer" style="width:min(${[34,60,92][r]}px,${[34,60,92][r]/3.6}vw)"></span></button>`).join('')}</div>`}
   else if(kind===4){q=big?tr('Ποιο βιβλίο είναι το πιο χοντρό;','Which book is the thickest?'):tr('Ποιο βιβλίο είναι το πιο λεπτό;','Which book is the thinnest?');
     html=`<div class="trio">${rank.map((r,i)=>`<button class="opt" data-v="${i}"><span class="book" style="width:${[10,24,42][r]}px"></span></button>`).join('')}</div>`}
   else if(kind===5){const[a,b]=pick([['🌳','🐦'],['🐴','🐱'],['🏠','🐶'],['🚌','🚲'],['🌳','🧍']]),hi=Math.random()<.5;ans=hi?0:1;
