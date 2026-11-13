@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='26';
+var APPV='27';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -89,11 +89,17 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .sea svg{display:block;width:100%;height:100%}
 
 /* game */
-.gtitle{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:22px;margin:0;line-height:1.1}
-.dots{display:flex;gap:6px;justify-content:center;margin:10px 0 6px}
-.dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--line)}
-.dots i.done{background:var(--ok);border-color:var(--ok)}
+.gtitle{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:22px;font-size:clamp(17px,5.2vw,22px);margin:0;line-height:1.1;flex:1;min-width:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.dots{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:6px 0;flex:1;max-width:300px}
+.dots i{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);background:var(--card);display:grid;place-items:center;font-style:normal;font-size:14px;line-height:1;opacity:.55}
+.dots i.now{opacity:1;box-shadow:0 0 0 3px var(--t4)}
+.dots i.done{opacity:1;background:var(--t4);border-color:#E3B93C}
+.dots i.new{animation:pop .4s}
+.dots:empty{display:none}
 .stage{flex:1;display:flex;flex-direction:column;align-items:center;gap:16px;padding:10px 0 24px}
+#game.play .stage>:first-child{margin-top:auto}
+#game.play .stage>:last-child{margin-bottom:auto}
+#game.play .stage{padding-bottom:9vh}
 .hear{width:96px;height:96px;border-radius:50%;background:var(--t4);color:var(--tink);border:3px solid #2E2A4F;font-size:44px}
 .prompt{font-family:Grandstander,Andika,sans-serif;font-size:26px;font-weight:800;margin:0;text-align:center;min-height:36px}
 .word{font-size:34px;font-size:clamp(34px,9vw,52px);font-weight:700;margin:0;text-align:center;min-height:1.3em}
@@ -136,6 +142,10 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .finish .box{background:var(--card);border:3px solid var(--line);border-radius:44px 36px 48px 32px;padding:26px 22px;text-align:center;max-width:360px;width:100%}
 .finish h2{font-family:Grandstander,Andika,sans-serif;font-size:34px;margin:8px 0 4px}
 .finish p{margin:0 0 18px;color:var(--muted)}
+.rate{font-size:44px;letter-spacing:4px;margin:2px 0 6px;min-height:52px}
+.rate span{display:inline-block;animation:spin .5s both}
+.rate span:nth-child(2){animation-delay:.25s}.rate span:nth-child(3){animation-delay:.5s}
+.rate span.off{filter:grayscale(1);opacity:.3}
 .finish .row{justify-content:center;flex-wrap:wrap}
 .burst{font-size:42px;letter-spacing:6px}
 
@@ -199,6 +209,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .pencil{display:block;height:26px;position:relative;background:linear-gradient(#FFE08A 0 50%,#F2C94C 50%);border:2px solid #2E2A4F;border-right:0;border-radius:6px 0 0 6px}
 .pencil::after{content:'';position:absolute;right:-22px;top:-2px;width:22px;height:26px;background:#2E2A4F;-webkit-clip-path:polygon(0 0,100% 50%,0 100%);clip-path:polygon(0 0,100% 50%,0 100%)}
 .vs{display:flex;gap:14px;justify-content:center;width:100%}
+.objs,.grpbtn,.basket,.fobj,.rooms small,.kout{overflow-wrap:anywhere}
 .grpbtn{flex:1;max-width:190px;min-height:150px;display:flex!important;flex-wrap:wrap;gap:4px;justify-content:center;align-content:center;font-size:30px}
 .nhouse{width:80vw;max-width:300px;width:min(300px,80vw)}
 .roof{background:var(--t5);color:var(--tink);-webkit-clip-path:polygon(50% 0,100% 100%,0 100%);clip-path:polygon(50% 0,100% 100%,0 100%);height:96px;display:grid;place-items:end center;padding-bottom:6px;font:800 40px Grandstander,Andika,sans-serif}
@@ -333,7 +344,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .tf i.r{background:#E0604F}.tf i.b{background:#4A90C8}
 .tf i.x{opacity:.45}.tf i.x::after{content:'';position:absolute;left:-4px;right:-4px;top:50%;height:4px;background:#2E2A4F;transform:rotate(-35deg)}
 .tfs{display:flex;flex-direction:column;gap:8px;align-items:center}
-.hint{font:700 18px Andika,sans-serif}
+p.hint{font:700 18px Andika,sans-serif}
 .seq.given span{background:var(--card);background:color-mix(in srgb,var(--ok) 25%,var(--card))}
 .clock{width:200px;height:200px}
 .clock text{font:700 11px Andika,sans-serif;fill:#2E2A4F;text-anchor:middle;dominant-baseline:middle}
@@ -436,10 +447,10 @@ label.pill{display:inline-block;cursor:pointer}
 .wtiles{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:440px}
 .wtiles button{padding:8px 14px;border-radius:16px;background:var(--t4);color:var(--tink);border:3px solid #2E2A4F;font-size:26px;font-weight:700}
 .wtiles button.used{visibility:hidden}.wtiles button.no{animation:shake .4s}
-.drow{position:relative;width:100%;min-height:56px;display:flex;justify-content:center;align-items:center}
-.buddy{position:absolute;right:2px;top:50%;margin-top:-28px;width:56px;height:56px;border-radius:50%;background:#FFF3C4;border:2px solid var(--line);display:grid;place-items:center}
+.drow{position:relative;width:100%;min-height:56px;display:flex;justify-content:center;align-items:center;gap:12px;margin-top:4px}
+.buddy{flex:none;order:-1;width:56px;height:56px;border-radius:50%;background:#FFF3C4;border:2px solid var(--line);display:grid;place-items:center}
 .buddy .hoopoe{width:50px;height:50px}
-.bub{position:absolute;right:64px;top:50%;margin-top:-17px;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:4px 10px;font-weight:700;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
+.bub{position:absolute;left:64px;top:50%;margin-top:-17px;z-index:3;box-shadow:0 3px 0 var(--line);background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:4px 10px;font-weight:700;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
 .bub.on{opacity:1}
 .buddy.happy .hoopoe,#mascotFinish .hoopoe{animation:dance .8s ease-in-out}
 #mascotFinish .hoopoe{animation-iteration-count:infinite}
@@ -618,6 +629,7 @@ label.pill{display:inline-block;cursor:pointer}
   <div class="box">
     <div class="hoopoe-wrap" style="margin:0 auto" id="mascotFinish"></div>
     <h2 id="finTitle">Μπράβο!</h2>
+    <div class="rate" id="finRate" aria-hidden="true"></div>
     <p id="finText"></p>
     <div class="stk-new" id="finStk"></div>
     <div class="row">
@@ -884,7 +896,7 @@ function start(name,o={}){
   drawDots();scrollTo(0,0);
 }
 function mixRound(){const[f,l]=G.mix[G.round%G.mix.length];G.lvl=l;G.cur=f;ROUNDS[f]()}
-function drawDots(){$('dots').innerHTML=G.name==='learn'?'':Array.from({length:G.total},(_,i)=>`<i class="${i<G.round?'done':''}"></i>`).join('')}
+function drawDots(){$('game').classList.toggle('play',!!G&&G.name!=='map'&&G.name!=='page'&&G.name!=='learn');$('dots').innerHTML=G.name==='learn'?'':Array.from({length:G.total},(_,i)=>(i<G.round?`<i class="done${i===G.round-1?' new':''}">⭐</i>`:`<i class="${i===G.round?'now':''}"></i>`)).join('')}
 function win(next){
   G.solve=null;G.round++;G.earned++;S.stars++;onRight();save();updateStars();drawDots();yay();
   setTimeout(()=>{busy=false;G.round>=G.total?finish():(G.mix?mixRound:next)()},1500);
@@ -894,6 +906,7 @@ function finish(){
   if(G.o&&G.o.ch){S.done[G.o.ch]=1;save()}
   $('finTitle').textContent=PRAISE[lg];$('finTitle').dir=lg==='ar'?'rtl':'ltr';
   $('finText').textContent=tr(`Κέρδισες ${G.earned} ${G.earned===1?'αστέρι':'αστέρια'}. ⭐`,`You earned ${G.earned} ${G.earned===1?'star':'stars'}. ⭐`);
+  const m=G.miss||0,k=m<=1?3:m<=4?2:1;$('finRate').innerHTML=[0,1,2].map(i=>`<span class="${i<k?'':'off'}">⭐</span>`).join('');
   $('finish').hidden=false;speak(PRAISE[lg],lg);onFinish(fresh);
 }
 const stage=()=>$('stage');
@@ -1010,7 +1023,7 @@ const near=(n,lo,hi,k=3)=>{const c=new Set([n]);let guard=0;while(c.size<k&&guar
 const PIPS={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
 const die=n=>`<div class="die" aria-label="${n}">${[...Array(9)].map((_,i)=>`<i class="${PIPS[n].includes(i)?'on':''}"></i>`).join('')}</div>`;
 // after two wrong tries the right answer gently pulses, so a child never gets stuck
-const hintAfter=(box,match)=>{let wrong=0;return()=>{if(++wrong>=2){const c=[...box.querySelectorAll('[data-v],[data-n]')].find(match);if(c)c.classList.add('hint')}}};
+const hintAfter=(box,match)=>{let wrong=0;return()=>{if(++wrong>=2){const c=[...box.querySelectorAll('[data-v],[data-n]')].find(match);if(c){c.classList.add('hint');return true}}return false}};
 function pickNum(cls,choices,ans,onOk,next){
   const box=stage().querySelector(cls),miss=hintAfter(box,x=>+x.dataset.n===ans);
   const ok=b=>{busy=true;b.classList.add('ok');gr(NW(ans));onOk&&onOk();win(next)};
@@ -1129,7 +1142,7 @@ function choose(sel,ans,next,say,onOk){
   const box=stage().querySelector(sel),miss=hintAfter(box,x=>x.dataset.v===String(ans));
   const ok=b=>{busy=true;b.classList.add('ok');onOk&&onOk(b);if(say)gr(say);win(next)};
   box.onclick=e=>{const b=e.target.closest('[data-v]');if(!b||busy)return;
-    if(b.dataset.v===String(ans))ok(b);else{noteMix(ans,b.dataset.v);bad(b);gr(AGAIN[S.lang]);miss()}};
+    if(b.dataset.v===String(ans))ok(b);else{noteMix(ans,b.dataset.v);bad(b);if(miss()&&say)gr(say);else gr(AGAIN[S.lang])}};
   writeIn(box,ans,ok);
 }
 const fillGap=v=>()=>{const g=$('gapbox');g.textContent=v;g.className='fill'};
@@ -2310,7 +2323,7 @@ function onRight(){
 }
 function onWrong(){
   if(!G||G.name==='map'||G.name==='page')return;const c=G.cur||G.name;G.streak=0;today().w++;(S.gs[c]=S.gs[c]||[0,0])[1]++;
-  buddy('sad',tr('Πάμε ξανά!','Try again!'));save();
+  G.miss=(G.miss||0)+1;buddy('sad',tr('Πάμε ξανά!','Try again!'));save();
 }
 // which answers get mixed up (ε ↔ η, 6 ↔ 9 …)
 function noteMix(ans,got){ans=String(ans);got=String(got);if(ans.length>3||got.length>3||ans===got)return;const k=ans+'→'+got;S.conf[k]=(S.conf[k]||0)+1}
@@ -2493,7 +2506,7 @@ function openKids(){
   stage().innerHTML=`<p class="counter">${tr('Κάθε παιδί έχει τη δική του πρόοδο, αστέρια και νησί.','Each child has their own progress, stars and island.')}</p>
    <div class="kids">${KPROF.list.map(k=>`<button class="kidc${k.id===KPROF.cur?' cur':''}" data-k="${k.id}"><span>${k.a}</span><b>${kidName(k)}</b>⭐ ${k.id===KPROF.cur?S.stars:stars(k)}</button>`).join('')}</div>
    <div class="pcard"><h3>${tr('Όνομα και εικόνα','Name and picture')}</h3><input class="kname" id="kn" maxlength="20" placeholder="${tr('Όνομα','Name')}"><div class="avs" id="avs">${AV.map(a=>`<button data-a="${a}">${a}</button>`).join('')}</div>
-     <div class="row"><button class="pill main" id="kAdd">➕ ${tr('Νέο παιδί','New child')}</button><button class="pill" id="kEdit">✏️ ${tr('Αλλαγή τρέχοντος','Change current')}</button><button class="pill" id="kDel">🗑️ ${tr('Διαγραφή','Delete')}</button></div></div>`;
+     <div class="row" style="flex-wrap:wrap;justify-content:center"><button class="pill main" id="kAdd">➕ ${tr('Νέο παιδί','New child')}</button><button class="pill" id="kEdit">✏️ ${tr('Αλλαγή τρέχοντος','Change current')}</button><button class="pill" id="kDel">🗑️ ${tr('Διαγραφή','Delete')}</button></div></div>`;
   const cur=KPROF.list.find(k=>k.id===KPROF.cur)||KPROF.list[0];$('kn').value=cur.n||'';av=cur.a;
   const mark=()=>stage().querySelectorAll('#avs button').forEach(b=>b.classList.toggle('on',b.dataset.a===av));mark();
   $('avs').onclick=e=>{const b=e.target.closest('[data-a]');if(b){av=b.dataset.a;mark()}};
