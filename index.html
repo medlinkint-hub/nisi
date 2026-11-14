@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='29';
+var APPV='30';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -776,10 +776,10 @@ function natPlan(text,t){
 const natOn=()=>{if(!S.natV2){S.natV2=1;S.nat=1}return S.nat!==0};
 const natOK=()=>natOn()&&!!(window.fetch&&(window.AudioContext||window.webkitAudioContext));
 let VSRCS=[];
-let VAUD=null,VMODE='';
+let VAUD=null,VMODE='',VWHY='';
 function vstop(){VSRCS.forEach(x=>{try{x.stop()}catch(e){}});VSRCS=[];vsrc=null;if(VAUD){try{VAUD.pause()}catch(e){}VAUD=null}}
 function htmlPlay(plan,t,fallback,my){let i=0,started=false;const next=()=>{if(my!==vtok||i>=plan.length){VAUD=null;return}
-  const a=new Audio('voice/'+t+'/'+plan[i++]+'.mp3');VAUD=a;a.onended=next;const fail=()=>{if(my===vtok&&!started){VAUD=null;fallback()}};a.onerror=fail;
+  const a=VEL||new Audio();a.src='voice/'+t+'/'+plan[i++]+'.mp3';VAUD=a;a.onended=next;const fail=e=>{if(my===vtok&&!started){VAUD=null;VWHY='html:'+((e&&e.name)||'error');fallback()}};a.onerror=fail;
   const p=a.play();if(p&&p.then)p.then(()=>{started=true;VMODE='rec'},fail);else started=true};next()}
 function hush(){vtok++;vstop();try{speechSynthesis.cancel()}catch(e){}}
 const vbuf=(t,h)=>fetch('voice/'+t+'/'+h+'.mp3').then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}).then(buf=>new Promise((ok,no)=>{audio();const p=ac.decodeAudioData(buf,ok,no);if(p&&p.catch)p.catch(no)}));
@@ -787,12 +787,12 @@ function natPlay(plan,t,fallback){
   const my=++vtok;vstop();try{if(speechSynthesis.speaking||speechSynthesis.pending)speechSynthesis.cancel()}catch(e){}
   Promise.all(plan.map(h=>vbuf(t,h))).then(bs=>{if(my!==vtok)return;
     if(ac.state!=='running'){try{ac.resume()}catch(e){}}
-    const go=()=>{if(my!==vtok)return;if(ac.state!=='running'){htmlPlay(plan,t,fallback,my);return}
+    const go=()=>{if(my!==vtok)return;if(ac.state!=='running'){VWHY='ac:'+ac.state;htmlPlay(plan,t,fallback,my);return}
       VMODE='rec';let at=ac.currentTime+.02;
       bs.forEach((b,i)=>{const s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);s.start(at);at+=b.duration-(i<bs.length-1?.12:0);VSRCS.push(s);vsrc=s;
         s.onended=()=>{VSRCS=VSRCS.filter(x=>x!==s);if(vsrc===s)vsrc=null}})};
     ac.state==='running'?go():setTimeout(go,250)})
-    .catch(()=>{if(my===vtok)htmlPlay(plan,t,fallback,my)});
+    .catch(e=>{VWHY='load:'+((e&&e.name)||e);if(my===vtok)htmlPlay(plan,t,fallback,my)});
 }
 function speak(text,lang){
   if(!busy&&text&&text.trim()&&!Object.values(PRAISE).concat(Object.values(AGAIN)).includes(text))lastSay=[text,lang];
@@ -818,13 +818,18 @@ function tone(freqs,dur=.14,type='sine'){
 }
 // iPhone and Android only allow sound and speech after a tap: unlock both on the first touch
 let unlocked=false;
+const SILENT='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=';
+let VEL=null;
 function unlock(){
-  if(unlocked)return;unlocked=true;
+  // iPhone: sound must be (re)started inside a tap, and it freezes again after calls, notifications or the app going to the background
   try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
-  try{audio();const b=ac.createBuffer(1,1,22050),src=ac.createBufferSource();src.buffer=b;src.connect(ac.destination);(src.start||src.noteOn).call(src,0)}catch(e){}
+  try{audio();if(ac.state!=='running')ac.resume();if(!unlocked){const b=ac.createBuffer(1,1,22050),src=ac.createBufferSource();src.buffer=b;src.connect(ac.destination);(src.start||src.noteOn).call(src,0)}}catch(e){}
+  try{if(!VEL){VEL=new Audio();VEL.setAttribute('playsinline','');VEL.src=SILENT;const p=VEL.play();if(p&&p.catch)p.catch(()=>{})}}catch(e){}
+  if(unlocked)return;unlocked=true;
   try{if('speechSynthesis' in window){const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}}catch(e){}
 }
-['touchend','click','keydown'].forEach(t=>document.addEventListener(t,unlock,true));
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ac&&ac.state!=='running'){try{ac.resume()}catch(e){}}});
+['touchstart','touchend','pointerdown','click','keydown'].forEach(t=>document.addEventListener(t,unlock,{capture:true,passive:true}));
 // pointer events where available, touch + mouse on older phones (iOS < 13)
 function ptr(el,down,move,up){
   if(window.PointerEvent){el.onpointerdown=e=>{try{el.setPointerCapture(e.pointerId)}catch(_){}down(e)};if(move)el.onpointermove=move;if(up)el.onpointerup=el.onpointercancel=up;return}
@@ -2500,7 +2505,7 @@ function openParents(ok){
      <div class="row"><button class="pill${natOn()?' main':''}" id="natBtn">${natOn()?tr('✅ Ενεργή','✅ On'):tr('⬜ Ανενεργή','⬜ Off')}</button><button class="pill" id="natTest">▶️ ${tr('Δοκιμή','Test')}</button><button class="pill" id="natDl">📥 ${tr('Λήψη για χρήση χωρίς ίντερνετ','Download for offline use')}</button></div><p class="counter" id="natMsg"></p></div>`;
   $('kidsBtn').onclick=openKids;$('bkBtn').onclick=openBackup;
   $('natBtn').onclick=()=>{S.nat=natOn()?0:1;save();openParents(1)};
-  $('natTest').onclick=()=>{VMODE='';speak(tr('Μπράβο σου!','Well done!'));setTimeout(()=>{if($('natMsg'))$('natMsg').textContent=VMODE==='rec'?tr('✅ Ακούγεται η ηχογραφημένη φυσική φωνή.','✅ The recorded natural voice is playing.'):VMODE==='tts'?tr('⚠️ Ακούγεται η φωνή της συσκευής. Ελέγξτε ότι η φυσική φωνή είναι ενεργή και ότι υπάρχει ίντερνετ.','⚠️ The device voice is playing. Check the natural voice is on and you are online.'):tr('🔇 Δεν ακούστηκε ήχος. Ανεβάστε την ένταση.','🔇 No sound played. Turn the volume up.')},1500)};
+  $('natTest').onclick=()=>{VMODE='';VWHY='';speak(tr('Μπράβο σου!','Well done!'));setTimeout(()=>{if($('natMsg'))$('natMsg').textContent=VMODE==='rec'?tr('✅ Ακούγεται η ηχογραφημένη φυσική φωνή.','✅ The recorded natural voice is playing.'):VMODE==='tts'?tr('⚠️ Ακούγεται η φωνή της συσκευής. Κωδικός: ','⚠️ The device voice is playing. Code: ')+(VWHY||(natOn()?'plan':'off')):tr('🔇 Δεν ακούστηκε ήχος. Ανεβάστε την ένταση.','🔇 No sound played. Turn the volume up.')},1500)};
   $('natDl').onclick=()=>{const t=L().tts,ks=Object.keys(vset(t));if(!ks.length||!window.fetch)return;let i=0,d=0,f=0;$('natDl').disabled=true;
     const next=()=>{if(i>=ks.length){if(d+f>=ks.length){$('natMsg').textContent=f?tr('Έτοιμο, με ','Done, with ')+f+tr(' σφάλματα. Δοκιμάστε ξανά.',' errors. Try again.'):tr('✅ Έτοιμο! Η φωνή δουλεύει και χωρίς ίντερνετ.','✅ Done! The voice now works offline too.');$('natDl').disabled=false}return}
       const k=ks[i++];fetch('voice/'+t+'/'+k+'.mp3').then(r=>{if(!r.ok)throw 0;return r.blob()}).then(()=>d++,()=>f++).then(()=>{if($('natMsg'))$('natMsg').textContent=Math.round((d+f)*100/ks.length)+'%';next()})};
