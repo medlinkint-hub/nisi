@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='28';
+var APPV='29';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -773,18 +773,26 @@ function natPlan(text,t){
   const out=[];for(let i=0;i<N;i+=nxt[i][0])out.push(nxt[i][1]);
   return out;
 }
-const natOn=()=>S.nat!==0;
+const natOn=()=>{if(!S.natV2){S.natV2=1;S.nat=1}return S.nat!==0};
 const natOK=()=>natOn()&&!!(window.fetch&&(window.AudioContext||window.webkitAudioContext));
 let VSRCS=[];
-function vstop(){VSRCS.forEach(x=>{try{x.stop()}catch(e){}});VSRCS=[];vsrc=null}
+let VAUD=null,VMODE='';
+function vstop(){VSRCS.forEach(x=>{try{x.stop()}catch(e){}});VSRCS=[];vsrc=null;if(VAUD){try{VAUD.pause()}catch(e){}VAUD=null}}
+function htmlPlay(plan,t,fallback,my){let i=0,started=false;const next=()=>{if(my!==vtok||i>=plan.length){VAUD=null;return}
+  const a=new Audio('voice/'+t+'/'+plan[i++]+'.mp3');VAUD=a;a.onended=next;const fail=()=>{if(my===vtok&&!started){VAUD=null;fallback()}};a.onerror=fail;
+  const p=a.play();if(p&&p.then)p.then(()=>{started=true;VMODE='rec'},fail);else started=true};next()}
 function hush(){vtok++;vstop();try{speechSynthesis.cancel()}catch(e){}}
 const vbuf=(t,h)=>fetch('voice/'+t+'/'+h+'.mp3').then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}).then(buf=>new Promise((ok,no)=>{audio();const p=ac.decodeAudioData(buf,ok,no);if(p&&p.catch)p.catch(no)}));
 function natPlay(plan,t,fallback){
   const my=++vtok;vstop();try{if(speechSynthesis.speaking||speechSynthesis.pending)speechSynthesis.cancel()}catch(e){}
-  Promise.all(plan.map(h=>vbuf(t,h))).then(bs=>{if(my!==vtok)return;let at=ac.currentTime+.02;
-    bs.forEach((b,i)=>{const s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);s.start(at);at+=b.duration-(i<bs.length-1?.12:0);VSRCS.push(s);vsrc=s;
-      s.onended=()=>{VSRCS=VSRCS.filter(x=>x!==s);if(vsrc===s)vsrc=null}})})
-    .catch(()=>{if(my===vtok)fallback()});
+  Promise.all(plan.map(h=>vbuf(t,h))).then(bs=>{if(my!==vtok)return;
+    if(ac.state!=='running'){try{ac.resume()}catch(e){}}
+    const go=()=>{if(my!==vtok)return;if(ac.state!=='running'){htmlPlay(plan,t,fallback,my);return}
+      VMODE='rec';let at=ac.currentTime+.02;
+      bs.forEach((b,i)=>{const s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);s.start(at);at+=b.duration-(i<bs.length-1?.12:0);VSRCS.push(s);vsrc=s;
+        s.onended=()=>{VSRCS=VSRCS.filter(x=>x!==s);if(vsrc===s)vsrc=null}})};
+    ac.state==='running'?go():setTimeout(go,250)})
+    .catch(()=>{if(my===vtok)htmlPlay(plan,t,fallback,my)});
 }
 function speak(text,lang){
   if(!busy&&text&&text.trim()&&!Object.values(PRAISE).concat(Object.values(AGAIN)).includes(text))lastSay=[text,lang];
@@ -793,7 +801,7 @@ function speak(text,lang){
   ttsSpeak(text,lang);
 }
 function ttsSpeak(text,lang){
-  if(!('speechSynthesis' in window))return;
+  if(!('speechSynthesis' in window))return;VMODE='tts';
   vtok++;vstop();
   try{const say=()=>{try{const u=new SpeechSynthesisUtterance(text);const t=lang||L().tts,v=voiceFor(t);
       if(v)u.voice=v;u.lang=v?v.lang:t;u.rate=t==='el'?.92:.9;u.pitch=1;speechSynthesis.speak(u)}catch(e){}};
@@ -858,16 +866,19 @@ const STATIC=[['h1',"The Hoopoe's Island"],['.hero p','Games for reading, writin
 function openVoices(){
   const t=S.lang,all=voicesFor(t),good=all.filter(v=>vscore(v,t)>-50),list=good.length?good:all,cur=voiceFor(t);
   $('vtitle').textContent=tr('Διάλεξε φωνή','Choose a voice');
-  $('vlist').innerHTML=list.length?list.slice(0,10).map((v,i)=>`<button data-uri="${v.voiceURI.replace(/"/g,'&quot;')}" aria-pressed="${v===cur}">🔊 ${v.name.replace(/</g,'&lt;')}${i===0?`<small>${tr('η πιο φυσική','most natural')}</small>`:''}</button>`).join('')
-    :`<p>${tr('Δεν βρέθηκε ελληνική φωνή σε αυτή τη συσκευή.','No English voice was found on this device.')}</p>`;
-  $('vhint').textContent=tr('Για πιο ανθρώπινη φωνή κατέβασε μια «Βελτιωμένη» ή «Premium» φωνή. iPhone: Ρυθμίσεις › Προσβασιμότητα › Εκφωνούμενο περιεχόμενο › Φωνές. Android: Ρυθμίσεις › Μετατροπή κειμένου σε ομιλία › Google › Εγκατάσταση φωνητικών δεδομένων. Μετά άνοιξε ξανά την εφαρμογή.',
-    'For a more human voice, download an "Enhanced" or "Premium" voice. iPhone: Settings › Accessibility › Spoken Content › Voices. Android: Settings › Text-to-speech › Google › Install voice data. Then reopen the app.');
+  const nat=natOn();
+  $('vlist').innerHTML=`<button data-nat="1" aria-pressed="${nat}">⭐ ${tr('Φυσική ανθρώπινη φωνή','Natural human voice')}<small>${tr('ηχογραφημένη · προτείνεται','recorded · recommended')}</small></button>
+    <p class="counter">${tr('Φωνές της συσκευής (ακούγονται πιο ρομποτικά):','Device voices (sound more robotic):')}</p>`+
+    (list.length?list.slice(0,10).map(v=>`<button data-uri="${v.voiceURI.replace(/"/g,'&quot;')}" aria-pressed="${!nat&&v===cur}">🤖 ${v.name.replace(/</g,'&lt;')}</button>`).join('')
+    :`<p>${tr('Δεν βρέθηκε ελληνική φωνή σε αυτή τη συσκευή.','No English voice was found on this device.')}</p>`);
+  $('vhint').textContent=tr('Η φυσική φωνή είναι ηχογραφημένη και δεν χρειάζεται ρυθμίσεις. Αν δεν ακούγεται, ανεβάστε την ένταση πολυμέσων του κινητού.','The natural voice is recorded and needs no setup. If you hear nothing, turn up the phone’s media volume.');
   $('vpanel').hidden=false;
 }
 $('voiceBtn').onclick=openVoices;
 $('vclose').onclick=()=>{$('vpanel').hidden=true};
-$('vlist').onclick=e=>{const b=e.target.closest('[data-uri]');if(!b)return;S.voice=S.voice||{};S.voice[S.lang]=b.dataset.uri;save();
-  $('vlist').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));speak(tr('Γεια σου! Πάμε να παίξουμε!','Hi there! Let’s play!'))};
+$('vlist').onclick=e=>{const b=e.target.closest('[data-uri],[data-nat]');if(!b)return;
+  if(b.dataset.nat){S.nat=1}else{S.nat=0;S.voice=S.voice||{};S.voice[S.lang]=b.dataset.uri}save();
+  $('vlist').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));speak(tr('Μπράβο σου!','Well done!'))};
 function applyLang(){
   setLangData();renderWho();
   const en=EN();document.documentElement.lang=S.lang;document.title=en?"The Hoopoe's Island":'Το νησί του Τσαλαπετεινού';
@@ -2486,9 +2497,10 @@ function openParents(ok){
      <li>📓 ${tr('Τετράδιο Γλώσσας','Reading workbook')}: ${cnt(/^WL/)}</li><li>✍️ ${tr('Τετράδιο γραφής','Writing book')}: ${cnt(/^WH/)}</li><li>📒 ${tr('Τετράδιο Μαθηματικών','Maths workbook')}: ${cnt(/^W\d/)}</li><li>📙 ${tr('Φύλλα εργασίας','Worksheets')}: ${cnt(/^P/)}</li></ul></div>
    <div class="row"><button class="pill" id="kidsBtn">👧👦 ${tr('Παιδιά','Children')}</button><button class="pill main" id="bkBtn">💾 ${tr('Αποθήκευση προόδου','Save progress')}</button><button class="pill" id="resetKid">🗑️ ${tr('Μηδενισμός προόδου','Reset progress')}</button></div>
    <div class="pcard"><h3>🔊 ${tr('Φυσική φωνή','Natural voice')}</h3><p>${tr('Οι λέξεις και οι οδηγίες ακούγονται με ηχογραφημένη ανθρώπινη φωνή. Ό,τι δεν είναι ηχογραφημένο το διαβάζει η φωνή της συσκευής.','Words and instructions are played with a recorded human-sounding voice. Anything not recorded is read by the device voice.')}</p>
-     <div class="row"><button class="pill${natOn()?' main':''}" id="natBtn">${natOn()?tr('✅ Ενεργή','✅ On'):tr('⬜ Ανενεργή','⬜ Off')}</button><button class="pill" id="natDl">📥 ${tr('Λήψη για χρήση χωρίς ίντερνετ','Download for offline use')}</button></div><p class="counter" id="natMsg"></p></div>`;
+     <div class="row"><button class="pill${natOn()?' main':''}" id="natBtn">${natOn()?tr('✅ Ενεργή','✅ On'):tr('⬜ Ανενεργή','⬜ Off')}</button><button class="pill" id="natTest">▶️ ${tr('Δοκιμή','Test')}</button><button class="pill" id="natDl">📥 ${tr('Λήψη για χρήση χωρίς ίντερνετ','Download for offline use')}</button></div><p class="counter" id="natMsg"></p></div>`;
   $('kidsBtn').onclick=openKids;$('bkBtn').onclick=openBackup;
   $('natBtn').onclick=()=>{S.nat=natOn()?0:1;save();openParents(1)};
+  $('natTest').onclick=()=>{VMODE='';speak(tr('Μπράβο σου!','Well done!'));setTimeout(()=>{if($('natMsg'))$('natMsg').textContent=VMODE==='rec'?tr('✅ Ακούγεται η ηχογραφημένη φυσική φωνή.','✅ The recorded natural voice is playing.'):VMODE==='tts'?tr('⚠️ Ακούγεται η φωνή της συσκευής. Ελέγξτε ότι η φυσική φωνή είναι ενεργή και ότι υπάρχει ίντερνετ.','⚠️ The device voice is playing. Check the natural voice is on and you are online.'):tr('🔇 Δεν ακούστηκε ήχος. Ανεβάστε την ένταση.','🔇 No sound played. Turn the volume up.')},1500)};
   $('natDl').onclick=()=>{const t=L().tts,ks=Object.keys(vset(t));if(!ks.length||!window.fetch)return;let i=0,d=0,f=0;$('natDl').disabled=true;
     const next=()=>{if(i>=ks.length){if(d+f>=ks.length){$('natMsg').textContent=f?tr('Έτοιμο, με ','Done, with ')+f+tr(' σφάλματα. Δοκιμάστε ξανά.',' errors. Try again.'):tr('✅ Έτοιμο! Η φωνή δουλεύει και χωρίς ίντερνετ.','✅ Done! The voice now works offline too.');$('natDl').disabled=false}return}
       const k=ks[i++];fetch('voice/'+t+'/'+k+'.mp3').then(r=>{if(!r.ok)throw 0;return r.blob()}).then(()=>d++,()=>f++).then(()=>{if($('natMsg'))$('natMsg').textContent=Math.round((d+f)*100/ks.length)+'%';next()})};
