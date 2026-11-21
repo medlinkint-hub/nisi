@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='36';
+var APPV='37';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -532,6 +532,7 @@ label.pill{display:inline-block;cursor:pointer}
 .nogap .tower>*,.nogap .rod>*{margin:1px 0}
 
 /* v35: kid-friendly look */
+img.em{display:inline-block;width:1.22em;height:1.22em;vertical-align:-.24em;object-fit:contain;pointer-events:none;-webkit-user-drag:none;user-select:none;-webkit-touch-callout:none}
 .hero p{display:none}
 #ver{display:none}
 .navico{width:26px;height:26px;display:block}
@@ -1022,7 +1023,7 @@ function start(name,o={}){
   const skip=NOINTRO||o.ch||window.NOINTRO;NOINTRO=false;
   drawDots();scrollTo(0,0);
   if(skip){run();return}
-  stage().innerHTML='';intro($('gtitle').textContent,(document.querySelector(`#hub .tile[data-game="${name}"] .ico`)||{}).textContent||(o.daily?'':''),run);
+  stage().innerHTML='';intro($('gtitle').textContent,etext(document.querySelector(`#hub .tile[data-game="${name}"] .ico`)),run);
 }
 // the hoopoe pops up, says the name of the game, then the game starts (a tap skips it)
 function intro(title,icon,cb){const g=G,el=$('intro');let done=false;
@@ -2231,7 +2232,7 @@ let LUIC=['🔍','👫','🎭','🌧️','😜','🔑','⛵','🌸','📚','🐚
 const GICON={body:'🧍',nest:'🐣',baskets:'🧺',stairs:'📶',down:'⬇️',twos:'👟',words:'🔤',complement:'🔟',commute:'🔁',sum3:'➕',bridge:'🌉',bridgeminus:'🌉',twodig:'🔢',inverse:'↔️',calc:'🧮',share:'🍰',measure:'📏',symmetry:'🦋',money100:'💶',scene:'🐬',groups:'🐝',beads3:'📿',
   caps:'🔠',readw:'📖',spellw:'✏️',ccw:'🙈',endings:'🔚',family:'👨‍👩‍👧',accent:'🗣️',sent:'💬',punct:'❗',letter:'🔤',syl:'🔤',join:'🔗',listenw:'👂',missw:'❓',firstl:'🅰️',dict:'👂',sentb:'💬',tracel:'✍️'};
 const CATIC={n:'🔢',o:'➕',g:'🔺',m:'📏',p:'🧩',r:'🏆'};
-const gIcon=g=>{const t=document.querySelector(`#home [data-game="${g}"] .ico`);return GICON[g]||(t?t.textContent:'')};
+const gIcon=g=>{const t=document.querySelector(`#home [data-game="${g}"] .ico`);return GICON[g]||(t?etext(t):'')};
 const chPic=c=>c[1]==='r'?'🏆':(cmix(c).map(m=>gIcon(m[0])).find(x=>x)||CATIC[c[1]]);
 // a picture word for a letter: one that starts with it, else one that contains it (ϊ in μαϊμού is not αι)
 const LPX={ι:'⛵',υ:'😴',φ:'🍓',ευ:'🙏'};   // ιστιοφόρο, ύπνος, φράουλα, ευχαριστώ
@@ -2865,6 +2866,28 @@ S.open=S.open||{};
 ['moreLang','moreMath'].forEach(id=>{const d=$(id);if(!d)return;d.open=S.open[id]!==false;d.addEventListener('toggle',()=>{S.open[id]=d.open;save()})});
 $('rep').onclick=()=>{if(lastSay)speak(lastSay[0],lastSay[1])};
 applyLang();
+/* Fluent Emoji 3D pictures (Microsoft, MIT licence) instead of the phone's own emoji: they look the same on every phone and never show as empty boxes.
+   A picture that cannot load falls back to the normal emoji. */
+const EMAP={"⭐":"2b50","🗣️":"1f5e3-fe0f","📗":"1f4d7","📘":"1f4d8","🏝️":"1f3dd-fe0f","🎁":"1f381","👪":"1f46a","📓":"1f4d3","✍️":"270d-fe0f","🙈":"1f648","🐱":"1f431","👨‍👩‍👧":"1f468-200d-1f469-200d-1f467","👀":"1f440","✏️":"270f-fe0f","👂":"1f442","🃏":"1f0cf","📖":"1f4d6","📒":"1f4d2","📙":"1f4d9","🔢":"1f522","🔴":"1f534","✌️":"270c-fe0f","✋":"270b","🎲":"1f3b2","🥁":"1f941","⭕":"2b55","📏":"1f4cf","📊":"1f4ca","🚩":"1f6a9","🔟":"1f51f","➕":"2795","➖":"2796","❔":"2754","📝":"1f4dd","🏠":"1f3e0","✖️":"2716-fe0f","🔺":"1f53a","📍":"1f4cd","🐸":"1f438","🔁":"1f501","⚖️":"2696-fe0f","🐶":"1f436","🔵":"1f535","🐘":"1f418","🕒":"1f552","📅":"1f4c5","💶":"1f4b6","💰":"1f4b0","🔊":"1f50a","🍎":"1f34e","☀️":"2600-fe0f","🐟":"1f41f","🐦":"1f426","🚗":"1f697","⚽":"26bd","🌼":"1f33c","🌳":"1f333","🍌":"1f34c","🌙":"1f319","🐴":"1f434","🎂":"1f382","🦆":"1f986","🐻":"1f43b","🦁":"1f981","🥚":"1f95a","🥛":"1f95b","🍞":"1f35e","📚":"1f4da","🚌":"1f68c","✈️":"2708-fe0f","🚲":"1f6b2","🌧️":"1f327-fe0f","🍇":"1f347","🐄":"1f404","🐝":"1f41d","🦊":"1f98a","🤖":"1f916","🪶":"1fab6","🖍️":"1f58d-fe0f","🐌":"1f40c","🦜":"1f99c","🍀":"1f340","📦":"1f4e6","🧍":"1f9cd","🍪":"1f36a","🎈":"1f388","🐞":"1f41e","🐤":"1f424","🏀":"1f3c0","🍊":"1f34a","🕯️":"1f56f-fe0f","🍖":"1f356","👦":"1f466","👧":"1f467","💺":"1f4ba","🎒":"1f392","👃":"1f443","👄":"1f444","🙌":"1f64c","👣":"1f463","⬆️":"2b06-fe0f","⬇️":"2b07-fe0f","⬅️":"2b05-fe0f","➡️":"27a1-fe0f","🐬":"1f42c","🐙":"1f419","🐚":"1f41a","🐠":"1f420","🍐":"1f350","🍉":"1f349","🍒":"1f352","🐭":"1f42d","🎃":"1f383","🍓":"1f353","🍍":"1f34d","🏐":"1f3d0","🥧":"1f967","💧":"1f4a7","🐔":"1f414","🚂":"1f682","🏰":"1f3f0","🥕":"1f955","🎵":"1f3b5","🥔":"1f954","🍅":"1f345","🌵":"1f335","🍋":"1f34b","🍯":"1f36f","🌲":"1f332","🍄":"1f344","🦐":"1f990","💍":"1f48d","🍭":"1f36d","🔥":"1f525","❄️":"2744-fe0f","🍃":"1f343","🐍":"1f40d","⛵":"26f5","🧀":"1f9c0","⌚":"231a","🌊":"1f30a","✂️":"2702-fe0f","🔑":"1f511","🦓":"1f993","⏰":"23f0","🌡️":"1f321-fe0f","🐷":"1f437","🥄":"1f944","🐰":"1f430","🐒":"1f412","🐛":"1f41b","🍵":"1f375","👜":"1f45c","🐢":"1f422","🐧":"1f427","☂️":"2602-fe0f","🎩":"1f3a9","👟":"1f45f","👗":"1f457","👕":"1f455","☎️":"260e-fe0f","🎸":"1f3b8","🚀":"1f680","☁️":"2601-fe0f","⚡":"26a1","🚢":"1f6a2","🚁":"1f681","🚜":"1f69c","🚕":"1f695","🎨":"1f3a8","🐺":"1f43a","🦋":"1f98b","🐜":"1f41c","🦀":"1f980","🐳":"1f433","🔍":"1f50d","🎉":"1f389","🏃":"1f3c3","🏊":"1f3ca","💃":"1f483","🌌":"1f30c","🛣️":"1f6e3-fe0f","🛏️":"1f6cf-fe0f","🖊️":"1f58a-fe0f","🍽️":"1f37d-fe0f","🧒":"1f9d2","😴":"1f634","🤝":"1f91d","🦘":"1f998","🏫":"1f3eb","👫":"1f46b","🎭":"1f3ad","😜":"1f61c","🌸":"1f338","🧩":"1f9e9","💯":"1f4af","🐣":"1f423","🧺":"1f9fa","📶":"1f4f6","🔤":"1f524","🌉":"1f309","↔️":"2194-fe0f","🧮":"1f9ee","🍰":"1f370","📿":"1f4ff","🔠":"1f520","🔚":"1f51a","💬":"1f4ac","❗":"2757","🔗":"1f517","❓":"2753","🅰️":"1f170-fe0f","🏆":"1f3c6","🙏":"1f64f","🏅":"1f3c5","✨":"2728","🐹":"1f439","🐼":"1f43c","🐨":"1f428","🐯":"1f42f","🐮":"1f42e","🐵":"1f435","🦉":"1f989","🦄":"1f984","🦈":"1f988","🐊":"1f40a","🦒":"1f992","🐪":"1f42a","🐑":"1f411","🐐":"1f410","🦌":"1f98c","🐿️":"1f43f-fe0f","🦔":"1f994","🦚":"1f99a","🦢":"1f9a2","🐓":"1f413","🥉":"1f949","🥈":"1f948","🥇":"1f947","🌟":"1f31f","💫":"1f4ab","🗓️":"1f5d3-fe0f","👑":"1f451","🎯":"1f3af","🌴":"1f334","⛺":"26fa","⛲":"26f2","🌈":"1f308","🎡":"1f3a1","🔒":"1f512","🙂":"1f642","💾":"1f4be","🗑️":"1f5d1-fe0f","✅":"2705","⬜":"2b1c","▶️":"25b6-fe0f","📥":"1f4e5","⚠️":"26a0-fe0f","🔇":"1f507","🍳":"1f373","📌":"1f4cc","🚰":"1f6b0","🥫":"1f96b","🦇":"1f987","🐀":"1f400","🗺️":"1f5fa-fe0f","👨":"1f468","🥅":"1f945","☕":"2615","🧦":"1f9e6","🕰️":"1f570-fe0f","🔔":"1f514","🥜":"1f95c","💡":"1f4a1","🍈":"1f348","🚐":"1f690","🕸️":"1f578-fe0f","💛":"1f49b","🍕":"1f355","👸":"1f478","🛁":"1f6c1","🤴":"1f934","🍟":"1f35f","🦶":"1f9b6","🧥":"1f9e5","👔":"1f454","🍴":"1f374","🌽":"1f33d","📯":"1f4ef","🛢️":"1f6e2-fe0f","✉️":"2709-fe0f","❤️":"2764-fe0f","📲":"1f4f2","📋":"1f4cb","📂":"1f4c2"};
+function etext(el){return el?[...el.childNodes].map(n=>n.nodeType===3?n.nodeValue:(n.alt||n.textContent||'')).join(''):''}
+(()=>{if(!('MutationObserver' in window)||!document.createTreeWalker)return;
+  Object.keys(EMAP).forEach(k=>{const n=k.replace(/\uFE0F/g,'');if(n&&n!==k&&!EMAP[n])EMAP[n]=EMAP[k]});['▶','◀','↔'].forEach(k=>{delete EMAP[k]});
+  const RE=new RegExp(Object.keys(EMAP).sort((a,b)=>b.length-a.length).map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+'(\uFE0F)?','g');
+  const SKIP={SCRIPT:1,STYLE:1,TITLE:1,OPTION:1,TEXTAREA:1,INPUT:1,SELECT:1,NOSCRIPT:1};
+  function back(){try{this.replaceWith(document.createTextNode(this.alt))}catch(e){}}
+  function fix(tn){const p=tn.parentNode,s=tn.nodeValue;if(!p||SKIP[p.nodeName]||!s)return;RE.lastIndex=0;if(!RE.test(s))return;RE.lastIndex=0;
+    const f=document.createDocumentFragment();let i=0,m;
+    while((m=RE.exec(s))){if(m.index>i)f.appendChild(document.createTextNode(s.slice(i,m.index)));const em=m[0].replace(/\uFE0F$/,'')in EMAP&&!(m[0]in EMAP)?m[0].replace(/\uFE0F$/,''):m[0];
+      const im=document.createElement('img');im.className='em';im.alt=m[0];im.draggable=false;im.decoding='async';im.onerror=back;im.src='img/e/'+(EMAP[m[0]]||EMAP[em])+'.webp';f.appendChild(im);i=m.index+m[0].length}
+    if(i<s.length)f.appendChild(document.createTextNode(s.slice(i)));p.replaceChild(f,tn)}
+  function walk(n){if(n.nodeType===3){fix(n);return}if(n.nodeType!==1||SKIP[n.nodeName])return;const w=document.createTreeWalker(n,4),a=[];while(w.nextNode())a.push(w.currentNode);a.forEach(fix)}
+  walk(document.body);
+  new MutationObserver(ms=>{for(const m of ms){if(m.type==='characterData')fix(m.target);else m.addedNodes.forEach(walk)}}).observe(document.body,{childList:true,subtree:true,characterData:true});
+  // keep every picture on the phone for offline play (once, in the background)
+  setTimeout(()=>{try{if(!navigator.onLine||localStorage.getItem('nisi-em')==='1')return;const all=[...new Set(Object.values(EMAP))];let k=0;
+    const next=()=>{const batch=all.slice(k,k+12);k+=12;if(!batch.length){try{localStorage.setItem('nisi-em','1')}catch(e){}return}
+      Promise.all(batch.map(c=>fetch('img/e/'+c+'.webp').catch(()=>{}))).then(()=>setTimeout(next,150))};next()}catch(e){}},6000);
+})();
 if('serviceWorker' in navigator){
   const hadCtl=!!navigator.serviceWorker.controller;let reloaded=false;
   // a new version took over: reload once so the phone shows it straight away
