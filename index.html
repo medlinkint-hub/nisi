@@ -2099,7 +2099,7 @@ function ccwRound(){
   while(extra.length<3){const c=pick([...ABC]);if(word.indexOf(c)<0&&extra.indexOf(c)<0)extra.push(c)}
   let got=[],tries=G.ccwTries=(G.ccwT===t.w?G.ccwTries:0);G.ccwT=t.w;
   const look=()=>{stage().innerHTML=`<p class="prompt">${tr('Κοίτα τη λέξη και πες τη','Look at the word and say it')} 👀</p>${isHard?`<p class="counter">⭐ ${tr('Λέξη για επανάληψη','A word to practise again')}</p>`:''}
-     <button class="big-e" id="hear" aria-label="${tr('Άκου τη λέξη','Hear the word')}">${t.e}</button><div class="target lett ccw-w">${trk(t.w)}</div>${/class="trk"/.test(trk(t.w))?`<p class="counter">🔍 ${tr('Πρόσεξε τα χρωματιστά γράμματα','Watch the coloured letters')}</p>`:''}
+     <button class="big-e" id="hear" aria-label="${tr('Άκου τη λέξη','Hear the word')}">${t.e}</button><div class="target lett ccw-w" style="font-size:min(52px,calc((100vw - 90px)/${(t.w.length*0.64).toFixed(2)}))">${trk(t.w)}</div>${/class="trk"/.test(trk(t.w))?`<p class="counter">🔍 ${tr('Πρόσεξε τα χρωματιστά γράμματα','Watch the coloured letters')}</p>`:''}
      <button class="pill main" id="hide">🙈 ${tr('Κρύψ\' το και γράψ\' το','Hide it and write it')}</button>`;
     $('hear').onclick=()=>say(t.w);$('hide').onclick=write;sayL(t.w,300)};
   const write=()=>{got=[];stage().innerHTML=`<p class="prompt">${tr('Γράψε τη λέξη από μνήμης','Write the word from memory')} ✍️</p>
