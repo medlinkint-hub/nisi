@@ -1055,9 +1055,9 @@ function listenRound(){
   stage().querySelector('.opts').onclick=e=>{
     const b=e.target.closest('.pic');if(!b||busy)return;
     if(b.dataset.e===target.e){busy=true;b.classList.add('ok');$('reveal').textContent=target[S.lang];speak(target[S.lang]);win(listenRound)}
-    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope();setTimeout(()=>speak(target[S.lang]),350)}
+    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope();sayLater(()=>speak(target[S.lang]),350)}
   };
-  setTimeout(()=>speak(target[S.lang]),300);
+  sayLater(()=>speak(target[S.lang]),300);
 }
 
 /* ---------- 2. count & add ---------- */
@@ -1077,7 +1077,7 @@ function countRound(){
     if(+b.dataset.n===n){busy=true;b.classList.add('ok');$('cnum').textContent=NUMS[S.lang][n-1];speak(NUMS[S.lang][n-1]);win(countRound)}
     else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope();speak(AGAIN[S.lang])}
   };
-  setTimeout(()=>speak(HOWMANY[S.lang]),300);
+  sayLater(()=>speak(HOWMANY[S.lang]),300);
 }
 
 /* ---------- read & tap ---------- */
@@ -1109,7 +1109,7 @@ function spellRound(){
       if(pos===word.length){busy=true;speak(target[S.lang]);win(spellRound)}}
     else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope()}
   };
-  setTimeout(()=>speak(target[S.lang]),300);
+  sayLater(()=>speak(target[S.lang]),300);
 }
 
 /* ---------- first letter ---------- */
@@ -1127,7 +1127,7 @@ function firstRound(){
     if(b.dataset.c===ans){busy=true;b.classList.add('ok');$('reveal').textContent=target[S.lang];speak(target[S.lang]);win(firstRound)}
     else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');nope();speak(target[S.lang])}
   };
-  setTimeout(()=>speak(target[S.lang]),300);
+  sayLater(()=>speak(target[S.lang]),300);
 }
 
 /* ---------- 3. pairs ---------- */
@@ -1171,7 +1171,7 @@ function diceRound(){
   const q=two?tr('Πόσες τελείες έχουν τα ζάρια;','How many dots are on the dice?'):tr('Πόσες τελείες έχει το ζάρι;','How many dots are on the die?');
   stage().innerHTML=`<p class="prompt">${q}</p><div class="dice">${die(a)}${two?die(b):''}</div>
    <div class="opts c3">${near(n,1,12).map(c=>`<button class="pic num" data-n="${c}">${c}</button>`).join('')}</div>`;
-  pickNum('.opts',null,n,null,diceRound);setTimeout(()=>gr(q),300);
+  pickNum('.opts',null,n,null,diceRound);sayLater(()=>gr(q),300);
 }
 
 function lineRound(){
@@ -1180,7 +1180,7 @@ function lineRound(){
    <div class="nline">${[...Array(11)].map((_,i)=>`<span class="${i===miss?'gap':''}" ${i===miss?'id="gapbox"':''}>${i===miss?'?':i}</span>`).join('')}</div>
    <div class="opts c3">${near(miss,0,10).map(c=>`<button class="pic num" data-n="${c}">${c}</button>`).join('')}</div>`;
   pickNum('.opts',null,miss,()=>{const g=$('gapbox');g.textContent=miss;g.className='fill'},lineRound);
-  setTimeout(()=>gr(tr('Ποιος αριθμός λείπει;','Which number is missing?')),300);
+  sayLater(()=>gr(tr('Ποιος αριθμός λείπει;','Which number is missing?')),300);
 }
 
 function circleRound(){
@@ -1189,7 +1189,7 @@ function circleRound(){
   stage().innerHTML=`<p class="prompt">${tr('Μετρώ και βάζω σε κύκλο τον σωστό αριθμό','Count and circle the right number')}</p>
    <div class="objs">${Array(n).fill(item).join('')}</div>
    <div class="inorder">${[s,s+1,s+2].map(c=>`<button class="pic" data-n="${c}">${c}</button>`).join('')}</div>`;
-  pickNum('.inorder',null,n,null,circleRound);setTimeout(()=>gr(tr('Μετρώ και βάζω σε κύκλο τον σωστό αριθμό','Count and circle the right number')),300);
+  pickNum('.inorder',null,n,null,circleRound);sayLater(()=>gr(tr('Μετρώ και βάζω σε κύκλο τον σωστό αριθμό','Count and circle the right number')),300);
 }
 
 function patternRound(){
@@ -1206,7 +1206,7 @@ function patternRound(){
   stage().querySelector('.opts').onclick=e=>{const b=e.target.closest('.pic');if(!b||busy)return;
     if(b.dataset.v===String(ans)){busy=true;b.classList.add('ok');const g=$('gapbox');g.textContent=ans;g.className='';
       if(typeof ans==='number')gr(NW(ans));win(patternRound)}else bad(b)};
-  setTimeout(()=>gr(tr('Συνεχίζω με τον ίδιο τρόπο','Continue the pattern')),300);
+  sayLater(()=>gr(tr('Συνεχίζω με τον ίδιο τρόπο','Continue the pattern')),300);
 }
 
 function traceRound(){
@@ -1250,7 +1250,7 @@ function traceIn(d,prompt,extra,ask0,onDone,next,M){
     else{nope();const m=c<.6?M[2]:M[3];$('tmsg').textContent=m;gr(m)}
   };
   G.solve=()=>{busy=true;win(next)};
-  setTimeout(()=>gr(ask0),300);
+  sayLater(()=>gr(ask0),300);
 }
 
 /* ---------- 5. word book ---------- */
@@ -1263,7 +1263,7 @@ function learnGame(){
     $('prev').onclick=()=>{i=(i-1+WORDS.length)%WORDS.length;draw();speak(WORDS[i][S.lang])};
     $('next').onclick=()=>{i=(i+1)%WORDS.length;draw();speak(WORDS[i][S.lang])};
   };
-  draw();setTimeout(()=>speak(WORDS[0][S.lang]),300);
+  draw();sayLater(()=>speak(WORDS[0][S.lang]),300);
 }
 /* ================= Book chapters: new games ================= */
 const rand=k=>Math.random()*k|0;
@@ -1280,7 +1280,9 @@ function choose(sel,ans,next,say,onOk){
   writeIn(box,ans,ok);
 }
 const fillGap=v=>()=>{const g=$('gapbox');g.textContent=v;g.className='fill'};
-const ask=q=>{const g=G;setTimeout(()=>{if(G===g)gr(q)},300)};
+// a sentence said a moment later waits for the voice to finish, and is dropped if the child left the game
+const sayLater=(f,ms)=>{const g=G;afterSpeech(ms,()=>{if(G===g)f()},3500)};
+const ask=q=>{const g=G;afterSpeech(300,()=>{if(G===g)gr(q)},3500)};
 
 /* ch.1 orientation */
 const CENTER=[['🏠','το σπίτι','the house'],['🌳','το δέντρο','the tree'],['📦','το κουτί','the box'],['🚗','το αυτοκίνητο','the car']];
@@ -1999,7 +2001,7 @@ function money100Round(){
 
 /* ================= Γλώσσα Α΄ Δημοτικού: letters, syllables, words ================= */
 const say=t=>speak(t,EN()?'en':'el');
-const sayL=(t,ms)=>{const g=G;setTimeout(()=>{if(G===g)say(t)},ms)};   // reading content is read in the app's language
+const sayL=(t,ms)=>{const g=G;afterSpeech(ms,()=>{if(G===g)say(t)},3500)};   // reading content is read in the app's language
 const plain=w=>w.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/ς/g,'σ');
 let LNAME={α:'άλφα',β:'βήτα',γ:'γάμμα',δ:'δέλτα',ε:'έψιλον',ζ:'ζήτα',η:'ήτα',θ:'θήτα',ι:'γιώτα',κ:'κάπα',λ:'λάμδα',μ:'μι',ν:'νι',ξ:'ξι',ο:'όμικρον',π:'πι',ρ:'ρο',σ:'σίγμα',τ:'ταυ',υ:'ύψιλον',φ:'φι',χ:'χι',ψ:'ψι',ω:'ωμέγα',
   ου:'ου, όπως λουλούδι',οι:'οι, όπως ρολόι',αι:'αι, όπως παιδί',ει:'ει, όπως κλειδί',τσ:'τσ, όπως τσάντα',γκ:'γκ, όπως μυρμήγκι',γγ:'γγ, όπως φεγγάρι',μπ:'μπ, όπως μπάλα',ντ:'ντ, όπως ντομάτα',τζ:'τζ, όπως γλειφιτζούρι',αυ:'αυ, όπως αυτί',ευ:'ευ, όπως Εύα'};
@@ -2193,7 +2195,7 @@ function capsRound(){
   const q=toSmall?tr('Βρες το μικρό γράμμα','Find the small letter'):tr('Βρες το κεφαλαίο γράμμα','Find the capital letter');
   stage().innerHTML=`<p class="prompt">${q}</p><div class="target bigl">${toSmall?capL(t):t}</div>
    <div class="opts c3">${pick3(t,L1).map(x=>`<button class="pic num lett" data-v="${x}">${toSmall?x:capL(x)}</button>`).join('')}</div>`;
-  choose('.opts',t,capsRound,null,()=>say(LNAME[t]));setTimeout(()=>gr(q),300);
+  choose('.opts',t,capsRound,null,()=>say(LNAME[t]));sayLater(()=>gr(q),300);
 }
 /* where does the accent go? */
 const ACC={α:'ά',ε:'έ',η:'ή',ι:'ί',ο:'ό',υ:'ύ',ω:'ώ'};
