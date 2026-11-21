@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='31';
+var APPV='32';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -60,7 +60,8 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .chip{flex:none;padding:8px 16px;border-radius:999px;border:2px solid var(--line);background:var(--card);font-weight:700;min-height:44px}
 .chip[aria-pressed=true]{background:var(--ink);color:var(--sky)}
 .note{font-size:15px;color:var(--muted);margin:0 0 10px;min-height:1em}
-.games{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding-bottom:24px}
+.games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding-bottom:24px}
+.tile{min-width:0;overflow-wrap:anywhere}.hero>div{min-width:0}.hero h1{overflow-wrap:anywhere}
 @media (min-width:600px){.games{grid-template-columns:repeat(3,1fr)}}
 .tile{background:var(--c);color:var(--tink);border:3px solid #2E2A4F;padding:18px 14px 16px;text-align:left;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .15s}
 .tile:active{transform:scale(.96)}
@@ -376,7 +377,7 @@ p.hint{font:700 18px Andika,sans-serif}
 .fillw{display:inline-block;min-width:34px;background:var(--ok);color:#fff;border-radius:8px;text-align:center;margin:0 2px}
 .badge.lb{width:auto;min-width:38px;padding:0 6px;border-radius:19px;font-size:15px;white-space:nowrap}
 .badge.lb.rev{border-radius:7px;padding:0}
-.games.books{grid-template-columns:1fr 1fr;padding-bottom:14px}
+.games.books{grid-template-columns:repeat(2,minmax(0,1fr));padding-bottom:14px}
 .tile.bkt{min-height:150px;--c:var(--t4);border-radius:30px 40px 28px 44px}
 .tile.bkt+.tile.bkt{--c:var(--t2);border-radius:40px 28px 44px 30px}
 .tile.bkt .ico{font-size:52px}
@@ -473,7 +474,11 @@ label.pill{display:inline-block;cursor:pointer}
 .stk-new{font-size:18px;font-weight:700;margin:-8px 0 14px}
 .stk-new span{display:inline-block;font-size:56px;animation:spin .9s ease-out}
 @keyframes spin{0%{transform:scale(0) rotate(-180deg)}100%{transform:scale(1) rotate(0)}}
-.games.fun{grid-template-columns:repeat(3,1fr);padding-bottom:12px}
+.games.fun{grid-template-columns:repeat(3,minmax(0,1fr));padding-bottom:12px}
+.games.fun .tile{min-height:112px;padding:12px 10px}.games.fun .tile b{font-size:15px}.games.fun .tile span{display:none}
+.games.subj{grid-template-columns:repeat(2,minmax(0,1fr));padding-bottom:14px}.tile.subj{min-height:190px}.tile.subj .ico{font-size:64px}.tile.subj b{font-size:clamp(19px,6vw,26px)}
+.games.books.one{grid-template-columns:1fr}#hub .wbh{margin-top:10px}#hub>.bar{margin-bottom:12px}
+.games .tile b{font-size:clamp(14px,4.4vw,20px)}.games.subj .tile b{font-size:clamp(19px,6vw,26px)}.games.fun .tile b{font-size:15px}.games.books.one .tile b{font-size:22px}
 .fun .tile{min-height:120px;padding:10px 8px}.fun .tile .ico{font-size:40px}.fun .tile b{font-size:16px}
 .fun .tile:nth-child(1){--c:#7EC8E3}.fun .tile:nth-child(2){--c:var(--t5)}.fun .tile:nth-child(3){--c:var(--t3)}
 .ghost{opacity:.9;transform:scale(1.1);box-shadow:0 8px 16px rgba(0,0,0,.3)}
@@ -535,69 +540,97 @@ label.pill{display:inline-block;cursor:pointer}
     <button class="pill vbtn" id="voiceBtn">🗣️ Φωνή</button>
     <p class="ver" id="ver"></p>
     <div class="cont" id="cont"></div>
+    <div class="games subj">
+      <button class="tile subj" data-hub="l" style="--c:var(--t2)"><div class="ico">📗</div><b id="hubLb">Γλώσσα</b><span id="hubLs">Βιβλίο, τετράδια και παιχνίδια</span></button>
+      <button class="tile subj" data-hub="m" style="--c:var(--t3)"><div class="ico">📘</div><b id="hubMb">Μαθηματικά</b><span id="hubMs">Βιβλίο, τετράδια και παιχνίδια</span></button>
+    </div>
     <div class="games fun">
       <button class="tile" data-game="island"><div class="ico">🏝️</div><b>Το νησί μου</b><span>Στόλισέ το με τα ⭐</span></button>
       <button class="tile" data-game="treasure"><div class="ico">🎁</div><b>Ο θησαυρός μου</b><span>Αυτοκόλλητα και μετάλλια</span></button>
       <button class="tile" data-game="parents"><div class="ico">👪</div><b>Για γονείς</b><span>Η πρόοδος του παιδιού</span></button>
     </div>
-    <div class="games books">
+  </section>
+  <section id="hub" hidden>
+    <div class="bar"><button class="iconbtn" id="hubBack" aria-label="Πίσω">🏝️</button><h2 class="gtitle" id="hubTitle"></h2><div class="stars" id="starCount3">⭐ 0</div></div>
+    <div id="hubL">
+    <div class="games books one">
       <button class="tile bkt" data-game="langmap"><div class="ico">📗</div><b>Το βιβλίο της Γλώσσας</b><span>Γράμματα, λέξεις, ιστορίες – με τη σειρά του βιβλίου</span></button>
-      <button class="tile bkt" data-game="map"><div class="ico">📘</div><b>Το βιβλίο των Μαθηματικών</b><span>Όλα τα κεφάλαια, με τη σειρά του βιβλίου</span></button>
     </div>
     <p class="wbh" id="sumWB">Τα τετράδια</p>
     <div class="games books wbs">
       <button class="tile bkt" data-game="wb:wl"><div class="ico">📓</div><b>Τετράδιο Εργασιών Γλώσσας</b><span>Γράφω γράμματα, λέξεις, υπαγόρευση</span></button>
       <button class="tile bkt" data-game="wb:wh"><div class="ico">✍️</div><b>Το τετράδιο της πρώτης μου γραφής</b><span>Γράφω με το δάχτυλο κάθε γράμμα</span></button>
-      <button class="tile bkt" data-game="wb:wm"><div class="ico">📒</div><b>Τετράδιο Εργασιών Μαθηματικών</b><span>Γράφω μόνος μου την απάντηση</span></button>
-      <button class="tile bkt" data-game="wb:wp"><div class="ico">📙</div><b>Τετράδιο Μαθηματικών</b><span>Φύλλα εργασίας και τεστ για κάθε ενότητα</span></button>
     </div>
-    <details class="more" id="moreLang"><summary id="sumLang">Παιχνίδια ανάγνωσης</summary>
+    <p class="wbh" id="hgL1">Παιχνίδια ανάγνωσης</p>
     <div class="games">
       <button class="tile" data-game="read"><div class="ico">👀</div><b>Διαβάζω</b><span>Διάβασε τη λέξη, βρες την εικόνα</span></button>
       <button class="tile" data-game="spell"><div class="ico">✏️</div><b>Γράφω τη λέξη</b><span>Φτιάξε τη λέξη γράμμα γράμμα</span></button>
       <button class="tile" data-game="first"><div class="ico" style="font-family:Grandstander,Andika,sans-serif;font-weight:800">Αα</div><b>Το πρώτο γράμμα</b><span>Από ποιο γράμμα αρχίζει;</span></button>
-      <button class="tile" data-game="count"><div class="ico">➕</div><b>Μετρώ και προσθέτω</b><span>Μέτρα και βάλε μαζί</span></button>
       <button class="tile" data-game="listen"><div class="ico">👂</div><b>Ακούω</b><span>Άκου τη λέξη, βρες την εικόνα</span></button>
       <button class="tile" data-game="memory"><div class="ico">🃏</div><b>Ζευγάρια</b><span>Ταίριαξε εικόνες και λέξεις</span></button>
       <button class="tile" data-game="learn"><div class="ico">📖</div><b>Το βιβλίο των λέξεων</b><span>Κοίτα, πάτησε, άκου</span></button>
-    </div></details>
-    <details class="more" id="moreMath"><summary id="sumMath">Παιχνίδια Μαθηματικών</summary>
+    </div>
+    </div>
+    <div id="hubM">
+    <div class="games books one">
+      <button class="tile bkt" data-game="map"><div class="ico">📘</div><b>Το βιβλίο των Μαθηματικών</b><span>Όλα τα κεφάλαια, με τη σειρά του βιβλίου</span></button>
+    </div>
+    <p class="wbh" id="hgM0">Τα τετράδια</p>
+    <div class="games books wbs">
+      <button class="tile bkt" data-game="wb:wm"><div class="ico">📒</div><b>Τετράδιο Εργασιών Μαθηματικών</b><span>Γράφω μόνος μου την απάντηση</span></button>
+      <button class="tile bkt" data-game="wb:wp"><div class="ico">📙</div><b>Τετράδιο Μαθηματικών</b><span>Φύλλα εργασίας και τεστ για κάθε ενότητα</span></button>
+    </div>
+    <p class="wbh" id="hgM1">🔢 Αριθμοί</p>
     <div class="games">
-      <button class="tile" data-game="where"><div class="ico">📍</div><b>Πού είναι;</b><span>Πάνω, κάτω, δεξιά, αριστερά</span></button>
-      <button class="tile" data-game="shapes"><div class="ico">🔺</div><b>Σχήματα</b><span>Κύκλος, τετράγωνο, τρίγωνο</span></button>
-      <button class="tile" data-game="compare"><div class="ico">⚖️</div><b>Σύγκριση</b><span>Περισσότερα, λιγότερα, &gt; &lt; =</span></button>
-      <button class="tile" data-game="marbles"><div class="ico">🔵</div><b>Βόλοι</b><span>Μέσα, ανάμεσα, επάνω</span></button>
-      <button class="tile" data-game="drum"><div class="ico">🥁</div><b>Ταμπουρίνο</b><span>Πόσες φορές χτύπησε;</span></button>
-      <button class="tile" data-game="match"><div class="ico">🐶</div><b>Φτάνουν;</b><span>Περισσότερα, λιγότερα, όσα</span></button>
-      <button class="tile" data-game="forms"><div class="ico">✋</div><b>Ίδιο πλήθος</b><span>Ζάρι, πουλάκια, γραμμές</span></button>
       <button class="tile" data-game="abacus"><div class="ico">🔴</div><b>Αριθμητήριο</b><span>Σχηματίζω αριθμούς</span></button>
       <button class="tile" data-game="tally"><div class="ico">✏️</div><b>Γραμμούλες</b><span>Τόσες γραμμές όσα ψάρια</span></button>
       <button class="tile" data-game="fingers"><div class="ico">✌️</div><b>Δάχτυλα</b><span>Πόσα όλα μαζί;</span></button>
-      <button class="tile" data-game="frog"><div class="ico">🐸</div><b>Ο βάτραχος</b><span>Πάνω, κάτω, αριστερά, δεξιά</span></button>
-      <button class="tile" data-game="order"><div class="ico">📊</div><b>Σειρά</b><span>Από το πιο ψηλό στο πιο χαμηλό</span></button>
-      <button class="tile" data-game="makecoins"><div class="ico">💰</div><b>Φτιάχνω ποσά</b><span>Με κέρματα</span></button>
-      <button class="tile" data-game="equation"><div class="ico">📝</div><b>Γράφω την πρόσθεση</b><span>Τι θα γράψει ο μαθηματικός;</span></button>
-      <button class="tile" data-game="tensones"><div class="ico">🔟</div><b>Δεκάδες και μονάδες</b><span>34 = 3 δεκάδες και 4 μονάδες</span></button>
-      <button class="tile" data-game="clock"><div class="ico">🕒</div><b>Το ρολόι</b><span>Τι ώρα είναι;</span></button>
-      <button class="tile" data-game="mult"><div class="ico">✖️</div><b>Πολλαπλασιασμός</b><span>Ίσες ομάδες</span></button>
-      <button class="tile" data-game="weight"><div class="ico">⚖️</div><b>Η ζυγαριά</b><span>Πιο βαρύ ή πιο ελαφρύ;</span></button>
-      <button class="tile" data-game="sizes"><div class="ico">🐘</div><b>Μεγάλο – μικρό</b><span>Ψηλό, κοντό, μακρύ</span></button>
+      <button class="tile" data-game="forms"><div class="ico">✋</div><b>Ίδιο πλήθος</b><span>Ζάρι, πουλάκια, γραμμές</span></button>
       <button class="tile" data-game="dice"><div class="ico">🎲</div><b>Ζάρια</b><span>Πόσες τελείες έχει;</span></button>
-      <button class="tile" data-game="trace"><div class="ico">✍️</div><b>Γράφω τους αριθμούς</b><span>Γράψε με το δάχτυλο</span></button>
+      <button class="tile" data-game="drum"><div class="ico">🥁</div><b>Ταμπουρίνο</b><span>Πόσες φορές χτύπησε;</span></button>
       <button class="tile" data-game="circle"><div class="ico">⭕</div><b>Μετρώ και κυκλώνω</b><span>Βρες τον σωστό αριθμό</span></button>
+      <button class="tile" data-game="trace"><div class="ico">✍️</div><b>Γράφω τους αριθμούς</b><span>Γράψε με το δάχτυλο</span></button>
       <button class="tile" data-game="nline"><div class="ico">📏</div><b>Αριθμογραμμή</b><span>Ποιος αριθμός λείπει;</span></button>
-      <button class="tile" data-game="split"><div class="ico">🏠</div><b>Το σπίτι των αριθμών</b><span>Το 5 είναι 2 και 3</span></button>
-      <button class="tile" data-game="add"><div class="ico">🔢</div><b>Πρόσθεση</b><span>Πόσα κάνουν μαζί;</span></button>
-      <button class="tile" data-game="problems"><div class="ico">📝</div><b>Προβλήματα</b><span>Διάβασε και λύσε</span></button>
-      <button class="tile" data-game="big"><div class="ico">🔟</div><b>Αριθμοί μέχρι το 50</b><span>Δεκάδες και μονάδες</span></button>
+      <button class="tile" data-game="order"><div class="ico">📊</div><b>Σειρά</b><span>Από το πιο ψηλό στο πιο χαμηλό</span></button>
       <button class="tile" data-game="ordinal"><div class="ico">🚩</div><b>Ποιος είναι πρώτος;</b><span>Πρώτο, δεύτερο, τρίτο</span></button>
-      <button class="tile" data-game="coins"><div class="ico">💶</div><b>Τα ευρώ</b><span>Μέτρα τα χρήματα</span></button>
-      <button class="tile" data-game="lines"><div class="ico">✏️</div><b>Ενώνω τις τελείες</b><span>Χαράζω γραμμές 1, 2, 3</span></button>
-      <button class="tile" data-game="pattern"><div class="ico">🔁</div><b>Συνεχίζω</b><span>Με τον ίδιο τρόπο</span></button>
+      <button class="tile" data-game="big"><div class="ico">🔟</div><b>Αριθμοί μέχρι το 50</b><span>Δεκάδες και μονάδες</span></button>
+      <button class="tile" data-game="tensones"><div class="ico">🔟</div><b>Δεκάδες και μονάδες</b><span>34 = 3 δεκάδες και 4 μονάδες</span></button>
+    </div>
+    <p class="wbh" id="hgM2">➕ Πράξεις</p>
+    <div class="games">
+      <button class="tile" data-game="add"><div class="ico">🔢</div><b>Πρόσθεση</b><span>Πόσα κάνουν μαζί;</span></button>
+      <button class="tile" data-game="count"><div class="ico">➕</div><b>Μετρώ και προσθέτω</b><span>Μέτρα και βάλε μαζί</span></button>
       <button class="tile" data-game="minus"><div class="ico">➖</div><b>Αφαίρεση</b><span>Πόσα μένουν;</span></button>
       <button class="tile" data-game="sign"><div class="ico">❔</div><b>+ ή −;</b><span>Βρες το σωστό σύμβολο</span></button>
+      <button class="tile" data-game="equation"><div class="ico">📝</div><b>Γράφω την πρόσθεση</b><span>Τι θα γράψει ο μαθηματικός;</span></button>
+      <button class="tile" data-game="split"><div class="ico">🏠</div><b>Το σπίτι των αριθμών</b><span>Το 5 είναι 2 και 3</span></button>
+      <button class="tile" data-game="problems"><div class="ico">📝</div><b>Προβλήματα</b><span>Διάβασε και λύσε</span></button>
+      <button class="tile" data-game="mult"><div class="ico">✖️</div><b>Πολλαπλασιασμός</b><span>Ίσες ομάδες</span></button>
+    </div>
+    <p class="wbh" id="hgM3">🔺 Χώρος και σχήματα</p>
+    <div class="games">
+      <button class="tile" data-game="where"><div class="ico">📍</div><b>Πού είναι;</b><span>Πάνω, κάτω, δεξιά, αριστερά</span></button>
+      <button class="tile" data-game="shapes"><div class="ico">🔺</div><b>Σχήματα</b><span>Κύκλος, τετράγωνο, τρίγωνο</span></button>
+      <button class="tile" data-game="lines"><div class="ico">✏️</div><b>Ενώνω τις τελείες</b><span>Χαράζω γραμμές 1, 2, 3</span></button>
+      <button class="tile" data-game="frog"><div class="ico">🐸</div><b>Ο βάτραχος</b><span>Πάνω, κάτω, αριστερά, δεξιά</span></button>
+      <button class="tile" data-game="pattern"><div class="ico">🔁</div><b>Συνεχίζω</b><span>Με τον ίδιο τρόπο</span></button>
+    </div>
+    <p class="wbh" id="hgM4">⚖️ Συγκρίνω και μετρώ</p>
+    <div class="games">
+      <button class="tile" data-game="compare"><div class="ico">⚖️</div><b>Σύγκριση</b><span>Περισσότερα, λιγότερα, &gt; &lt; =</span></button>
+      <button class="tile" data-game="match"><div class="ico">🐶</div><b>Φτάνουν;</b><span>Περισσότερα, λιγότερα, όσα</span></button>
+      <button class="tile" data-game="marbles"><div class="ico">🔵</div><b>Βόλοι</b><span>Μέσα, ανάμεσα, επάνω</span></button>
+      <button class="tile" data-game="sizes"><div class="ico">🐘</div><b>Μεγάλο – μικρό</b><span>Ψηλό, κοντό, μακρύ</span></button>
+      <button class="tile" data-game="weight"><div class="ico">⚖️</div><b>Η ζυγαριά</b><span>Πιο βαρύ ή πιο ελαφρύ;</span></button>
+    </div>
+    <p class="wbh" id="hgM5">🕒 Ώρα, μέρες, χρήματα</p>
+    <div class="games">
+      <button class="tile" data-game="clock"><div class="ico">🕒</div><b>Το ρολόι</b><span>Τι ώρα είναι;</span></button>
       <button class="tile" data-game="calendar"><div class="ico">📅</div><b>Οι μέρες</b><span>Δευτέρα, Τρίτη, Τετάρτη…</span></button>
-    </div></details>
+      <button class="tile" data-game="coins"><div class="ico">💶</div><b>Τα ευρώ</b><span>Μέτρα τα χρήματα</span></button>
+      <button class="tile" data-game="makecoins"><div class="ico">💰</div><b>Φτιάχνω ποσά</b><span>Με κέρματα</span></button>
+    </div>
+    </div>
   </section>
 
   <!-- GAME -->
@@ -868,7 +901,7 @@ const TEN={read:['Read','Read the word, find the picture'],spell:['Spell the wor
   langmap:['My reading book','Letters, words, stories – in book order'],letter:['Letters','Find the letter'],syl:['Syllables','Find the syllable'],join:['Join letters','π + α = πα'],readw:['Read words','Find the picture'],
   listenw:['Listen and read','How is it written?'],missw:['Missing letter','Fill the gap'],spellw:['Write words','Letter by letter'],firstl:['First letter','Which letter does it start with?'],caps:['Capital letters','Big and small'],
   accent:['The accent','Where does it go?'],sent:['Sentences','Read and find'],punct:['Punctuation','. ; !']};
-const STATIC=[['h1',"The Hoopoe's Island"],['.hero p','Games for reading, writing and numbers for 6-year-olds.'],['#sumLang','Reading games'],['#sumWB','The workbooks'],['#sumMath','Maths games'],['#again','Again'],['#toIsland','To the island'],['[data-game="first"] .ico','Aa']];
+const STATIC=[['h1',"The Hoopoe's Island"],['.hero p','Games for reading, writing and numbers for 6-year-olds.'],['#sumLang','Reading games'],['#sumWB','The workbooks'],['#sumMath','Maths games'],['#hubLb','Reading'],['#hubLs','Book, workbooks and games'],['#hubMb','Maths'],['#hubMs','Book, workbooks and games'],['#hgL1','Reading games'],['#hgM0','The workbooks'],['#hgM1','🔢 Numbers'],['#hgM2','➕ Sums'],['#hgM3','🔺 Space and shapes'],['#hgM4','⚖️ Compare and measure'],['#hgM5','🕒 Time, days, money'],['#again','Again'],['#toIsland','To the island'],['[data-game="first"] .ico','Aa']];
 function openVoices(){
   const t=S.lang,all=voicesFor(t),good=all.filter(v=>vscore(v,t)>-50),list=good.length?good:all,cur=voiceFor(t);
   $('vtitle').textContent=tr('Διάλεξε φωνή','Choose a voice');
@@ -899,15 +932,21 @@ $('langs').onclick=e=>{const b=e.target.closest('[data-lang]');if(!b||b.dataset.
 const TITLES={letter:'Γράμματα',syl:'Συλλαβές',join:'Ενώνω γράμματα',readw:'Διαβάζω λέξεις',listenw:'Ακούω και διαβάζω',missw:'Ποιο γράμμα λείπει;',spellw:'Γράφω λέξεις',firstl:'Το πρώτο γράμμα',caps:'Κεφαλαία',accent:'Ο τόνος',sent:'Προτάσεις',punct:'Σημεία στίξης',complement:'Το συμπλήρωμα',commute:'Αλλάζω σειρά',tensones:'Δεκάδες και μονάδες',sum3:'Τρεις αριθμοί',clock:'Το ρολόι',bridge:'Υπέρβαση δεκάδας (+)',bridgeminus:'Υπέρβαση δεκάδας (−)',twodig:'Διψήφιοι αριθμοί',inverse:'Αντίστροφες πράξεις',calc:'Υπολογισμοί',mult:'Πολλαπλασιασμός',share:'Μοιράζω',measure:'Μετράω',symmetry:'Συμμετρία',weight:'Η ζυγαριά',money100:'Χρήματα μέχρι 100€',makecoins:'Φτιάχνω ποσά',equation:'Γράφω την πρόσθεση',scene:'Βρες πόσα',groups:'Ομάδες',beads3:'Χάντρες',fingers:'Δάχτυλα',frog:'Ο βάτραχος',order:'Σειρά',body:'Το σώμα μου',nest:'Φωλιές',baskets:'Καλάθια',stairs:'Αναλύω',down:'Κατεβαίνω',twos:'Ανά δύο',marbles:'Βόλοι',drum:'Ταμπουρίνο',match:'Φτάνουν;',forms:'Ίδιο πλήθος',abacus:'Αριθμητήριο',tally:'Γραμμούλες',words:'Λέξεις αριθμών',where:'Πού είναι;',shapes:'Σχήματα',sizes:'Μεγάλο – μικρό',compare:'Σύγκριση',split:'Το σπίτι των αριθμών',add:'Πρόσθεση',problems:'Προβλήματα',big:'Αριθμοί μέχρι το 50',ordinal:'Ποιος είναι πρώτος;',coins:'Τα ευρώ',lines:'Ενώνω τις τελείες',minus:'Αφαίρεση',sign:'+ ή −;',calendar:'Οι μέρες της εβδομάδας',dice:'Ζάρια',nline:'Αριθμογραμμή',trace:'Γράφω τους αριθμούς',circle:'Μετρώ και κυκλώνω',pattern:'Συνεχίζω',read:'Διαβάζω',spell:'Γράφω τη λέξη',first:'Το πρώτο γράμμα',listen:'Ακούω',count:'Μετρώ και προσθέτω',memory:'Ζευγάρια',learn:'Το βιβλίο των λέξεων'};
 let G=null,busy=false;
 document.querySelectorAll('.games').forEach(g=>g.onclick=e=>{const t=e.target.closest('[data-game]');if(t)start(t.dataset.game)});
-$('back').onclick=$('toIsland').onclick=()=>G&&G.o&&G.o.ch?(G.o.wb?openWB(G.o.wb,G.o.ch):G.o.lang?openLangMap(G.o.ch):openMap(G.o.ch)):home();
+$('back').onclick=$('toIsland').onclick=()=>G&&G.o&&G.o.ch?(G.o.wb?openWB(G.o.wb,G.o.ch):G.o.lang?openLangMap(G.o.ch):openMap(G.o.ch)):backHome();
+document.querySelectorAll('[data-hub]').forEach(b=>b.onclick=()=>openHub(b.dataset.hub));$('hubBack').onclick=home;
 $('again').onclick=()=>start(G.name,G.o);
-function home(){$('finish').hidden=true;$('game').hidden=true;$('home').hidden=false;hush();renderCont()}
+function home(){HUBK=null;$('finish').hidden=true;$('game').hidden=true;$('hub').hidden=true;$('home').hidden=false;hush();renderCont();scrollTo(0,0)}
+let HUBK=null;
+function openHub(k){HUBK=k;$('finish').hidden=true;$('game').hidden=true;$('home').hidden=true;$('hub').hidden=false;hush();
+  $('hubL').hidden=k!=='l';$('hubM').hidden=k!=='m';$('hubTitle').textContent=k==='l'?tr('📗 Γλώσσα','📗 Reading'):tr('📘 Μαθηματικά','📘 Maths');
+  $('starCount3').textContent='⭐ '+S.stars;$('hubBack').setAttribute('aria-label',tr('Πίσω στην αρχή','Back to the start'));scrollTo(0,0)}
+const backHome=()=>HUBK?openHub(HUBK):home();
 function start(name,o={}){
   if(name==='map')return openMap();
   if(name==='langmap')return openLangMap();
   if(name==='island')return openIsland();if(name==='treasure')return openTreasure();if(name==='parents')return openParents();
   if(name.indexOf('wb:')===0)return openWB(name.slice(3));
-  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;$('gtitle').textContent=o.tt?o.tt:o.ch?(o.lang?o.t:`${o.ch}. ${o.t}`):EN()?TEN[name][0]:TITLES[name];
+  $('finish').hidden=true;$('home').hidden=true;$('hub').hidden=true;$('game').hidden=false;$('gtitle').textContent=o.tt?o.tt:o.ch?(o.lang?o.t:`${o.ch}. ${o.t}`):EN()?TEN[name][0]:TITLES[name];
   const l=o.l,digits=l===5?shuffle([1,2,3,4,5,1,2,3]):l===10?shuffle([6,7,8,9,6,7,8,9]):shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,8);
   lastSay=null;
   G={name,cur:name,streak:0,o,round:0,total:o.total||8,earned:0,gr:!READ.includes(name),lvl:l,mix:o.mix?shuffle(o.mix):null,digits};busy=false;
@@ -2066,7 +2105,7 @@ function buildLessons(){const P=EN()?'E':'L',out=[];let set=[],n=0;LUNITS.forEac
   out.push({u,ui,ls})});return out}
 let LLESSONS=buildLessons();
 function openLangMap(ch){
-  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;hush()
+  $('finish').hidden=true;$('home').hidden=true;$('hub').hidden=true;$('game').hidden=false;hush()
   $('gtitle').textContent=tr('Το βιβλίο της Γλώσσας','My reading book');G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
   const all=[].concat(...LLESSONS.map(x=>x.ls)),done=all.filter(l=>S.done[l.id]).length;
   stage().innerHTML=`<p class="counter">${tr(`Γλώσσα Α΄ Δημοτικού · ⭐ ${done} από ${all.length} μαθήματα`,`Reading, Grade 1 · ⭐ ${done} of ${all.length} lessons`)}</p>
@@ -2187,7 +2226,7 @@ function renderCont(){
   if(l)$('contL').onclick=()=>launchLang(l);if(m)$('contM').onclick=()=>launchMath(m);
 }
 function openMap(ch){
-  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;hush()
+  $('finish').hidden=true;$('home').hidden=true;$('hub').hidden=true;$('game').hidden=false;hush()
   $('gtitle').textContent=tr('Το βιβλίο των Μαθηματικών','My maths book');G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
   const all=[].concat(...UNITS.map(u=>u.c)),done=all.filter(c=>S.done[c[0]]).length;
   stage().innerHTML=`<p class="counter">${tr(`Μαθηματικά Α΄ Δημοτικού · ⭐ ${done} από ${all.length} κεφάλαια`,`Maths, Grade 1 · ⭐ ${done} of ${all.length} chapters`)}</p>
@@ -2294,7 +2333,7 @@ const WB={
     {pic:'🏅',id:'P'+ui+'t',b:'✓',rev:1,k:'#5BAE6B',t:['Τεστ ενότητας (10 ερωτήσεις, γράφω την απάντηση)','Unit test (10 questions, write the answer)'],o:{mix:mx(cs),write:1,total:10}}]}})}};
 function openWB(key,ch){
   const B=WB[key],units=B.units(),all=[].concat(...units.map(u=>u.ls)),done=all.filter(l=>S.done[l.id]).length;
-  $('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;hush()
+  $('finish').hidden=true;$('home').hidden=true;$('hub').hidden=true;$('game').hidden=false;hush()
   $('gtitle').textContent=tr(B.t[0],B.t[1]);G={name:'map',o:{},round:0,total:0,earned:0};busy=false;drawDots();
   stage().innerHTML=`<p class="counter">${tr(B.t[0],B.t[1])} · ⭐ ${done} ${tr('από','of')} ${all.length} ${tr(B.n[0],B.n[1])}</p>
    ${pbar(done,all.length)}
@@ -2394,7 +2433,7 @@ function checkMedals(){const nw=MEDALS.filter(m=>!S.medals[m[0]]&&m[6]());nw.for
   const m=nw[0];toast(`🏅 ${tr('Νέο μετάλλιο','New medal')}: ${m[1]} ${tr(m[2],m[3])}`);fireworks();tone([523,659,784,1046],.12)}
 
 /* page shell for the extra screens */
-function page(title){$('finish').hidden=true;$('home').hidden=true;$('game').hidden=false;hush()
+function page(title){$('finish').hidden=true;$('home').hidden=true;$('hub').hidden=true;$('game').hidden=false;hush()
   $('gtitle').textContent=title;G={name:'page',o:{},round:0,total:0,earned:0};busy=false;drawDots();scrollTo(0,0)}
 
 /* 5. my island: buy with stars, drag to arrange */
@@ -2655,7 +2694,7 @@ function openBackup(){
   $('bkRestore').onclick=()=>{const v=$('bkPaste').value;if(v.trim())restoreFrom(v)};
 }
 S.open=S.open||{};
-['moreLang','moreMath'].forEach(id=>{const d=$(id);d.open=S.open[id]!==false;d.addEventListener('toggle',()=>{S.open[id]=d.open;save()})});
+['moreLang','moreMath'].forEach(id=>{const d=$(id);if(!d)return;d.open=S.open[id]!==false;d.addEventListener('toggle',()=>{S.open[id]=d.open;save()})});
 $('rep').onclick=()=>{if(lastSay)speak(lastSay[0],lastSay[1])};
 applyLang();
 if('serviceWorker' in navigator){
