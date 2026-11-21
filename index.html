@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='30';
+var APPV='31';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -142,6 +142,7 @@ h1{font-family:Grandstander,Andika,sans-serif;font-weight:800;font-size:26px;fon
 .finish .box{background:var(--card);border:3px solid var(--line);border-radius:44px 36px 48px 32px;padding:26px 22px;text-align:center;max-width:360px;width:100%}
 .finish h2{font-family:Grandstander,Andika,sans-serif;font-size:34px;margin:8px 0 4px}
 .finish p{margin:0 0 18px;color:var(--muted)}
+.eqshow{font:800 40px Grandstander,Andika,sans-serif;margin:0;color:var(--ink);animation:pop .4s}
 .rate{font-size:44px;letter-spacing:4px;margin:2px 0 6px;min-height:52px}
 .rate span{display:inline-block;animation:spin .5s both}
 .rate span:nth-child(2){animation-delay:.25s}.rate span:nth-child(3){animation-delay:.5s}
@@ -1292,7 +1293,8 @@ function problemRound(){
    ${sub?goneRow(a,b,e):`<div class="sum">${grp(a,e)}<b>+</b>${grp(b,e)}</div>`}
    <div class="opts c3">${btns(near(r,0,max))}</div>`;
   $('hear').onclick=()=>gr(txt);
-  choose('.opts',r,problemRound,NW(r));ask(txt);
+  const eq=`${a} ${sub?'−':'+'} ${b} = ${r}`,say=sub?tr(`${NW(a)} μείον ${NW(b)} ίσον ${NW(r)}`,`${NW(a)} minus ${NW(b)} equals ${NW(r)}`):tr(`${NW(a)} συν ${NW(b)} ίσον ${NW(r)}`,`${NW(a)} plus ${NW(b)} equals ${NW(r)}`);
+  choose('.opts',r,problemRound,say,()=>{const p=document.createElement('p');p.className='eqshow';p.textContent=eq;stage().querySelector('.story').after(p)});ask(txt);
 }
 
 /* ch.17, 25 numbers to 20 / 50 */
@@ -1572,7 +1574,7 @@ function basketsRound(){
   const n=2+rand(4),a=rand(n+1),b=n-a,q=tr(`Μοιράζω ${n} μήλα σε δύο καλάθια. Πόσα μπαίνουν στο άλλο καλάθι;`,`I share ${n} apples between two baskets. How many go in the other basket?`);
   stage().innerHTML=`<p class="prompt">${q}</p><div class="baskets"><div class="basket">${'🍎'.repeat(a)||'&nbsp;'}<small>${a}</small></div><div class="basket q" id="gapbox">?</div></div>
    <div class="opts c3">${btns(b<2?[0,1,2]:near(b,0,5))}</div>`;
-  choose('.opts',b,basketsRound,tr(`${NW(a)} και ${NW(b)}`,`${NW(a)} and ${NW(b)}`),()=>{const g=$('gapbox');g.className='basket';g.innerHTML=`${'🍎'.repeat(b)||'&nbsp;'}<small>${b}</small>`});
+  choose('.opts',b,basketsRound,tr(`${NW(a)} και ${NW(b)} κάνουν ${NW(n)}`,`${NW(a)} and ${NW(b)} make ${NW(n)}`),()=>{const g=$('gapbox');g.className='basket';g.innerHTML=`${'🍎'.repeat(b)||'&nbsp;'}<small>${b}</small>`});
   ask(q);
 }
 
