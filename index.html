@@ -865,7 +865,7 @@ let VAUD=null,VMODE='',VWHY='';
 let VEND=0;const speechLeft=()=>Math.max(0,VEND-performance.now());
 function afterSpeech(min,fn,cap){const t0=performance.now();cap=cap||5000;const step=()=>{const l=speechLeft();if(l>0&&performance.now()-t0<min+cap)setTimeout(step,Math.min(l+120,300));else fn()};setTimeout(step,min)}
 function vstop(){VSRCS.forEach(x=>{try{x.stop()}catch(e){}});VSRCS=[];vsrc=null;if(VAUD){try{VAUD.pause()}catch(e){}VAUD=null}}
-function htmlPlay(plan,t,fallback,my){let i=0,started=false;VEND=performance.now()+1500*plan.length;const next=()=>{if(my!==vtok||i>=plan.length){VAUD=null;if(my===vtok)VEND=0;return}
+function htmlPlay(plan,t,fallback,my){let i=0,started=false;VEND=performance.now()+60000;const next=()=>{if(my!==vtok||i>=plan.length){VAUD=null;if(my===vtok)VEND=0;return}
   const a=VEL||new Audio();a.src='voice/'+t+'/'+plan[i++]+'.mp3';VAUD=a;a.onended=next;const fail=e=>{if(my===vtok&&!started){VAUD=null;VWHY='html:'+((e&&e.name)||'error');fallback()}};a.onerror=fail;
   const p=a.play();if(p&&p.then)p.then(()=>{started=true;VMODE='rec'},fail);else started=true};next()}
 function hush(){const ie=document.getElementById('intro');if(ie)ie.hidden=true;vtok++;vstop();VEND=0;try{speechSynthesis.cancel()}catch(e){}}
@@ -894,7 +894,7 @@ function ttsSpeak(text,lang){
   if(!('speechSynthesis' in window))return;VMODE='tts';
   vtok++;vstop();
   try{const say=()=>{try{const u=new SpeechSynthesisUtterance(text);const t=lang||L().tts,v=voiceFor(t);
-      if(v)u.voice=v;u.lang=v?v.lang:t;u.rate=t==='el'?.92:.9;u.pitch=1;VEND=performance.now()+400+String(text).length*75;const me=VEND;u.onend=u.onerror=()=>{if(VEND===me)VEND=0};speechSynthesis.speak(u)}catch(e){}};
+      if(v)u.voice=v;u.lang=v?v.lang:t;u.rate=t==='el'?.92:.9;u.pitch=1;VEND=performance.now()+800+String(text).length*120;const me=VEND;u.onend=u.onerror=()=>{if(VEND===me)VEND=0};speechSynthesis.speak(u)}catch(e){}};
     // Android Chrome can drop an utterance queued right after cancel(), so wait a moment
     if(speechSynthesis.speaking||speechSynthesis.pending){speechSynthesis.cancel();setTimeout(say,80)}else say()}catch(e){}
 }
@@ -1144,7 +1144,7 @@ function memoryGame(){
     if(cards[a.dataset.k].i===cards[z.dataset.k].i){
       [a,z].forEach(c=>{c.classList.remove('open');c.classList.add('done')});
       G.round++;G.earned++;S.stars++;save();updateStars();drawDots();yay();
-      if(G.round>=G.total)setTimeout(finish,1200);
+      if(G.round>=G.total){const g=G;afterSpeech(1200,()=>{if(G===g)finish()})}
     }else{busy=true;setTimeout(()=>{nope();a.classList.remove('open');z.classList.remove('open');busy=false},1000)}
   };
 }
