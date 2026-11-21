@@ -2439,7 +2439,7 @@ function tracelRound(){
   const what=word?tr('τη λέξη','the word'):one?tr('το γράμμα','the letter'):tr('τη συλλαβή','the syllable');
   traceIn(t,`${tr('Γράφω','Write')} ${what} <span class="lett">${t}</span>`,e?`<div class="big-e">${e}</div>`:'',`${tr('Γράφω','Write')} ${what}`,sayIt,tracelRound,
     [tr('Γράψε με το δάχτυλο','Write with your finger')+' '+t,tr(`Πέρασε με το δάχτυλο πάνω από ${what}.`,`Trace over ${what} with your finger.`),tr(`Πέρασε πάνω από όλο ${what}.`,`Trace over all of ${what}.`),tr('Μείνε μέσα στις γραμμές.','Stay inside the lines.')]);
-  setTimeout(sayIt,1600);
+  sayLater(sayIt,1600);
 }
 /* dictation: hear the word, write it (no picture to help) */
 function dictRound(){
