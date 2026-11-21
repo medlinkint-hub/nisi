@@ -1311,7 +1311,7 @@ function sizesRound(){
   const kind=G.round%6,big=Math.random()<.5,rank=shuffle([0,1,2]);let ans=rank.indexOf(big?2:0);
   let q,html,sel='.trio';
   if(kind===0){const e=pick(['🐘','🍎','🐻','⭐','🌳','🐟','🚗','🐶']);q=big?tr('Βρες το πιο μεγάλο','Find the biggest'):tr('Βρες το πιο μικρό','Find the smallest');
-    html=`<div class="trio">${rank.map((r,i)=>`<button class="opt" data-v="${i}" style="font-size:${[34,60,96][r]}px">${e}</button>`).join('')}</div>`}
+    html=`<div class="trio">${rank.map((r,i)=>`<button class="opt" data-v="${i}" style="font-size:min(${[34,60,96][r]}px,${([34,60,96][r]/4.6).toFixed(1)}vw)">${e}</button>`).join('')}</div>`}
   else if(kind===1){const h=shuffle([2,3,4,5,6,7,8]).slice(0,3).sort((a,b)=>a-b),c=pick(COLS);q=big?tr('Ποιος πύργος είναι ο πιο ψηλός;','Which tower is the tallest?'):tr('Ποιος πύργος είναι ο πιο κοντός;','Which tower is the shortest?');
     html=`<div class="trio">${rank.map((r,i)=>`<button class="opt tower" data-v="${i}">${'<i style="background:'+c+'"></i>'.repeat(h[r])}</button>`).join('')}</div>`}
   else if(kind===3){q=big?tr('Ποια συρταριέρα είναι η πιο πλατιά;','Which chest of drawers is the widest?'):tr('Ποια συρταριέρα είναι η πιο στενή;','Which chest of drawers is the narrowest?');
@@ -1320,7 +1320,7 @@ function sizesRound(){
     html=`<div class="trio">${rank.map((r,i)=>`<button class="opt" data-v="${i}"><span class="book" style="width:${[10,24,42][r]}px"></span></button>`).join('')}</div>`}
   else if(kind===5){const[a,b]=pick([['🌳','🐦'],['🐴','🐱'],['🏠','🐶'],['🚌','🚲'],['🌳','🧍']]),hi=Math.random()<.5;ans=hi?0:1;
     q=big?tr('Ποιο είναι πιο ψηλό;','Which one is taller?'):tr('Ποιο είναι πιο χαμηλό;','Which one is shorter?');ans=big?(hi?0:1):(hi?1:0);
-    html=`<div class="trio">${(hi?[a,b]:[b,a]).map((e,i)=>`<button class="opt" data-v="${i}" style="font-size:${(hi?[96,40]:[40,96])[i]}px">${e}</button>`).join('')}</div>`}
+    html=`<div class="trio">${(hi?[a,b]:[b,a]).map((e,i)=>`<button class="opt" data-v="${i}" style="font-size:min(${(hi?[96,40]:[40,96])[i]}px,${((hi?[96,40]:[40,96])[i]/4.6).toFixed(1)}vw)">${e}</button>`).join('')}</div>`}
   else{sel='.stack';q=big?tr('Ποιο μολύβι είναι το πιο μακρύ;','Which pencil is the longest?'):tr('Ποιο μολύβι είναι το πιο κοντό;','Which pencil is the shortest?');
     html=`<div class="stack">${rank.map((r,i)=>`<button class="opt" data-v="${i}"><span class="pencil" style="width:${[30,55,82][r]}%"></span></button>`).join('')}</div>`}
   stage().innerHTML=`<p class="prompt">${q}</p>${html}`;
