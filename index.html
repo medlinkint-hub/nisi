@@ -860,20 +860,23 @@ const natOn=()=>{if(!S.natV2){S.natV2=1;S.nat=1}return S.nat!==0};
 const natOK=()=>natOn()&&!!(window.fetch&&(window.AudioContext||window.webkitAudioContext));
 let VSRCS=[];
 let VAUD=null,VMODE='',VWHY='';
+// when the voice will be done talking, so nothing starts on top of it
+let VEND=0;const speechLeft=()=>Math.max(0,VEND-performance.now());
+function afterSpeech(min,fn,cap){const t0=performance.now();cap=cap||5000;const step=()=>{const l=speechLeft();if(l>0&&performance.now()-t0<min+cap)setTimeout(step,Math.min(l+120,300));else fn()};setTimeout(step,min)}
 function vstop(){VSRCS.forEach(x=>{try{x.stop()}catch(e){}});VSRCS=[];vsrc=null;if(VAUD){try{VAUD.pause()}catch(e){}VAUD=null}}
-function htmlPlay(plan,t,fallback,my){let i=0,started=false;const next=()=>{if(my!==vtok||i>=plan.length){VAUD=null;return}
+function htmlPlay(plan,t,fallback,my){let i=0,started=false;VEND=performance.now()+1500*plan.length;const next=()=>{if(my!==vtok||i>=plan.length){VAUD=null;if(my===vtok)VEND=0;return}
   const a=VEL||new Audio();a.src='voice/'+t+'/'+plan[i++]+'.mp3';VAUD=a;a.onended=next;const fail=e=>{if(my===vtok&&!started){VAUD=null;VWHY='html:'+((e&&e.name)||'error');fallback()}};a.onerror=fail;
   const p=a.play();if(p&&p.then)p.then(()=>{started=true;VMODE='rec'},fail);else started=true};next()}
-function hush(){const ie=document.getElementById('intro');if(ie)ie.hidden=true;vtok++;vstop();try{speechSynthesis.cancel()}catch(e){}}
+function hush(){const ie=document.getElementById('intro');if(ie)ie.hidden=true;vtok++;vstop();VEND=0;try{speechSynthesis.cancel()}catch(e){}}
 const vbuf=(t,h)=>fetch('voice/'+t+'/'+h+'.mp3').then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}).then(buf=>new Promise((ok,no)=>{audio();const p=ac.decodeAudioData(buf,ok,no);if(p&&p.catch)p.catch(no)}));
 function natPlay(plan,t,fallback){
-  const my=++vtok;vstop();try{if(speechSynthesis.speaking||speechSynthesis.pending)speechSynthesis.cancel()}catch(e){}
+  const my=++vtok;vstop();VEND=performance.now()+4000;try{if(speechSynthesis.speaking||speechSynthesis.pending)speechSynthesis.cancel()}catch(e){}
   Promise.all(plan.map(h=>vbuf(t,h))).then(bs=>{if(my!==vtok)return;
     if(ac.state!=='running'){try{ac.resume()}catch(e){}}
     const go=()=>{if(my!==vtok)return;if(ac.state!=='running'){VWHY='ac:'+ac.state;htmlPlay(plan,t,fallback,my);return}
       VMODE='rec';let at=ac.currentTime+.02;
       bs.forEach((b,i)=>{const s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);s.start(at);at+=b.duration-(i<bs.length-1?.12:0);VSRCS.push(s);vsrc=s;
-        s.onended=()=>{VSRCS=VSRCS.filter(x=>x!==s);if(vsrc===s)vsrc=null}})};
+        s.onended=()=>{VSRCS=VSRCS.filter(x=>x!==s);if(vsrc===s)vsrc=null}});VEND=performance.now()+(at-ac.currentTime)*1000};
     ac.state==='running'?go():setTimeout(go,250)})
     .catch(e=>{VWHY='load:'+((e&&e.name)||e);if(my===vtok)htmlPlay(plan,t,fallback,my)});
 }
@@ -890,7 +893,7 @@ function ttsSpeak(text,lang){
   if(!('speechSynthesis' in window))return;VMODE='tts';
   vtok++;vstop();
   try{const say=()=>{try{const u=new SpeechSynthesisUtterance(text);const t=lang||L().tts,v=voiceFor(t);
-      if(v)u.voice=v;u.lang=v?v.lang:t;u.rate=t==='el'?.92:.9;u.pitch=1;speechSynthesis.speak(u)}catch(e){}};
+      if(v)u.voice=v;u.lang=v?v.lang:t;u.rate=t==='el'?.92:.9;u.pitch=1;VEND=performance.now()+400+String(text).length*75;const me=VEND;u.onend=u.onerror=()=>{if(VEND===me)VEND=0};speechSynthesis.speak(u)}catch(e){}};
     // Android Chrome can drop an utterance queued right after cancel(), so wait a moment
     if(speechSynthesis.speaking||speechSynthesis.pending){speechSynthesis.cancel();setTimeout(say,80)}else say()}catch(e){}
 }
@@ -1024,12 +1027,12 @@ function start(name,o={}){
 // the hoopoe pops up, says the name of the game, then the game starts (a tap skips it)
 function intro(title,icon,cb){const g=G,el=$('intro');let done=false;
   $('introT').textContent=title;$('introI').textContent=icon||'';el.hidden=false;sayNat(title);
-  const go=()=>{if(done)return;done=true;el.hidden=true;el.onclick=null;if(G===g)cb()};el.onclick=go;setTimeout(go,CALM?900:1700)}
+  const go=()=>{if(done)return;done=true;el.hidden=true;el.onclick=null;if(G===g)cb()};el.onclick=go;afterSpeech(CALM?900:1300,go,4500)}
 function mixRound(){const[f,l]=G.mix[G.round%G.mix.length];G.lvl=l;G.cur=f;ROUNDS[f]()}
 function drawDots(){$('back').innerHTML=(G&&G.o&&G.o.ch)||HUBK?ICO_BACK:ICO_HOME;$('game').classList.toggle('play',!!G&&G.name!=='map'&&G.name!=='page'&&G.name!=='learn');$('dots').innerHTML=G.name==='learn'?'':Array.from({length:G.total},(_,i)=>(i<G.round?`<i class="done${i===G.round-1?' new':''}">⭐</i>`:`<i class="${i===G.round?'now':''}"></i>`)).join('')}
 function win(next){
   G.solve=null;G.round++;G.earned++;S.stars++;onRight();save();updateStars();drawDots();yay();
-  const g=G;setTimeout(()=>{if(G!==g)return;busy=false;G.round>=G.total?finish():(G.mix?mixRound:next)()},1500);
+  const g=G;afterSpeech(1500,()=>{if(G!==g)return;busy=false;G.round>=G.total?finish():(G.mix?mixRound:next)()});
 }
 function finish(){
   const lg=S.lang,fresh=!!(G.o&&G.o.ch&&!S.done[G.o.ch]);
