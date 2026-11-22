@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><g stroke="#2E2A4F" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M76 54 L66 24 L134 24 L124 54" fill="#E0A96A"/>
+<path d="M76 54 C30 80 22 130 40 160 C56 184 144 184 160 160 C178 130 170 80 124 54Z" fill="#E0A96A"/>
+<path d="M72 56 L128 56" stroke-width="7"/>
+<text x="100" y="152" font-family="Grandstander,Arial Rounded MT Bold,sans-serif" font-weight="900" font-size="64" text-anchor="middle" fill="#8A5A3A" stroke="none">€</text></g></svg>
