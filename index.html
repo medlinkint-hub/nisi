@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Το νησί του Τσαλαπετεινού</title>
 <script>
-var APPV='41';
+var APPV='42';
 window.onerror=function(m,src,line){try{var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';
   d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9;background:#fff3c4;color:#2E2A4F;border:2px solid #2E2A4F;border-radius:12px;padding:8px 10px;font:13px system-ui,sans-serif';
   (document.body||document.documentElement).appendChild(d)}
@@ -706,6 +706,7 @@ img.em.wp{width:1.32em;height:1.32em;vertical-align:-.3em}
     <h2 id="vtitle">Διάλεξε φωνή</h2>
     <div class="vlist" id="vlist"></div>
     <p class="vhint" id="vhint"></p>
+    <p class="vhint" id="vdiag" style="font-size:11px;opacity:.7;text-align:left;white-space:pre-line"></p>
     <button class="pill main" id="vclose">OK</button>
   </div>
 </div>
@@ -860,7 +861,10 @@ function natPlan(text,t){
   const out=[];for(let i=0;i<N;i+=nxt[i][0])out.push(nxt[i][1]);
   return out;
 }
-const natOn=()=>{if(!S.natV2){S.natV2=1;S.nat=1}return S.nat!==0};
+const natOn=()=>{if(!S.natV3){S.natV2=1;S.natV3=1;S.nat=1}return S.nat!==0};
+// a recorded phrase the phone refused to play is played on the next tap (never by the robot voice)
+let PEND=null;const VLOG=[];
+function vlog(k,t){try{VLOG.unshift([new Date().toTimeString().slice(0,8),k,VWHY||'',String(t||'').slice(0,28)]);VLOG.length=Math.min(VLOG.length,8)}catch(e){}}
 const natOK=()=>natOn()&&!!(window.fetch&&(window.AudioContext||window.webkitAudioContext));
 let VSRCS=[];
 let VAUD=null,VMODE='',VWHY='';
@@ -889,8 +893,10 @@ const SAYT={'+ ή −;':'συν ή μείον','+ or −?':'Plus or minus?'};
 function sayNat(text){if(!text)return;text=SAYT[text.trim()]||text;const tl=L().tts,plan=natOK()?natPlan(text,tl):null;if(plan)natPlay(plan,tl,()=>{})}
 function speak(text,lang){
   if(!busy&&text&&text.trim()&&!Object.values(PRAISE).concat(Object.values(AGAIN)).includes(text))lastSay=[text,lang];
+  VWHY='';
   const tl=lang||L().tts,plan=text&&text.trim()&&natOK()?natPlan(text,tl):null;
-  if(plan){natPlay(plan,tl,()=>ttsSpeak(text,lang));return}
+  if(plan){natPlay(plan,tl,()=>{PEND={plan,tl,at:Date.now()};vlog('wait',text)});vlog('rec',text);return}
+  vlog('tts',text);
   ttsSpeak(text,lang);
 }
 function ttsSpeak(text,lang){
@@ -921,6 +927,7 @@ function unlock(){
   try{audio();const cold=ac.state!=='running';if(cold)ac.resume();if(!unlocked||cold||back){const b=ac.createBuffer(1,1,22050),src=ac.createBufferSource();src.buffer=b;src.connect(ac.destination);(src.start||src.noteOn).call(src,0)}}catch(e){}
   try{if(!VEL||!VEL.ok){const a=VEL||new Audio();VEL=a;a.setAttribute('playsinline','');a.src=SILENT;const p=a.play();if(p&&p.then)p.then(()=>{a.ok=1},()=>{});else a.ok=1}}catch(e){}
   if(back)againAfterReturn();
+  if(PEND){const q=PEND;PEND=null;if(Date.now()-q.at<10000){const my=vtok;setTimeout(()=>{if(vtok===my)natPlay(q.plan,q.tl,()=>{vlog('fail','')})},160)}}
   if(unlocked)return;unlocked=true;
   try{if('speechSynthesis' in window){const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}}catch(e){}
 }
@@ -981,6 +988,7 @@ function openVoices(){
     (list.length?list.slice(0,10).map(v=>`<button data-uri="${v.voiceURI.replace(/"/g,'&quot;')}" aria-pressed="${!nat&&v===cur}">🤖 ${v.name.replace(/</g,'&lt;')}</button>`).join('')
     :`<p>${tr('Δεν βρέθηκε ελληνική φωνή σε αυτή τη συσκευή.','No English voice was found on this device.')}</p>`);
   $('vhint').textContent=tr('Η φυσική φωνή είναι ηχογραφημένη και δεν χρειάζεται ρυθμίσεις. Αν δεν ακούγεται, ανεβάστε την ένταση πολυμέσων του κινητού.','The natural voice is recorded and needs no setup. If you hear nothing, turn up the phone’s media volume.');
+  $('vdiag').textContent=tr('Διάγνωση φωνής:','Voice check:')+' '+(window.AudioContext||window.webkitAudioContext?'ac:'+(ac?ac.state:'-'):'no-ac')+' · nat:'+(natOn()?1:0)+'\n'+VLOG.map(x=>x.join(' ')).join('\n');
   $('vpanel').hidden=false;
 }
 $('voiceBtn').onclick=openVoices;
