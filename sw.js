@@ -1,4 +1,4 @@
-const V='nisi-v37',A='nisi-voice2',E='nisi-emoji1';
+const V='nisi-v38',A='nisi-voice2',E='nisi-emoji1';
 const CORE=['./','index.html','manifest.json','icon-192.png','icon-512.png'];
 // cache:'reload' skips the browser's HTTP cache so a new version never stores an old copy
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE.map(u=>new Request(u,{cache:'reload'})))));self.skipWaiting()});
@@ -20,7 +20,7 @@ self.addEventListener('fetch',e=>{
     return;
   }
   // the Fluent emoji pictures never change either: their own lasting cache
-  if(/\/img\/e\/[0-9a-f-]+\.webp$/.test(new URL(req.url).pathname)){
+  if(/\/img\/(e\/[0-9a-f-]+\.webp|w\/[a-z0-9-]+\.v\d+\.svg)$/.test(new URL(req.url).pathname)){
     e.respondWith(caches.open(E).then(c=>c.match(req).then(hit=>hit||fetch(req).then(r=>{if(r.ok)c.put(req,r.clone());return r}))));
     return;
   }
